@@ -30,9 +30,20 @@
         .active {
           border-top: 2px solid #f77825;
           background: #fffbf0;
+          a {
+            color: #000;
+          }
+        }
+        li.normal {
+          a {
+            color: #fff;
+          }
         }
         li.normal:hover {
           @extend .active;
+          a {
+            color: #000;
+          }
           color: #000;
         }
         .menu-search {

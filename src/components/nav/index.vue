@@ -13,9 +13,11 @@
                 </dl>
               </span>
             </dt>
-            <span v-else>
-              {{ route.name }}
-            </span>
+            <router-link :key="route.name" :to="route.path" v-else>
+              <span >
+                {{ route.name }}
+              </span>
+            </router-link>
           </li>
           <search class="menu-search posi-abs" @search='searchRes'></search> 
         </ul>

@@ -13,4 +13,13 @@ declare module 'vue/types/vue' {
     // Mock:any
   }
 }
+declare var window: any
+declare var document: Document
+declare global {
+  interface StarObject {
+    x?: number,
+    y?: number,
+    r?: number
+  }
+}
 // declare let Mock:any;

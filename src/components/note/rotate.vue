@@ -26,6 +26,6 @@ export default class NoteRotate extends Vue {
 }
 </script>
 
-<style>
-
+<style lang='scss'>
+  @import '@/assets/css/components/note.scss';
 </style>

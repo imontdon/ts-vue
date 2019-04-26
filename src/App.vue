@@ -23,6 +23,22 @@ export default class App extends Vue {
         }
       };
     }
+    let hidden: string
+    let visibilityChange: string
+		if (typeof window.document.hidden !== "undefined") {
+			hidden = "hidden";
+			visibilityChange = "visibilitychange";
+		}
+		// 添加监听器，在title里显示状态变化
+		document.addEventListener(visibilityChange, function() {
+			if (document[hidden]) {
+        // 用户没有浏览当前页面
+        console.log('用户没有浏览当前页面')
+			} else {
+        // 用户正在浏览当前页面
+        console.log('用户正在浏览当前页面')
+			}
+		}, false);
    
   }
 }

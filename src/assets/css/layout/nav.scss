@@ -1,0 +1,44 @@
+.nav {
+  $height: 50px;
+  background: #BFAB86;
+  &-bar {
+    width: 100%;
+    height: $height;
+    .menu {
+      width: 980px;
+      margin: 0 auto;
+      height: 100%;
+      ul {
+        @extend .menu;
+        li {
+          cursor: pointer;
+          height: $height - 2;
+          width: 120px;
+          // padding: 0 10px;
+          float: left;
+          text-align: center;
+          line-height: $height;
+          margin-left: 2px;
+          span {
+            @extend li;
+          }
+          .child-pull {
+            left: 0;
+            top: $height;
+          }
+        }
+        .active {
+          border-top: 2px solid #f77825;
+          background: #fffbf0;
+        }
+        li.normal:hover {
+          @extend .active;
+          color: #000;
+        }
+        .menu-search {
+          right: 0;
+        }
+      }
+    }
+  }
+}

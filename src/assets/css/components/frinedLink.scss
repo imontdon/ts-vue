@@ -1,0 +1,33 @@
+.friend-content{
+  width: 100%;
+  height: 100%;
+  .title {
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    border-bottom: 1px solid #E6E6E6;
+    color: #38485A;
+    margin-bottom: 20px;
+  }
+  ul{
+    width: 300px;
+    height: 56px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #E9E9E9;
+    overflow: hidden;
+    li {
+      padding: 0 10px;
+      height: 24px;
+      line-height: 24px;
+      font-size: 0.8rem;
+      a {
+        text-decoration: none
+      }
+    }
+    li:hover {
+      text-decoration: underline;
+      cursor: pointer; 
+    }
+  }
+}

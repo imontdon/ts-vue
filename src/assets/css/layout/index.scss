@@ -1,0 +1,17 @@
+.layout {
+  .main-content {
+    width:980px;
+    margin: 0 auto;
+    height: 100%;
+    margin-top: 20px;
+    .l_content {
+      width: 670px;
+      height: 800px;
+    }
+    .r_content {
+      width: 290px;
+      height: 800px;
+      margin-left: 10px;
+    }
+  }
+}

@@ -1,0 +1,29 @@
+.new-articles {
+  margin-top: 30px;
+  width: 100%;
+  height: 100%;
+  .title {
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    border-bottom: 1px solid #E6E6E6;
+    color: #38485A;
+  }
+  ul{
+    width: 100%;
+    height: 90%;
+    overflow: hidden;
+    li {
+      width: 90%;
+      height: 30px;
+      line-height: 30px;
+      list-style: disc;
+      margin-left: 10%;
+      font-size: 0.8rem;
+    }
+    li:hover {
+      text-decoration: underline;
+      cursor: pointer; 
+    }
+  }
+}

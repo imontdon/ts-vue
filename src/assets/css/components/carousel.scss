@@ -1,0 +1,38 @@
+.carousel {
+  width: 500px;
+  height: 280px;
+  &-box {
+    @extend .carousel;
+    overflow: hidden;
+    &-item {
+      @extend .carousel;
+      img {
+        @extend .carousel;
+        float: left;
+      }
+      p {
+        color: #fff;
+        height: 40px;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0.5));
+        line-height: 40px;
+        text-indent: 2rem;
+      }
+    }
+  }
+  &-circle {
+    width: 100px;
+    height: 40px;
+    z-index: 100;
+    right: 0;
+    bottom: 0;
+    line-height: 40px;
+    span {
+      margin-top: 15px;
+      margin-left: 5px;
+    }
+    
+  }
+}

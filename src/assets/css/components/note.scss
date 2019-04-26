@@ -1,0 +1,32 @@
+$width: 125px;
+.note {
+  width: $width;
+  margin-bottom: 4px;
+  height: 96px;
+  padding: 20px;
+  &-title {
+    width: $width;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  &-content {
+    width: $width;
+    height: 72px;
+    overflow: hidden;
+    font-size: 0.6rem;
+    color: #b3b3b3;
+    line-height: 18px
+  }
+}
+.note-rotate {
+  width: 92px;
+  height: 76px;
+  .rotate-font {
+    font-size: 0.6rem;
+    width: 92px;
+    height: 74px;
+    float: left;
+    cursor: pointer;
+  }
+}

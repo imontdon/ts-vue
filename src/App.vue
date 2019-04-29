@@ -19,7 +19,7 @@ declare let Mock:any;
 // const page = namespace('./store/modules/page');
 @Component({})
 export default class App extends Vue {
-  @State isHidden!: boolean
+  @Getter('pageIsHidden') isHidden!: boolean
   mounted() {
     console.log(this.isHidden)
     if (process.env.NODE_ENV !== 'development') {

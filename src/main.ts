@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/index'
+import store from './store'
 // import permission from './permission'
 Vue.config.productionTip = false
 
@@ -10,6 +11,7 @@ Vue.config.productionTip = false
 let v = new Vue({
   el: '#app',
   router,
+  store,
   // permission,
   components: { App },
   template: '<App/>'

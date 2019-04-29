@@ -6,7 +6,8 @@
     width: 100%;
     line-height: 40px;
     border-bottom: 1px solid #E6E6E6;
-    color: #38485A;
+    // color: #38485A;
+    color: #F0F0F0;
     margin-bottom: 20px;
   }
   ul{
@@ -16,6 +17,7 @@
     background: #fff;
     border: 1px solid #E9E9E9;
     overflow: hidden;
+    box-shadow: 1px 1px 3px #f0f0f0;
     li {
       padding: 0 10px;
       height: 24px;

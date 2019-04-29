@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="web-header">
-      <!-- <canvas></canvas> -->
+      <canvas></canvas>
     </div>
     <nav-bar :routes='routes'></nav-bar>
     <div class="main-content">
@@ -21,7 +21,7 @@ import routes from '../../router/defaultRoutes'
 import navBar from '../../components/nav/index.vue'
 import AppMain from './appMain.vue'
 import SideBar from './sideBar.vue'
-import { Moon, Stars, Meteor } from '../../utils/canvas'
+import { Board, Stars, Meteor } from '../../utils/canvas'
 
 @Component({
   components: {
@@ -39,22 +39,29 @@ export default class Layout extends Vue {
   canvas: HTMLCanvasElement
   width: number = 0
   height: number = 0
-  moon: Moon
+  board: Board
   mounted(){
     console.log(this.routes)
-    /* this.initCanvas()
+    this.initCanvas()
+    this.draw()
     this.meteorGenerator()
-    this.frame() */
+    this.frame()
+    window.onresize = () => {
+      this.initCanvas()
+      // this.draw()
+    }
   }
   initCanvas() {
     this.canvas = document.querySelector('canvas') as HTMLCanvasElement
     this.context =  this.canvas.getContext('2d')
     this.canvas.width = window.innerWidth
-    this.canvas.height = 300
+    this.canvas.height = window.innerHeight
     this.width = window.innerWidth
     this.height = window.innerHeight
-    this.moon = new Moon(this.context, this.width, this.height)
-    this.stars = new Stars(this.context, this.canvas.width, this.height, 400)
+  }
+  draw() {
+    this.board = new Board(this.context, this.width, this.height)
+    this.stars = new Stars(this.context, this.canvas.width, this.height, window.innerHeight)
   }
   meteorGenerator() {
     let x = Math.random() * this.width + 800
@@ -66,7 +73,7 @@ export default class Layout extends Vue {
   frame() {
     this.count++
     this.count % 10 === 0 && this.stars.blink()
-    this.moon.draw()
+    this.board.draw()
     this.stars.draw()
     this.meteors.forEach((meteor, index, arr) => {
       // 如果流星离开视野之内，销毁流星实例，回收内存

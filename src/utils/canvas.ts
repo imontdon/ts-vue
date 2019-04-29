@@ -1,4 +1,4 @@
-export class Moon {
+export class Board {
   private ctx: CanvasRenderingContext2D
   private width: number
   private height: number

@@ -1,7 +1,7 @@
 import { Commit } from 'vuex'
 import types from '../mutation-types'
 import State from '../interface'
-const state: State =  {
+const state: State = {
   isHidden: false
 }
 const mutations: any = {
@@ -10,7 +10,7 @@ const mutations: any = {
   }
 }
 const actions: any = {
-  pageIsHidden(context: {
+  pageIsHidden (context: {
     commit: Commit
   }, isHidden: Boolean) {
     context.commit(types.IS_HIDDEN, isHidden)

@@ -7,7 +7,8 @@
     width: 100%;
     line-height: 40px;
     border-bottom: 1px solid #E6E6E6;
-    color: #38485A;
+    // color: #38485A;
+    color: #f0f0f0;
   }
   ul{
     width: 100%;
@@ -20,6 +21,7 @@
       list-style: disc;
       margin-left: 10%;
       font-size: 0.8rem;
+      color: #f0f0f0;
     }
     li:hover {
       text-decoration: underline;

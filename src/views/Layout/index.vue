@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="web-header">
-      <canvas></canvas>
+      <!-- <canvas></canvas> -->
     </div>
     <nav-bar :routes='routes'></nav-bar>
     <div class="main-content">
@@ -42,19 +42,19 @@ export default class Layout extends Vue {
   moon: Moon
   mounted(){
     console.log(this.routes)
-    this.initCanvas()
+    /* this.initCanvas()
     this.meteorGenerator()
-    this.frame()
+    this.frame() */
   }
   initCanvas() {
     this.canvas = document.querySelector('canvas') as HTMLCanvasElement
     this.context =  this.canvas.getContext('2d')
     this.canvas.width = window.innerWidth
-    this.canvas.height = window.innerWidth
+    this.canvas.height = 300
     this.width = window.innerWidth
     this.height = window.innerHeight
     this.moon = new Moon(this.context, this.width, this.height)
-    this.stars = new Stars(this.context, this.canvas.width, this.height, window.innerWidth)
+    this.stars = new Stars(this.context, this.canvas.width, this.height, 400)
   }
   meteorGenerator() {
     let x = Math.random() * this.width + 800

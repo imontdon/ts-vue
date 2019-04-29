@@ -22,7 +22,7 @@ import navBar from '../../components/nav/index.vue'
 import AppMain from './appMain.vue'
 import SideBar from './sideBar.vue'
 import { Board, Stars, Meteor } from '../../utils/canvas'
-
+import { Getter } from 'vuex-class'
 @Component({
   components: {
     navBar,
@@ -31,6 +31,7 @@ import { Board, Stars, Meteor } from '../../utils/canvas'
   }
 })
 export default class Layout extends Vue {
+  @Getter pageIsHidden!: boolean
   routes = routes
   count: number = 0
   stars: Stars
@@ -41,7 +42,6 @@ export default class Layout extends Vue {
   height: number = 0
   board: Board
   mounted(){
-    console.log(this.routes)
     this.initCanvas()
     this.draw()
     this.meteorGenerator()
@@ -66,9 +66,11 @@ export default class Layout extends Vue {
   meteorGenerator() {
     let x = Math.random() * this.width + 800
     this.meteors.push(new Meteor(this.context, x, this.height))
-    setTimeout(() => {
-      this.meteorGenerator()
-    }, Math.random() * 2000)
+    if (!this.pageIsHidden) {
+      setTimeout(() => {
+        this.meteorGenerator()
+      }, Math.random() * 2000)
+    }
   }
   frame() {
     this.count++
@@ -88,6 +90,14 @@ export default class Layout extends Vue {
   @Watch("$route")
   routeChange(newRoute: Object, oldRoute: Object) {
     console.log(newRoute)
+  }
+  @Watch('pageIsHidden')
+  tagChange(newVal: boolean, oldVal: boolean) {
+    if (!newVal) {
+      setTimeout(() => {
+        this.meteorGenerator()
+      }, Math.random() * 2000)
+    }
   }
 }
 </script>

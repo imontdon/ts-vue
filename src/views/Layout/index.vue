@@ -48,7 +48,7 @@ export default class Layout extends Vue {
     this.frame()
     window.onresize = () => {
       this.initCanvas()
-      // this.draw()
+      this.draw()
     }
   }
   initCanvas() {
@@ -64,7 +64,7 @@ export default class Layout extends Vue {
     this.stars = new Stars(this.context, this.canvas.width, this.height, window.innerHeight)
   }
   meteorGenerator() {
-    let x = Math.random() * this.width + 800
+    let x: number = Math.random() * this.width + 800
     this.meteors.push(new Meteor(this.context, x, this.height))
     if (!this.pageIsHidden) {
       setTimeout(() => {
@@ -92,7 +92,7 @@ export default class Layout extends Vue {
     console.log(newRoute)
   }
   @Watch('pageIsHidden')
-  tagChange(newVal: boolean, oldVal: boolean) {
+  tagChange(newVal: Boolean, oldVal: Boolean) {
     if (!newVal) {
       setTimeout(() => {
         this.meteorGenerator()

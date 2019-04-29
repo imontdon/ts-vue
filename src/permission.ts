@@ -4,7 +4,7 @@ import router from '@/router/index'
 // import 'nprogress/nprogress.css'
 // import store from '@/store'
 
-export default router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   document.oncontextmenu = function() {
     return false;
   };

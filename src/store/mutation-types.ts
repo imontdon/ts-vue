@@ -1,3 +1,3 @@
 export default {
-  HIDDEN: 'HIDDEN'
+  IS_HIDDEN: 'IS_HIDDEN'
 }

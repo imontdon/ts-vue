@@ -50,11 +50,11 @@ export default class Layout extends Vue {
     this.canvas = document.querySelector('canvas') as HTMLCanvasElement
     this.context =  this.canvas.getContext('2d')
     this.canvas.width = window.innerWidth
-    this.canvas.height = 300
+    this.canvas.height = window.innerWidth
     this.width = window.innerWidth
     this.height = window.innerHeight
     this.moon = new Moon(this.context, this.width, this.height)
-    this.stars = new Stars(this.context, this.canvas.width, this.height, 400)
+    this.stars = new Stars(this.context, this.canvas.width, this.height, window.innerWidth)
   }
   meteorGenerator() {
     let x = Math.random() * this.width + 800

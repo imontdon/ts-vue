@@ -7,11 +7,21 @@
 <script lang='ts'>
 import Vue from "Vue";
 import Component from "vue-class-component";
+import {
+  State,
+  Getter,
+  Action,
+  Mutation,
+  namespace,
+} from 'vuex-class';
 declare let Mock:any;
+
+// const page = namespace('./store/modules/page');
 @Component({})
 export default class App extends Vue {
+  @State isHidden!: boolean
   mounted() {
-    // console.log(process.env.NODE_ENV)
+    console.log(this.isHidden)
     if (process.env.NODE_ENV !== 'development') {
       document.oncontextmenu = function() {
         return false;

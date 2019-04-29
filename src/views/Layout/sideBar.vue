@@ -18,7 +18,7 @@
 </template>
 
 <script lang='ts'>
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import NoteRotate from '@/components/note/rotate.vue'
 import Articles from '@/components/articles/index.vue'
 import FriendLink from '@/components/friendLink/index.vue'
@@ -43,6 +43,10 @@ export default class SideBar extends Vue {
         noteRotate[i].querySelector('span').style.transition = 'transform 1200ms ease'
       }
     }
+  }
+  @Watch('$route')
+  changeRoute(newRoute: any, oldRoute: any) {
+    console.log(newRoute)
   }
 }
 </script>

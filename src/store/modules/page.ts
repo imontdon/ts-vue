@@ -1,20 +1,24 @@
+import { Commit } from 'vuex'
 import types from '../mutation-types'
-const page: any = {
-  state: {
-    // isHidden: Boolean = false
-    isHidden: false
-  },
-  mutation: {
-    [types.HIDDEN] (state: any, isHidden: Boolean) {
-      state.isHidden = isHidden
-    }
-  },
-  action: {
-    hidden({
-      commit
-    }, isHidden: Boolean) {
-      commit(types.HIDDEN, isHidden)
-    }
+import State from '../interface'
+const state: State =  {
+  isHidden: false
+}
+const mutations: any = {
+  [types.IS_HIDDEN] (state: State, isHidden: Boolean) {
+    state.isHidden = isHidden
   }
 }
-export default page
+const actions: any = {
+  pageIsHidden(context: {
+    commit: Commit
+  }, isHidden: Boolean) {
+    context.commit(types.IS_HIDDEN, isHidden)
+  }
+}
+
+export default {
+  state,
+  mutations,
+  actions
+}

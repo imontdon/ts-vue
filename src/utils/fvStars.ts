@@ -9,11 +9,12 @@ export default class fvStars {
   public positionX: number
   public stars: Array<Star>
   /**
+   * @author imontdon
    * @type
-   * @param { CanvasRenderingContext2D } ctx
-   * @param { number } score
-   * @param { number } radius
-   * @param { number } positionX
+   * @param { CanvasRenderingContext2D } ctx 
+   * @param { number } score 分数
+   * @param { number } radius 五角星为圆心，到五角星外顶点的距离
+   * @param { number } positionX 间距，x偏移量
    */
   constructor(ctx: CanvasRenderingContext2D, score: number, radius: number, positionX: number) {
     this.ctx = ctx
@@ -23,7 +24,7 @@ export default class fvStars {
   }
   initStars() {
     const ctx: CanvasRenderingContext2D = this.ctx
-    let rotate: number = 72, R: number = this.radius, r: number = R / 2, y: number = 50
+    let rotate: number = 72, R: number = this.radius, r: number = R / 2, y: number = 30
     for (let k = 1; k < 6; k++) {
       let x: number = this.positionX * k
       ctx.beginPath()
@@ -38,11 +39,12 @@ export default class fvStars {
   }
   draw() {
     // const canvas: HTMLCanvasElement  = document.createElement('canvas')
+    this.initStars()
     const ctx: CanvasRenderingContext2D = this.ctx
     ctx.save()
     ctx.fillStyle = 'yellow'
     this.stars.forEach((star, index, arr) => {
-      let rotate: number = 72, R: number = this.radius, r: number = R / 2, x: number = this.positionX * star.x, y: number = 50
+      let rotate: number = 72, R: number = this.radius, r: number = R / 2, x: number = this.positionX * star.x, y: number = 30
       ctx.beginPath()
       ctx.fillStyle = "rgb(255, 204, 51)";
       // ctx.moveTo(180, 30)

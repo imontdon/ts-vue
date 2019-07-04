@@ -32,11 +32,7 @@
 import Search from '@/components/input/search.vue'
 import { Component, Emit, Inject, Model, Prop, Provide, Vue, Watch } from 'vue-property-decorator'
 
-/* @Component({
-  components: {
-    Test
-  }
-}) */
+
 @Component({
   components: {
     Search

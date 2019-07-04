@@ -1,4 +1,17 @@
-class State {
-  public isHidden: Boolean
+
+interface Info {
+  id: number
+  username: string,
+  real_name: string
 }
-export default State
+class State {
+  public isHidden: boolean
+}
+class User {
+  public userIsLogin: boolean
+  public info: Info
+}
+export {
+  State,
+  User
+}

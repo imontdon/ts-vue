@@ -6,7 +6,7 @@ const routes = [
     name: '首页',
     // component: Layout,
     canPull: false,
-    component: _import('Layout'),
+    component: _import('layout'),
     children: [
       {
         path: '/',
@@ -19,7 +19,7 @@ const routes = [
     path: '/test',
     name: '心情随笔',
     canPull: true,
-    component: _import('Layout'),
+    component: _import('layout'),
     children: [
       {
         path: '/one',
@@ -43,7 +43,7 @@ const routes = [
     name: '技术分享',
     // component: Layout,
     canPull: false,
-    component: _import('Layout'),
+    component: _import('layout'),
     children: [
       {
         path: '/tech',
@@ -57,12 +57,12 @@ const routes = [
     name: '留言',
     // component: Layout,
     canPull: false,
-    component: _import('Layout'),
+    component: _import('layout'),
     children: [
       {
         path: '/message',
         name: '留言',
-        component: _import('HelloWorld')
+        component: _import('message/index')
       }
     ]
   },
@@ -71,7 +71,7 @@ const routes = [
     name: '关于我',
     // component: Layout,
     canPull: false,
-    component: _import('Layout'),
+    component: _import('layout'),
     children: [
       {
         path: '/about',

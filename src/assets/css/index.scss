@@ -37,7 +37,8 @@ li.normal {
   background: #db6d4c
 }
 
-
+textarea { resize:none }
+input, button, select, textarea{ outline:none }
 
 // border
 .border {

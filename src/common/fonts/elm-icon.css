@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'elm-icon';
+  src:  url('./elm-icon.eot?8omykz');
+  src:  url('./elm-icon.eot?8omykz#iefix') format('embedded-opentype'),
+  url('./elm-icon.ttf?8omykz') format('truetype'),
+  url('./elm-icon.woff?8omykz') format('woff'),
+  url('./elm-icon.svg?8omykz#elm-icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'elm-icon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-image:before {
+  content: "\e90d";
+}
+.icon-grin:before {
+  content: "\e9e9";
+}

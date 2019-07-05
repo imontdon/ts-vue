@@ -2,7 +2,9 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
-import LoginForm from '../form/login.vue'
+import IDLoginForm from '../form/login.vue'
+import IDFormItem from '../form/item.vue'
+import IDInput from '../input/index.vue'
 
 interface Message {
   text?: string,
@@ -11,7 +13,9 @@ interface Message {
 
 @Component({
   components: {
-    'login-form': LoginForm
+    'id-login-form': IDLoginForm,
+    'id-form-item': IDFormItem,
+    'id-input': IDInput
   }
 })
 class MessageForm extends Vue {
@@ -36,16 +40,23 @@ class MessageForm extends Vue {
   render(h: CreateElement) {
     return (
       <div class='form-squre'>
-        <login-form formVisible={this.state.boxVisible} on-change={this.changeVisible}></login-form>
+        <id-login-form visible={this.state.boxVisible} on-change={this.changeVisible} >
+          <id-form-item label='用户名'>
+            <id-input placeholder='请输入用户名'></id-input>
+          </id-form-item>
+          <id-form-item label='密码'>
+            <id-input type='password'></id-input>
+          </id-form-item>
+        </id-login-form>
         <div class='form-textarea'>
           <textarea class='textarea-squre' rows="4" value={this.state.text} onChange={this.textAreaChange}/>
           <div class='user-options'>
             <span class='un-word'>
               <a on-click={this.show.bind(this, 'emoji')}>
-                <i class='elm-icon icon-grin'></i>
+                <i class='id-icon icon-grin'></i>
               </a>
               <a on-click={this.show.bind(this, 'files')}>
-                <i class='elm-icon icon-image'></i>
+                <i class='id-icon icon-image'></i>
               </a>
             </span>
             <span>

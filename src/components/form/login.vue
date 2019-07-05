@@ -2,30 +2,39 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 
-interface loginForm {
-  visible?: boolean
+interface LoginForm {
+  visible?: boolean,
+  header?: boolean
 }
 
+
 @Component
-class LoginForm extends Vue {
+class IDLoginForm extends Vue {
   @Prop({ required: false, default: false })
-  public formVisible?: boolean
-  private state: loginForm
+  public visible?: boolean
+  private state: LoginForm
   constructor() {
     super()
     this.state = {
-      visible: false
+      visible: false,
+      header: true
     }
   }
   render(h: CreateElement) {
     return (
-      <div>
+      <div class='id-form'>
         {
-          this.formVisible ? 
+          this.visible ? 
           (
             <div class='login-back'>
               <div class='login-form'>
-                <slot></slot>
+                {
+                  this.$slots.default ? (
+                    <div>
+                      { this.$slots.default }
+                    </div>
+                  ) : null
+                }
               </div>
             </div>
           ) : null 
@@ -33,7 +42,7 @@ class LoginForm extends Vue {
       </div>
     )
   }
-  setState(obj: loginForm) {
+  setState(obj: LoginForm) {
     Object.keys(obj).forEach(key => {
       this.state[key] = obj[key]
     })
@@ -44,19 +53,19 @@ class LoginForm extends Vue {
       const target = e.target as HTMLInputElement
       if (target.className === 'login-back') {
         this.setState({ visible: false })
-        this.formVisible = false
+        this.visible = false
       }
     })
   }
   @Emit('change')
   emitVisible(visible: boolean) {}
-  @Watch('formVisible')
-  onFormVisibleChange(val, oldVal) {
+  @Watch('visible')
+  onVisibleChange(val, oldVal) {
     this.setState({ visible: val })
     this.emitVisible(this.state.visible)
   }
 }
-export default LoginForm
+export default IDLoginForm
 </script>
 <style lang="scss">
   .login-back {
@@ -79,6 +88,7 @@ export default LoginForm
       z-index: 100;
       background: #fff;
       border-radius: 4px;
+      padding: 20px;
     }
   }
 </style>

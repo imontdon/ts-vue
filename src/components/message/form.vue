@@ -5,6 +5,7 @@ import { Getter } from 'vuex-class'
 import IDLoginForm from '../form/login.vue'
 import IDFormItem from '../form/item.vue'
 import IDInput from '../input/index.vue'
+import IDButton from '../button/index.vue'
 
 interface Message {
   text?: string,
@@ -15,7 +16,8 @@ interface Message {
   components: {
     'id-login-form': IDLoginForm,
     'id-form-item': IDFormItem,
-    'id-input': IDInput
+    'id-input': IDInput,
+    'id-button': IDButton
   }
 })
 class MessageForm extends Vue {
@@ -47,6 +49,19 @@ class MessageForm extends Vue {
           <id-form-item label='密码'>
             <id-input type='password'></id-input>
           </id-form-item>
+          <id-form-item>
+            <id-button plain>
+              注册
+            </id-button>
+            <id-button 
+              type='primary' 
+              on-click={this.login.bind(this)} 
+              loading
+              disabled
+            >
+              登录
+            </id-button>
+          </id-form-item>
         </id-login-form>
         <div class='form-textarea'>
           <textarea class='textarea-squre' rows="4" value={this.state.text} onChange={this.textAreaChange}/>
@@ -74,7 +89,11 @@ class MessageForm extends Vue {
   show(type: string) {
     console.log(type)
   }
-  // 防react，setState
+
+  login(e: Event) {
+    console.log(e)
+  }
+  // 仿react，setState
   setState(obj: Message) {
     Object.keys(obj).forEach(key => {
       this.state[key] = obj[key]
@@ -154,6 +173,9 @@ export default MessageForm
         }
       }
     }
+  }
+  .test {
+    margin-left: 20px;
   }
 </style>
 

@@ -57,6 +57,9 @@
 .icon-alarm:before {
   content: "\e950";
 }
+.icon-spinner3:before {
+  content: "\e97c";
+}
 .icon-spinner6:before {
   content: "\e97f";
 }

@@ -56,6 +56,8 @@ export default IDFormItem
     }
     &__content {
       width: 80%;
+      display: flex;
+      justify-content: flex-start;
     }
   }
 </style>

@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router/index'
 import store from './store'
 import './common/fonts/id-icon.css'
+import './common/iconfont/fonts/iconfont.css'
 // import permission from './permission'
 Vue.config.productionTip = false
 

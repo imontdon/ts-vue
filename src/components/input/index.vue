@@ -33,12 +33,12 @@ class IDInput extends Vue {
    * 1.id-icon 要判断是否在icon列表中，在显示不在设null，暂时无判断
    */
   render(h: CreateElement) {
-    const inputArr = ['type', 'password', 'submit'].join('')
+    const basicInput = ['type', 'password', 'submit'].join('')
     return (
       <div class={`id-input id-input__${this.state.type}`}>
         <input 
           class='id-input__inner'
-          type={ inputArr.indexOf(this.state.type) > -1 ? this.state.type : 'text' } 
+          type={ basicInput.indexOf(this.state.type) > -1 ? this.state.type : 'text' } 
           placeholder={ this.state.type === 'password' ? null : this.state.placeholder }
           style={ this.state.prefix === '' ? 'padding-left: 10px' : null }
         />

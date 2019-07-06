@@ -1,15 +1,20 @@
 <script lang="tsx">
 import Vue, { CreateElement } from 'vue'
-import { Component, Emit, Prop } from 'vue-property-decorator'
+import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
 import IDLoginForm from '../form/login.vue'
 import IDFormItem from '../form/item.vue'
 import IDInput from '../input/index.vue'
 import IDButton from '../button/index.vue'
+// import Ajax from '../../request/request'
+import { post, get } from '../../request'
 
 interface Message {
   text?: string,
-  boxVisible?: boolean
+  boxVisible?: boolean,
+  username?: string,
+  password?: string,
+  loading?: boolean
 }
 
 @Component({
@@ -28,7 +33,10 @@ class MessageForm extends Vue {
     super(props)
     this.state = {
       text: '',
-      boxVisible: false
+      boxVisible: false,
+      username: '',
+      password: '',
+      loading: false
     }
     /* Object.keys(this.state).forEach(key => {
       console.log(key)
@@ -44,10 +52,20 @@ class MessageForm extends Vue {
       <div class='form-squre'>
         <id-login-form visible={this.state.boxVisible} on-change={this.changeVisible} >
           <id-form-item label='用户名'>
-            <id-input placeholder='请输入用户名'></id-input>
+            <id-input 
+              placeholder='请输入用户名' 
+              value={this.state.username} 
+              on-input= {this.getUserValue}
+            ></id-input>
           </id-form-item>
           <id-form-item label='密码'>
-            <id-input type='password'></id-input>
+            <id-input 
+              type='password' 
+              placeholder='请输入密码' 
+              value={this.state.password} 
+              on-keyup={this.keyup}
+              on-input= {this.getPwdValue}
+            ></id-input>
           </id-form-item>
           <id-form-item>
             <id-button plain>
@@ -55,16 +73,15 @@ class MessageForm extends Vue {
             </id-button>
             <id-button 
               type='primary' 
-              on-click={this.login.bind(this)} 
-              loading
-              disabled
+              on-click={this.login}
+              loading={this.state.loading}
             >
               登录
             </id-button>
           </id-form-item>
         </id-login-form>
         <div class='form-textarea'>
-          <textarea class='textarea-squre' rows="4" value={this.state.text} onChange={this.textAreaChange}/>
+          <textarea class='textarea-squre' rows="4" value={this.state.text} on-change={this.textAreaChange}/>
           <div class='user-options'>
             <span class='un-word'>
               <a on-click={this.show.bind(this, 'emoji')}>
@@ -84,14 +101,26 @@ class MessageForm extends Vue {
       </div>
     )
   }
-
   // 点击表情或者上传图片时间，后续加
   show(type: string) {
     console.log(type)
   }
-
   login(e: Event) {
-    console.log(e)
+    /* const ajax = new Ajax('http://localhost:1997/api/user/login', {
+      username: this.state.username,
+      password: this.state.password
+    }) */
+    this.setState({ loading: true })
+    post('/user/login', {
+      username: this.state.username,
+      password: this.state.password
+    }).then(res => {
+      res = res.data 
+      localStorage.setItem('user', res.data.user_name)
+      this.setState({ loading: false })
+    }).catch(e => {
+      this.setState({ loading: false })
+    })
   }
   // 仿react，setState
   setState(obj: Message) {
@@ -99,8 +128,22 @@ class MessageForm extends Vue {
       this.state[key] = obj[key]
     })
   }
+
+  getUserValue(val: string) {
+    this.setState({ username: val })
+  }
+  getPwdValue(val: string) {
+    this.setState({ password: val })
+  }
+  changeValue(val: string) {
+    console.log(val)
+  }
+  keyup(e: KeyboardEvent) {
+    e.keyCode === 13 ? this.login(e) : null 
+  }
   // 文本框改变时间
   textAreaChange = (e) :void => {
+    // console.log(e)
     this.setState({ text: e.target.value })
     // console.log(this.state)
   }

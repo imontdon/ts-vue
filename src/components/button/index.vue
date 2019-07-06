@@ -46,7 +46,7 @@ class IDButton extends Vue {
     return (
       <button 
         type='button' 
-        on-click={this.woundEmit.bind(this, event)}
+        on-click={(e) => this.woundEmit(e)}
         class={`id-button id-button--${this.state.type} 
                 ${this.state.plain ? 'is-plain' : ''} 
                 ${this.state.round ? 'is-round' : '' } 
@@ -66,7 +66,7 @@ class IDButton extends Vue {
                         {this.$slots.default}
                       </span>
                     ) : this.$slots.default // 没有loading，输出children
-                    : ( // 否则输出icon + children内容
+                    : ( // 有icon，输出icon + children内容
                       <span class='id-span'>
                         { // 优先加载loading图
                           this.state.loading ? 
@@ -123,7 +123,6 @@ class IDButton extends Vue {
   @Watch('loading', { immediate: true })
   onLoadingChange(val: boolean, oldVal: boolean) {
     this.setState({ loading: val })
-    console.log(this.state.loading)
   }
 }
 export default IDButton

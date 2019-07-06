@@ -22,7 +22,14 @@ import navBar from '../../components/nav/index.vue'
 import AppMain from './appMain.vue'
 import SideBar from './sideBar.vue'
 import { Board, Stars, Meteor } from '../../utils/canvas'
-import { Getter } from 'vuex-class'
+import { Getter, Action } from 'vuex-class'
+
+import { loginCheck } from '../../api/login'
+
+interface res {
+  errNum?: number
+}
+
 @Component({
   components: {
     navBar,
@@ -32,6 +39,7 @@ import { Getter } from 'vuex-class'
 })
 export default class Layout extends Vue {
   @Getter pageIsHidden!: boolean
+  @Action userIsLogin
   routes = routes
   count: number = 0
   stars: Stars
@@ -42,6 +50,17 @@ export default class Layout extends Vue {
   height: number = 0
   board: Board
   mounted(){
+    if (localStorage.getItem('user')) {
+      const user = localStorage.getItem('user')
+      loginCheck('/user/checkLogin', { user }).then(res => {
+        if (res.data.errNum === 0) {
+          this.userIsLogin({ userIsLogin: true })
+        } else {
+          this.userIsLogin({ userIsLogin: false })
+        }
+        
+      })
+    }
     this.initCanvas()
     this.draw()
     this.meteorGenerator()

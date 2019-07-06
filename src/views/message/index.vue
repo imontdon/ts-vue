@@ -15,13 +15,13 @@ export default class Message extends Vue {
           <message-form on-submit={this.getTextContent}></message-form>
         </div>
         <div class='comment-area'>
-          111
         </div>
       </div>
     )
   }
+  mounted() {
+  }
   getTextContent(val: string|boolean) {
-    console.log(val)
   }
 }
 </script>

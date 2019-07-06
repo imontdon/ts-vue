@@ -7,7 +7,8 @@ interface Input {
   placeholder?: string,
   prefix?: string, // 前缀icon
   suffix?: string, // 后缀icon
-  clearable?: boolean
+  clearable?: boolean,
+  value?: string
 }
 
 @Component
@@ -18,6 +19,8 @@ class IDInput extends Vue {
   private placeholder: string
   @Prop({ required: false, default: '' })
   private prefix: string
+  @Prop({ required: false, default: '' })
+  private value: string
   private state: Input
   constructor() {
     super()
@@ -26,7 +29,8 @@ class IDInput extends Vue {
       placeholder: '',
       prefix: '',
       suffix: '',
-      clearable: false
+      clearable: false,
+      value: ''
     }
   }
   /**
@@ -39,11 +43,16 @@ class IDInput extends Vue {
         <input 
           class='id-input__inner'
           type={ basicInput.indexOf(this.state.type) > -1 ? this.state.type : 'text' } 
-          placeholder={ this.state.type === 'password' ? null : this.state.placeholder }
+          // placeholder={ this.state.type === 'password' ? null : this.state.placeholder }
+          placeholder={ this.state.placeholder }
           style={ this.state.prefix === '' ? 'padding-left: 10px' : null }
+          value={this.state.value}
+          on-input={(e) => this.emitInput(e.target.value)}
+          on-change={(e) => this.emitChange(this.state.value)}
+          on-keyup={e => this.emitKeyUp(e)}
         />
         {
-          this.state.prefix ? 
+          this.state.prefix ?  
           (
             <span class='id-prefix-icon'>
               <i class={`id-icon icon-${ this.state.prefix }`}></i>
@@ -58,6 +67,14 @@ class IDInput extends Vue {
       this.state[key] = obj[key]
     })
   }
+
+  @Emit('change')
+  emitChange(val: string) { }
+  @Emit('keyup')
+  emitKeyUp(e: Event) { }
+  @Emit('input')
+  emitInput(val: string) { }
+
   @Watch('type', { immediate: true })
   onTypeChange(val: string, oldVal: string) {
     this.setState({ type: val })
@@ -69,6 +86,10 @@ class IDInput extends Vue {
   @Watch('prefix', { immediate: true })
   onPrefixChange(val: string, oldVal: string) {
     this.setState({ prefix: val })
+  }
+  @Watch('value')
+  onValueChange(val: string, oldVal: string) {
+    this.setState({ value: val })
   }
 }
 

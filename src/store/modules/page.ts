@@ -1,11 +1,11 @@
 import { Commit } from 'vuex'
 import types from '../mutation-types'
-import { State } from '../interface'
-const state: State = {
+import { Page } from '../interface'
+const state: Page = {
   isHidden: false
 }
 const mutations: any = {
-  [types.IS_HIDDEN] (state: State, isHidden: boolean) {
+  [types.IS_HIDDEN] (state: Page, isHidden: boolean) {
     state.isHidden = isHidden
   }
 }

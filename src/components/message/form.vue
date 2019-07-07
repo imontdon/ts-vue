@@ -26,7 +26,7 @@ interface Message {
   }
 })
 class MessageForm extends Vue {
-  @Getter userIsLogin!: boolean
+  @Getter userIsLogin
 
   private state: Message
   constructor(props: any) {

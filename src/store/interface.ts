@@ -4,7 +4,7 @@ interface Info {
   username: string,
   real_name: string
 }
-class State {
+class Page {
   public isHidden: boolean
 }
 class User {
@@ -12,6 +12,6 @@ class User {
   public info: Info
 }
 export {
-  State,
+  Page,
   User
 }

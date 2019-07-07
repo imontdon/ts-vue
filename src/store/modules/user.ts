@@ -18,7 +18,7 @@ const mutations: any = {
 }
 
 const actions: any = {
-  userIsLogin (context: {
+  isLogin (context: {
     commit: Commit
   }, userIsLogin: boolean) {
     context.commit(types.USER_IS_LOGIN, userIsLogin)

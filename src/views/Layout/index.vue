@@ -39,7 +39,7 @@ interface res {
 })
 export default class Layout extends Vue {
   @Getter pageIsHidden!: boolean
-  @Action userIsLogin
+  @Action isLogin
   routes = routes
   count: number = 0
   stars: Stars
@@ -54,9 +54,9 @@ export default class Layout extends Vue {
       const user = localStorage.getItem('user')
       loginCheck('/user/checkLogin', { user }).then(res => {
         if (res.data.errNum === 0) {
-          this.userIsLogin({ userIsLogin: true })
+          this.isLogin(true)
         } else {
-          this.userIsLogin({ userIsLogin: false })
+          this.isLogin(false)
         }
         
       })

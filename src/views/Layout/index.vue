@@ -53,7 +53,7 @@ export default class Layout extends Vue {
     if (localStorage.getItem('user')) {
       const user = localStorage.getItem('user')
       loginCheck('/user/checkLogin', { user }).then(res => {
-        if (res.data.errNum === 0) {
+        if (res.data.ret_code === 0) {
           this.isLogin(true)
         } else {
           this.isLogin(false)

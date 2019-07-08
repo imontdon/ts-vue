@@ -12,7 +12,7 @@ export default class Message extends Vue {
     return (
       <div class='message-box'>
         <div class='message-form'>
-          <message-form on-submit={this.getTextContent}></message-form>
+          <MessageForm on-submit={this.getTextContent}></MessageForm>
         </div>
         <div class='comment-area'>
         </div>

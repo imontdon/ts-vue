@@ -2,7 +2,7 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
-import IDLoginForm from '../form/login.vue'
+import IDForm from '../form/index.vue'
 import IDFormItem from '../form/item.vue'
 import IDInput from '../input/index.vue'
 import IDButton from '../button/index.vue'
@@ -19,7 +19,7 @@ interface Message {
 
 @Component({
   components: {
-    'id-login-form': IDLoginForm,
+    'id-form': IDForm,
     'id-form-item': IDFormItem,
     'id-input': IDInput,
     'id-button': IDButton
@@ -35,7 +35,7 @@ class MessageForm extends Vue {
       text: '',
       boxVisible: false,
       username: '',
-      password: '',
+      password: '222',
       loading: false
     }
     /* Object.keys(this.state).forEach(key => {
@@ -50,7 +50,7 @@ class MessageForm extends Vue {
   render(h: CreateElement) {
     return (
       <div class='form-squre'>
-        <id-login-form visible={this.state.boxVisible} on-change={this.changeVisible} >
+        <id-form visible={this.state.boxVisible} on-change={this.changeVisible} >
           <id-form-item label='用户名'>
             <id-input 
               placeholder='请输入用户名' 
@@ -67,6 +67,17 @@ class MessageForm extends Vue {
               on-input= {this.getPwdValue}
             ></id-input>
           </id-form-item>
+          <id-form-item label='密码'>
+            <id-input 
+              type='textarea' 
+              placeholder='请输入密码' 
+              value={this.state.password} 
+              on-input= {this.getPwdValue}
+              readonly
+              disabled
+              suffix='image'
+            ></id-input>
+          </id-form-item>
           <id-form-item>
             <id-button plain>
               注册
@@ -79,7 +90,7 @@ class MessageForm extends Vue {
               登录
             </id-button>
           </id-form-item>
-        </id-login-form>
+        </id-form>
         <div class='form-textarea'>
           <textarea class='textarea-squre' rows="4" value={this.state.text} on-change={this.textAreaChange}/>
           <div class='user-options'>
@@ -116,8 +127,11 @@ class MessageForm extends Vue {
       password: this.state.password
     }).then(res => {
       res = res.data 
+      console.log('22222222222')
       localStorage.setItem('user', res.data.user_name)
       this.setState({ loading: false })
+      this.setState({ boxVisible: false })
+      console.log(this.state.boxVisible)
     }).catch(e => {
       this.setState({ loading: false })
     })

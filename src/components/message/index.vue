@@ -2,14 +2,14 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 
-interface Message {
+interface IDMessage {
   type?: string,
   duration?: number
 }
 
 @Component
-class IDMessage extends Vue {
-  private state: Message
+class Message extends Vue {
+  private state: IDMessage
   constructor() {
     super()
     this.state = {
@@ -18,7 +18,7 @@ class IDMessage extends Vue {
     }
   }
   // 仿react，setState
-  setState(obj: Message) {
+  setState(obj: IDMessage) {
     Object.keys(obj).forEach(key => {
       this.state[key] = obj[key]
     })
@@ -31,5 +31,5 @@ class IDMessage extends Vue {
     )
   }
 }
-export default IDMessage
+export default Message
 </script>

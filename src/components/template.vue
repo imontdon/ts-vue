@@ -2,14 +2,14 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 
-interface Button {
+interface IDButton {
   icon?: string,
   type?: string
 }
 
 @Component
-class IDButton extends Vue {
-  private state: Button
+class Button extends Vue {
+  private state: IDButton
   constructor() {
     super()
     this.state = {
@@ -18,7 +18,7 @@ class IDButton extends Vue {
     }
   }
   // 仿react，setState
-  setState(obj: Button) {
+  setState(obj: IDButton) {
     Object.keys(obj).forEach(key => {
       this.state[key] = obj[key]
     })
@@ -29,5 +29,5 @@ class IDButton extends Vue {
     )
   }
 }
-export default IDButton
+export default Button
 </script>

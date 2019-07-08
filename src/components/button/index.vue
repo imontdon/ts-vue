@@ -2,7 +2,7 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 
-interface Button {
+interface IDButton {
   icon?: string,
   type?: string,
   plain?: boolean,
@@ -13,7 +13,7 @@ interface Button {
 }
 
 @Component
-class IDButton extends Vue {
+class Button extends Vue {
   @Prop({ required: false, default: '' })
   private icon: string
   @Prop({ required: false, default: 'default' })
@@ -29,7 +29,7 @@ class IDButton extends Vue {
   @Prop({ required: false, default: false })
   private loading: boolean
 
-  private state: Button
+  private state: IDButton
   constructor() {
     super()
     this.state = {
@@ -84,7 +84,7 @@ class IDButton extends Vue {
   }
   
   // 仿react，setState
-  setState(obj: Button) {
+  setState(obj: IDButton) {
     Object.keys(obj).forEach(key => {
       this.state[key] = obj[key]
     })
@@ -125,7 +125,7 @@ class IDButton extends Vue {
     this.setState({ loading: val })
   }
 }
-export default IDButton
+export default Button
 </script>
 
 <style lang="scss">

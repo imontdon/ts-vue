@@ -2,15 +2,15 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 
-interface FormItem {
+interface IDFormItem {
   title?: string
 }
 
 @Component
-class IDFormItem extends Vue {
+class FormItem extends Vue {
   @Prop({ required: false, default: '' })
   private label: string
-  private state: FormItem
+  private state: IDFormItem
   constructor(props) {
     super(props)
     this.state = {
@@ -33,7 +33,7 @@ class IDFormItem extends Vue {
       </div>
     )
   }
-  setState(obj: FormItem) {
+  setState(obj: IDFormItem) {
     Object.keys(obj).forEach(key => {
       this.state[key] = obj[key]
     })
@@ -44,7 +44,7 @@ class IDFormItem extends Vue {
   }
 }
 
-export default IDFormItem
+export default FormItem
 </script>
 <style lang='scss'>
   .id-form-item {

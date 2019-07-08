@@ -2,17 +2,17 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 
-interface LoginForm {
+interface IDForm {
   visible?: boolean,
   header?: boolean
 }
 
 
 @Component
-class IDLoginForm extends Vue {
+class Form extends Vue {
   @Prop({ required: false, default: false })
   public visible?: boolean
-  private state: LoginForm
+  private state: IDForm
   constructor() {
     super()
     this.state = {
@@ -42,7 +42,7 @@ class IDLoginForm extends Vue {
       </div>
     )
   }
-  setState(obj: LoginForm) {
+  setState(obj: IDForm) {
     Object.keys(obj).forEach(key => {
       this.state[key] = obj[key]
     })
@@ -65,7 +65,7 @@ class IDLoginForm extends Vue {
     this.emitVisible(this.state.visible)
   }
 }
-export default IDLoginForm
+export default Form
 </script>
 <style lang="scss">
   .login-back {

@@ -73,13 +73,14 @@ class Input extends Vue {
           placeholder={ this.state.placeholder }
           style={ this.state.prefix === '' ? '' : 'width: 84%; padding-left: 25px;' }
           value={this.state.value}
-          on-input = {e => this.emitInput(e.target.value)}
-          on-change = {e => this.emitChange(this.state.value)}
-          on-keyup = {e => this.emitKeyUp(e)}
-          on-focus = {e => this.emitFocus(e)}
-          on-mouseenter = {e => this.handleMouseEnter(e)}
-          on-mouseout = {e => this.handleMouseOut(e)}
-          on-blur = {e => this.emitBlur(e)}
+          on-input = {e => this.emitInput(e.target.value, this)}
+          on-change = {e => this.emitChange(this.state.value, this)}
+          on-keyup = {e => this.emitKeyUp(e, this)}
+          on-focus = {e => this.emitFocus(e, this)}
+          on-mouseenter = {e => this.handleMouseEnter(e, this)}
+          on-mouseout = {e => this.handleMouseOut(e, this)}
+          on-blur = {e => this.emitBlur(e, this)}
+          on-click= {e => this.emitClick(e, this)}
         />
         { // 前缀图标
           this.state.prefix ?  
@@ -115,41 +116,43 @@ class Input extends Vue {
   }
 
   @Emit('change')
-  emitChange(val: string) { }
+  emitChange(val: string, input?: Vue) { }
   @Emit('keyup')
-  emitKeyUp(event: Event) { }
+  emitKeyUp(event: Event, input?: Vue) { }
   @Emit('input')
-  emitInput(val: string) { }
+  emitInput(val: string, input?: Vue) { }
   @Emit('mouseout')
-  emitMouseOut(event: Event) { }
+  emitMouseOut(event: Event, input?: Vue) { }
   @Emit('mouseenter')
-  emitMouseEnter(event: Event) { }
+  emitMouseEnter(event: Event, input?: Vue) { }
   @Emit('blur')
-  emitBlur(event: Event) { }
+  emitBlur(event: Event, input?: Vue) { }
   @Emit('focus')
-  emitFocus(event: Event) { }
+  emitFocus(event: Event, input?: Vue) { }
+  @Emit('click')
+  emitClick(event: Event, input?: Vue) { }
 
   clearInput() {
     this.setState({ value: '' })
   }
-  handleMouseEnter(e?: Event) {
+  handleMouseEnter(e?: Event, input?: Vue) {
     if (this.state.clearable) {
       const circle = document.querySelector('.icon-cancel-circle') as HTMLElement
       circle.style.transition = 'opacity .5s'
       circle.style.opacity = '0.5'
-      this.emitMouseEnter(e)
+      this.emitMouseEnter(e, input)
     } else {
-      this.emitMouseEnter(e)
+      this.emitMouseEnter(e, input)
     }
   }
-  handleMouseOut(e?: Event) {
+  handleMouseOut(e?: Event, input?: Vue) {
     if (this.state.clearable) {
       const circle = document.querySelector('.icon-cancel-circle') as HTMLElement
       circle.style.transition = 'opacity .5s'
       circle.style.opacity = '0'
-      this.emitMouseOut(e)
+      this.emitMouseOut(e, input)
     } else {
-      this.emitMouseOut(e)
+      this.emitMouseOut(e, input)
     }
   }
   spanMouseEnter() {
@@ -175,7 +178,7 @@ class Input extends Vue {
   onSuffixChange(val: string, oldVal: string) {
     this.setState({ suffix: val })
   }
-  @Watch('value')
+  @Watch('value', { immediate: true })
   onValueChange(val: string, oldVal: string) {
     this.setState({ value: val })
   }
@@ -241,12 +244,15 @@ export default Input
     }
     .id-suffix-icon {
       position: absolute;
+      display: flex;
       transform: scale(0.8);
       width: $iconSize;
       height: $iconSize;
       right: $iconLeft + 10px;
       top: 50%;
       margin-top: -10px;
+      justify-content: center;
+      align-items: center;
       .id-icon.icon-cancel-circle {
         transform: scale(0.8);
         cursor: pointer;

@@ -15,9 +15,14 @@ interface Message {
   boxVisible?: boolean,
   username?: string,
   password?: string,
-  loading?: boolean
+  loading?: boolean,
+  selected?: string,
+  options?: Array<Option>
 }
-
+interface Option {
+  value: string,
+  label: string
+}
 @Component({
   components: {
     'id-form': IDForm,
@@ -38,7 +43,9 @@ class MessageForm extends Vue {
       boxVisible: false,
       username: '',
       password: '222',
-      loading: false
+      loading: false,
+      selected: '',
+      options: []
     }
     /* Object.keys(this.state).forEach(key => {
       console.log(key)
@@ -72,7 +79,11 @@ class MessageForm extends Vue {
             ></id-input>
           </id-form-item>
           <id-form-item label='密码'>
-            <id-select></id-select>
+            <id-select
+              selected={this.state.selected}
+              options={this.state.options}
+            >
+            </id-select>
           </id-form-item>
           <id-form-item>
             <id-button plain>
@@ -108,6 +119,30 @@ class MessageForm extends Vue {
       </div>
     )
   }
+
+  mounted() {
+    const options = [
+      {
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }
+    ]
+    this.setState({ options })
+    this.setState({ selected: '???' })
+  }
+
   // 点击表情或者上传图片时间，后续加
   show(type: string) {
     console.log(type)

@@ -76,9 +76,10 @@ class Input extends Vue {
           on-input = {e => this.emitInput(e.target.value)}
           on-change = {e => this.emitChange(this.state.value)}
           on-keyup = {e => this.emitKeyUp(e)}
-          on-focus = {this.handleFocus.bind(this)}
+          on-focus = {e => this.emitFocus(e)}
           on-mouseenter = {e => this.handleMouseEnter(e)}
           on-mouseout = {e => this.handleMouseOut(e)}
+          on-blur = {e => this.emitBlur(e)}
         />
         { // 前缀图标
           this.state.prefix ?  
@@ -116,13 +117,17 @@ class Input extends Vue {
   @Emit('change')
   emitChange(val: string) { }
   @Emit('keyup')
-  emitKeyUp(e: Event) { }
+  emitKeyUp(event: Event) { }
   @Emit('input')
   emitInput(val: string) { }
   @Emit('mouseout')
   emitMouseOut(event: Event) { }
   @Emit('mouseenter')
   emitMouseEnter(event: Event) { }
+  @Emit('blur')
+  emitBlur(event: Event) { }
+  @Emit('focus')
+  emitFocus(event: Event) { }
 
   clearInput() {
     this.setState({ value: '' })

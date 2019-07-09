@@ -6,6 +6,7 @@ import IDForm from '../form/index.vue'
 import IDFormItem from '../form/item.vue'
 import IDInput from '../input/index.vue'
 import IDButton from '../button/index.vue'
+import IDSelect from '../select/index.vue'
 // import Ajax from '../../request/request'
 import { post, get } from '../../request'
 
@@ -22,7 +23,8 @@ interface Message {
     'id-form': IDForm,
     'id-form-item': IDFormItem,
     'id-input': IDInput,
-    'id-button': IDButton
+    'id-button': IDButton,
+    'id-select': IDSelect
   }
 })
 class MessageForm extends Vue {
@@ -68,6 +70,9 @@ class MessageForm extends Vue {
               clearable
               suffix='image'
             ></id-input>
+          </id-form-item>
+          <id-form-item label='密码'>
+            <id-select></id-select>
           </id-form-item>
           <id-form-item>
             <id-button plain>

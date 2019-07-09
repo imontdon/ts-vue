@@ -65,16 +65,7 @@ class MessageForm extends Vue {
               value={this.state.password} 
               on-keyup={this.keyup}
               on-input= {this.getPwdValue}
-            ></id-input>
-          </id-form-item>
-          <id-form-item label='密码'>
-            <id-input 
-              type='textarea' 
-              placeholder='请输入密码' 
-              value={this.state.password} 
-              on-input= {this.getPwdValue}
-              readonly
-              disabled
+              clearable
               suffix='image'
             ></id-input>
           </id-form-item>
@@ -127,7 +118,6 @@ class MessageForm extends Vue {
       password: this.state.password
     }).then(res => {
       res = res.data 
-      console.log('22222222222')
       localStorage.setItem('user', res.data.user_name)
       this.setState({ loading: false })
       this.setState({ boxVisible: false })

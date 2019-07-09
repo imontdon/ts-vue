@@ -10,9 +10,7 @@ interface IDInput {
   clearable?: boolean,
   value?: string,
   maxlength?: number,
-  showWordLimit?: boolean,
   disabled?: boolean,
-  name?: string,
   readonly?: boolean
 }
 
@@ -32,6 +30,8 @@ class Input extends Vue {
   private readonly: boolean
   @Prop({ required: false, default: false })
   private disabled: boolean
+  @Prop({ required: false, default: false })
+  private clearable: boolean
 
   private state: IDInput
   constructor() {
@@ -44,8 +44,6 @@ class Input extends Vue {
       clearable: false,
       value: '',
       maxlength: 100,
-      showWordLimit: false,
-      name: '',
       readonly: false,
       disabled: false
     }
@@ -56,22 +54,33 @@ class Input extends Vue {
   render(h: CreateElement) {
     const basicInput = ['type', 'password', 'submit', 'textarea'].join('')
     return (
-      <div class={`id-input id-input__${this.state.type}`}>
+      <div 
+        class={`id-input id-input__${this.state.type}`} 
+      >
         <input 
           class={`id-input id-input__inner 
                   ${this.state.readonly ? 'is-readonly' : ''}
                   ${this.state.disabled ? 'is-disabled' : ''}
+                  ${this.state.clearable ? 
+                      this.state.disabled ? 
+                        '' : 
+                        'is-clearable' : 
+                      ''
+                  }
                 `}
           type={ basicInput.indexOf(this.state.type) > -1 ? this.state.type : 'text' } 
           // placeholder={ this.state.type === 'password' ? null : this.state.placeholder }
           placeholder={ this.state.placeholder }
-          style={ this.state.prefix === '' ? 'padding-left: 10px; padding-right: 30px;' : 'padding: 0 15px 0 25px' }
+          style={ this.state.prefix === '' ? '' : 'width: 84%; padding-left: 25px;' }
           value={this.state.value}
-          on-input={e => this.emitInput(e.target.value)}
-          on-change={e => this.emitChange(this.state.value)}
-          on-keyup={e => this.emitKeyUp(e)}
+          on-input = {e => this.emitInput(e.target.value)}
+          on-change = {e => this.emitChange(this.state.value)}
+          on-keyup = {e => this.emitKeyUp(e)}
+          on-focus = {this.handleFocus.bind(this)}
+          on-mouseenter = {e => this.handleMouseEnter(e)}
+          on-mouseout = {e => this.handleMouseOut(e)}
         />
-        {
+        { // 前缀图标
           this.state.prefix ?  
           (
             <span class='id-prefix-icon'>
@@ -79,13 +88,21 @@ class Input extends Vue {
             </span>
           ) : null
         }
-        {
-          this.state.suffix ?  
+        { // clearable图标和后缀图标
+          // 是否有clearable
+          this.state.clearable ?  // 有clearable
           (
-            <span class='id-suffix-icon'>
-              <i class={`id-icon icon-${ this.state.suffix }`}></i>
+            <span class='id-suffix-icon' on-mouseenter={this.spanMouseEnter.bind(this)}>
+              <i class={`id-icon icon-cancel-circle`} on-click={this.clearInput.bind(this)}></i>
             </span>
-          ) : null
+          ) : ( // 无clearable
+            this.state.suffix ?  // 是否有后缀图标
+            ( // 有suffix
+              <span class='id-suffix-icon' style={this.state.clearable ? 'padding-right: 22px' : ''}>
+                <i class={`id-icon icon-${ this.state.suffix }`}></i>
+              </span>
+            ) : null // 无suffix
+          )
         }
       </div>
     )
@@ -102,7 +119,41 @@ class Input extends Vue {
   emitKeyUp(e: Event) { }
   @Emit('input')
   emitInput(val: string) { }
+  @Emit('mouseout')
+  emitMouseOut(event: Event) { }
+  @Emit('mouseenter')
+  emitMouseEnter(event: Event) { }
 
+  clearInput() {
+    this.setState({ value: '' })
+  }
+  handleMouseEnter(e?: Event) {
+    if (this.state.clearable) {
+      const circle = document.querySelector('.icon-cancel-circle') as HTMLElement
+      circle.style.transition = 'opacity .5s'
+      circle.style.opacity = '0.5'
+      this.emitMouseEnter(e)
+    } else {
+      this.emitMouseEnter(e)
+    }
+  }
+  handleMouseOut(e?: Event) {
+    if (this.state.clearable) {
+      const circle = document.querySelector('.icon-cancel-circle') as HTMLElement
+      circle.style.transition = 'opacity .5s'
+      circle.style.opacity = '0'
+      this.emitMouseOut(e)
+    } else {
+      this.emitMouseOut(e)
+    }
+  }
+  spanMouseEnter() {
+    const circle = document.querySelector('.icon-cancel-circle') as HTMLElement
+    circle.style.opacity = '0.5'
+  }
+  handleFocus(e: Event) {
+    console.log('focus no emit')
+  }
   @Watch('type', { immediate: true })
   onTypeChange(val: string, oldVal: string) {
     this.setState({ type: val })
@@ -118,7 +169,6 @@ class Input extends Vue {
   @Watch('suffix', { immediate: true })
   onSuffixChange(val: string, oldVal: string) {
     this.setState({ suffix: val })
-    console.log(val)
   }
   @Watch('value')
   onValueChange(val: string, oldVal: string) {
@@ -140,6 +190,10 @@ class Input extends Vue {
   onDisabledChange(val: boolean, oldVal: boolean) {
     this.setState({ disabled: val })
   }
+  @Watch('clearable', { immediate: true })
+  onClearableChange(val: boolean, oldVal: boolean) {
+    this.setState({ clearable: val })
+  }
 }
 
 export default Input
@@ -151,12 +205,13 @@ export default Input
     position: relative;
     width: 100%;
     .id-input__inner {
-      width: 88%;
+      width: 90%;
       border-radius: 4px;
       border: 1px solid #dcdfe6;
       height: 40px;
       line-height: 40px;
-      padding-left: $iconSize + $iconLeft;
+      // padding-left: $iconSize + $iconLeft;
+      padding-left: 10px;
       color: #606266;
       &.is-disabled {
         background-color: #F5F7FA;
@@ -176,15 +231,22 @@ export default Input
       height: $iconSize;
       left: $iconLeft;
       top: 50%;
+      opacity: 0.4;
       margin-top: -10px;
     }
     .id-suffix-icon {
       position: absolute;
+      transform: scale(0.8);
       width: $iconSize;
       height: $iconSize;
-      right: $iconLeft - 10px;
+      right: $iconLeft + 10px;
       top: 50%;
       margin-top: -10px;
+      .id-icon.icon-cancel-circle {
+        transform: scale(0.8);
+        cursor: pointer;
+        opacity: 0;
+      }
     }
   }
 </style>

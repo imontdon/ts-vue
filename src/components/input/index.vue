@@ -68,6 +68,7 @@ class Input extends Vue {
                       ''
                   }
                 `}
+          focus
           type={ basicInput.indexOf(this.state.type) > -1 ? this.state.type : 'text' } 
           // placeholder={ this.state.type === 'password' ? null : this.state.placeholder }
           placeholder={ this.state.placeholder }

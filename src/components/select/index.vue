@@ -1,13 +1,13 @@
 <script lang="tsx">
 import Vue, { CreateElement } from 'vue'
-import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
+import { Component, Emit, Prop, Watch, Provide } from 'vue-property-decorator'
 import IDInput from '@/components/input/index.vue'
-
 interface IDSelect {
   icon?: string,
   type?: string
-  selected?: string,
-  options?: Array<Option>,
+  value?: string,
+  placeholder?: string,
+  // options?: Array<Option>,
   input?: Vue
 }
 
@@ -17,15 +17,19 @@ interface Option {
 }
 @Component({
   components: {
-    'id-input': IDInput
+    'id-input': IDInput,
+    // 'id-option': IDOpton
   }
 })
 class Select extends Vue {
 
-  @Prop({ required: true, default: () => {} })
-  private selected: object
-  @Prop({ required: true, default: () => {} })
-  private options: Array<Option>
+  @Provide() IDSelect = this
+  @Prop({ required: true, default: '' })
+  private value: object
+  /* @Prop({ required: true, default: () => [] })
+  private options: Array<Option> */
+  @Prop({ required: true, default: '' })
+  private placeholder: string
 
   private state: IDSelect
   constructor() {
@@ -33,8 +37,9 @@ class Select extends Vue {
     this.state = {
       icon: '',
       type: '',
-      selected: '',
-      options: [],
+      value: '',
+      placeholder: '',
+      // options: [],
       input: null
     }
   }
@@ -54,33 +59,46 @@ class Select extends Vue {
             type='text'
             readonly
             suffix='next'
-            // on-blur={this.handleBlur}
+            placeholder={this.state.placeholder}
+            on-blur={this.handleBlur}
             on-click={this.handleClick}
-            value={this.state.selected}
+            value={this.state.value}
           >
           </id-input>
         </div>
-        
-        <div class='id-select-options'>
-          <span class='triangle-up'></span>
-          <ul class='id-select-options__content'>
-            { // 注释：map不能onClick
-              this.state.options.map(opt => {
-                return (
-                  <li 
-                    class='id-select-dropdown__item' 
-                    on-click={this.changeSelected.bind(this, opt)}
-                  >
-                    { opt.label }
-                  </li>
-                )
-              }, this)
-            }
-          </ul>
-        </div>
+        {
+          // this.$slots.default
+        }
+        {
+          <div class='id-select-options' on-mouseup = {e => this.focusInput(e)}>
+            <span class='triangle-up'></span>
+            { /* <ul class='id-select-options__content'> */ }
+              { // 注释：map不能onClick
+                /* this.state.options.map(opt => {
+                  return (
+                    <li 
+                      class='id-select-dropdown__item' 
+                      on-click={this.changeSelected.bind(this, opt)}
+                    >
+                      { opt.label }
+                    </li>
+                  )
+                }, this) */
+                this.$slots.default
+              }
+            {/* </ul> */}
+          </div>
+        }
+
       </div>
     )
   }
+  mounted() {
+    // const child = this.$children[1] as any
+    // child.test(1)
+    // console.log(this.$children)
+  }
+
   handleClick(event: Event, input?: Vue) {
     this.rotateIcon(input)
     if (!this.state.input) {
@@ -88,30 +106,34 @@ class Select extends Vue {
     }
   }
   handleBlur(event: Event, input?: Vue) {
+    // console.log('22222')
     // console.log(event)
-    this.rotateIcon(input, 0)
+    // this.rotateIcon(input, 0)
   }
+  // 获取下拉框的值
   getSelectedVal(val: string) {
-    this.setState({ selected: val })
+    this.setState({ value: val })
   }
+  // 图标旋转
   rotateIcon(input: Vue, num?: number) {
     // 后缀图标
     const suffix = input.$el.querySelector('.id-suffix-icon') as HTMLElement
     // 下拉选项
     const options = input.$el.parentNode.parentNode.querySelector('.id-select-options') as HTMLElement
     const ul = options.querySelector('.id-select-options__content') as HTMLElement
-    ul.style.transition = 'height .3s'
     const transform: string = suffix.style.transform
     if (transform === 'rotate(0deg)' || transform === '') {
       suffix.style.transform = `rotate(90deg)`
       if (num !== 0) {
         options.style.visibility = 'visible'
         ul.style.height = '120px'
+        ul.style.transition = 'height .5s'
       }
     } else {
       suffix.style.transform = `rotate(0deg)`
       options.style.visibility = 'hidden'
       ul.style.height = '0px'
+      ul.style.transition = 'height .2s, visibility .2s'
     }
     if (num === 0) {
       suffix.style.transform = `rotate(0deg)`
@@ -120,21 +142,32 @@ class Select extends Vue {
     suffix.style.transformOrigin = 'center center'
     suffix.style.transition = 'transform 0.5s'
   }
+  focusInput(event: MouseEvent) {
+    if (event.button === 2) {
+      const target: any = event.target
+      const pNode = target.parentNode.parentNode.parentNode as any
+      pNode.querySelector('.id-input__inner').focus()
+    }
+  }
   changeSelected(opt?: Option) {
     console.log(opt)
-    this.setState({ selected: opt.label })
+    this.setState({ value: opt.label })
     // this.emitChange() 还没做完emit给父组件
     this.rotateIcon(this.state.input, 0)
   }
-  @Watch('selected', { immediate: true })
-  onSelectedChange(val: string, oldval: string) {
-    this.setState({ selected: val })
+  @Watch('value', { immediate: true })
+  onValueChange(val: string, oldval: string) {
+    this.setState({ value: val })
   }
-  @Watch('options', { immediate: true, deep: true })
+  @Watch('placeholder', { immediate: true })
+  onPlaceholderChange(val: string, oldval: string) {
+    this.setState({ placeholder: val })
+  }
+  /* @Watch('options', { immediate: true, deep: true })
   onOptionsChange(arr: Array<Option>, oldval: Array<Option>) {
     if (arr.length === 0) { console.error('id-select options 没有数据') }
     this.setState({ options: arr })
-  }
+  } */
 }
 export default Select
 </script>

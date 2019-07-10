@@ -7,6 +7,7 @@ import IDFormItem from '../form/item.vue'
 import IDInput from '../input/index.vue'
 import IDButton from '../button/index.vue'
 import IDSelect from '../select/index.vue'
+import IDOption from '../select/option.vue'
 // import Ajax from '../../request/request'
 import { post, get } from '../../request'
 
@@ -29,7 +30,8 @@ interface Option {
     'id-form-item': IDFormItem,
     'id-input': IDInput,
     'id-button': IDButton,
-    'id-select': IDSelect
+    'id-select': IDSelect,
+    'id-option': IDOption
   }
 })
 class MessageForm extends Vue {
@@ -80,9 +82,14 @@ class MessageForm extends Vue {
           </id-form-item>
           <id-form-item label='密码'>
             <id-select
-              selected={this.state.selected}
-              options={this.state.options}
+              value={this.state.selected}
+              placeholder="请选择"
+              // options={this.state.options}
             >
+              <id-option
+                options={this.state.options}
+              >
+              </id-option>
             </id-select>
           </id-form-item>
           <id-form-item>
@@ -140,7 +147,7 @@ class MessageForm extends Vue {
       }
     ]
     this.setState({ options })
-    this.setState({ selected: '???' })
+    // this.setState({ selected: '???' })
   }
 
   // 点击表情或者上传图片时间，后续加

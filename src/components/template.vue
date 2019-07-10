@@ -19,9 +19,11 @@ class Button extends Vue {
   }
   // 仿react，setState
   setState(obj: IDButton) {
-    Object.keys(obj).forEach(key => {
-      this.state[key] = obj[key]
-    })
+    setTimeout(() => {
+      Object.keys(obj).forEach(key => {
+        this.state[key] = obj[key]
+      })
+    }, 10)
   }
   render(h: CreateElement) {
     return (

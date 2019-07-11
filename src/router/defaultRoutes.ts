@@ -1,4 +1,4 @@
-// import Layout from '@/views/layout/index.vue'
+// import Layout from '@/views/Layout/index.vue'
 const _import = require('./import_' + process.env.NODE_ENV).default
 const routes = [
   {
@@ -6,7 +6,7 @@ const routes = [
     name: '首页',
     // component: Layout,
     canPull: false,
-    component: _import('layout'),
+    component: _import('Layout'),
     children: [
       {
         path: '/',
@@ -19,7 +19,7 @@ const routes = [
     path: '/test',
     name: '心情随笔',
     canPull: true,
-    component: _import('layout'),
+    component: _import('Layout'),
     children: [
       {
         path: '/one',
@@ -43,7 +43,7 @@ const routes = [
     name: '技术分享',
     // component: Layout,
     canPull: false,
-    component: _import('layout'),
+    component: _import('Layout'),
     children: [
       {
         path: '/tech',
@@ -57,7 +57,7 @@ const routes = [
     name: '留言',
     // component: Layout,
     canPull: false,
-    component: _import('layout'),
+    component: _import('Layout'),
     children: [
       {
         path: '/message',
@@ -71,7 +71,7 @@ const routes = [
     name: '关于我',
     // component: Layout,
     canPull: false,
-    component: _import('layout'),
+    component: _import('Layout'),
     children: [
       {
         path: '/about',

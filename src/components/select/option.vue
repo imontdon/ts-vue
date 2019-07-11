@@ -3,30 +3,35 @@ import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch, Inject } from 'vue-property-decorator'
 
 interface IDOption {
-  icon?: string,
-  type?: string,
-  options?: Array<Option>,
-  input?: Vue
+  value?: string,
+  label?: string,
+  key?: number
 }
-interface Option {
+/* interface Option {
   value: string,
   label: string
-}
+} */
 @Component
 class Option extends Vue {
 
-  @Inject('IDSelect') readonly IDSelect!: Vue
-  @Prop({ required: true, default: () => {} })
-  private options: Array<Option>
+  // @Inject('IDSelect') readonly IDSelect!: Vue
+  /* @Prop({ required: true, default: () => {} })
+  private options: Array<Option> */
 
+  @Prop({ required: true, default: '' })
+  private label: string
+  @Prop({ required: true, default: '' })
+  private value: string
+  @Prop({ required: true, default: -1 })
+  private key: number
+  
   private state: IDOption
   constructor() {
     super()
     this.state = {
-      icon: '',
-      type: '',
-      options: [],
-      input: null
+      value: '',
+      label: '',
+      key: -1,
     }
   }
   // 仿react，setState
@@ -38,29 +43,34 @@ class Option extends Vue {
     }, 10)
   }
   render(h: CreateElement) {
+    const opt = {
+      value: this.state.value,
+      label: this.state.label,
+      key: this.state.key
+    }
     return (
       /*  on-mouseup = {e => this.focusInput(e)} */
       // <div class='id-select-options'>
         // <span class='triangle-up'></span>
-        <ul class='id-select-options__content'>
+        /* <ul class='id-select-options__content'>
           { // 注释：map不能onClick
             this.state.options.map(opt => {
-              return (
+              return ( */
                 <li 
                   class='id-select-dropdown__item' 
                   on-click={this.changeSelected.bind(this, opt)}
                 >
                   { opt.label }
                 </li>
-              )
+              /* )
             }, this)
           }
-        </ul>
+        </ul> */
       // </div>
     )
   }
   mounted() {
-    console.log(this.IDSelect, 'IDSelect', this.$parent)
+    // console.log(this.IDSelect, 'IDSelect', this.$parent)
   }
   changeSelected(opt?: Option) {
     const parent = this.$parent as any
@@ -71,13 +81,20 @@ class Option extends Vue {
     // this.rotateIcon(this.state.input, 0)
     
   }
-  test(a: number) {
-    console.log(a)
+  @Watch('value', { immediate: true })
+  onValueChange(val: string, oldval: string) {
+    console.log('value', val)
+    if (val === '') { console.warn('id-option value 不可为空') }
+    this.setState({ value: val })
   }
-  @Watch('options', { immediate: true, deep: true })
-  onOptionsChange(arr: Array<Option>, oldval: Array<Option>) {
-    if (arr.length === 0) { console.error('id-select options 没有数据') }
-    this.setState({ options: arr })
+  @Watch('label', { immediate: true })
+  onLabelChange(val: string, oldval: string) {
+    if (val === '') { console.warn('id-option label 不可为空') }
+    this.setState({ label: val })
+  }
+  @Watch('key', { immediate: true })
+  onOptionsChange(val: number, oldval: number) {
+    this.setState({ key: val })
   }
 }
 export default Option

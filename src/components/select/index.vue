@@ -2,6 +2,7 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch, Provide } from 'vue-property-decorator'
 import IDInput from '@/components/input/index.vue'
+import IDOpton from './option.vue'
 interface IDSelect {
   icon?: string,
   type?: string
@@ -18,7 +19,7 @@ interface Option {
 @Component({
   components: {
     'id-input': IDInput,
-    // 'id-option': IDOpton
+    'id-option': IDOpton
   }
 })
 class Select extends Vue {
@@ -72,7 +73,7 @@ class Select extends Vue {
         {
           <div class='id-select-options' on-mouseup = {e => this.focusInput(e)}>
             <span class='triangle-up'></span>
-            { /* <ul class='id-select-options__content'> */ }
+            <ul class='id-select-options__content'>
               { // 注释：map不能onClick
                 /* this.state.options.map(opt => {
                   return (
@@ -86,7 +87,7 @@ class Select extends Vue {
                 }, this) */
                 this.$slots.default
               }
-            {/* </ul> */}
+            </ul>
           </div>
         }
 
@@ -97,6 +98,7 @@ class Select extends Vue {
     // const child = this.$children[1] as any
     // child.test(1)
     // console.log(this.$children)
+    console.log(this.$slots, this.$slots.default)
   }
 
   handleClick(event: Event, input?: Vue) {

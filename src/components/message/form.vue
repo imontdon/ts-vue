@@ -86,10 +86,24 @@ class MessageForm extends Vue {
               placeholder="请选择"
               // options={this.state.options}
             >
-              <id-option
-                options={this.state.options}
-              >
-              </id-option>
+              {
+                  <id-option
+                    key={1}
+                    value='2'
+                    label='3'
+                   >
+                  </id-option>
+              }
+              {
+                this.state.options.map((opt, index) => {
+                  return (
+                    <id-opton 
+                      label={opt.label} 
+                      value = {opt.value}
+                    ></id-opton>
+                  )
+                })
+              }
             </id-select>
           </id-form-item>
           <id-form-item>

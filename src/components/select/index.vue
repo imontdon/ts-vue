@@ -133,21 +133,21 @@ class Select extends Vue {
     const options = input.$el.parentNode.parentNode.querySelector('.id-select-options') as HTMLElement
     const ul = options.querySelector('.id-select-options__content') as HTMLElement
     const transform: string = suffix.style.transform
-    if (transform === 'rotate(0deg)' || transform === '') {
-      suffix.style.transform = `rotate(90deg)`
+    if (transform === 'rotate(0deg) scale(0.8)' || transform === '' || transform === 'rotate(0deg)') {
+      suffix.style.transform = `rotate(90deg) scale(0.8)`
       if (num !== 0) {
         options.style.visibility = 'visible'
         ul.style.height = '120px'
         ul.style.transition = 'height .5s'
       }
     } else {
-      suffix.style.transform = `rotate(0deg)`
+      suffix.style.transform = `rotate(0deg) scale(0.8)`
       options.style.visibility = 'hidden'
       ul.style.height = '0px'
       ul.style.transition = 'height .2s, visibility .2s'
     }
     if (num === 0) {
-      suffix.style.transform = `rotate(0deg)`
+      suffix.style.transform = `rotate(0deg) scale(0.8)`
     }
     // suffix.style.transform = `rotate(${num}deg)`
     suffix.style.transformOrigin = 'center center'

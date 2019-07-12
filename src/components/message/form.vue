@@ -8,6 +8,7 @@ import IDInput from '../input/index.vue'
 import IDButton from '../button/index.vue'
 import IDSelect from '../select/index.vue'
 import IDOption from '../select/option.vue'
+import IDOptionGroup from '../select/option-group.vue'
 // import Ajax from '../../request/request'
 import { post, get } from '../../request'
 
@@ -19,6 +20,7 @@ interface Message {
   loading?: boolean,
   selected?: string,
   options?: Array<any>
+  group?: Array<any>
 }
 
 @Component({
@@ -28,7 +30,8 @@ interface Message {
     'id-input': IDInput,
     'id-button': IDButton,
     'id-select': IDSelect,
-    'id-option': IDOption
+    'id-option': IDOption,
+    'id-option-group': IDOptionGroup
   }
 })
 class MessageForm extends Vue {
@@ -44,7 +47,8 @@ class MessageForm extends Vue {
       password: '222',
       loading: false,
       selected: '',
-      options: []
+      options: [],
+      group: []
     }
     /* Object.keys(this.state).forEach(key => {
       console.log(key)
@@ -82,6 +86,7 @@ class MessageForm extends Vue {
               value={this.state.selected}
               placeholder="请选择"
               clearable
+              // multiple id-tag写完做
             >
               {
                 this.state.options.map((opt, index) => {
@@ -91,7 +96,48 @@ class MessageForm extends Vue {
                       label={opt.label} 
                       value = {opt.value}
                       disabled = {opt.disabled}
-                    ></id-option>
+                    >
+                      <div>
+                        <span style="float: left">{ opt.label }</span>
+                        <span style="float: right; color: #8492a6; font-size: 13px">{ opt.value }</span>
+                      </div>
+                    </id-option>
+                  )
+                })
+              }
+            </id-select>
+          </id-form-item>
+          <id-form-item label='测试组合'>
+            <id-select
+              value={this.state.selected}
+              placeholder="请选择"
+              clearable
+              // multiple id-tag写完做
+            >
+              {
+                this.state.group.map((gp, index) => {
+                  return (
+                    <id-option-group
+                      label = { gp.label }
+                    >
+                      {
+                        gp.options.map((opt, index) => {
+                          return (
+                            <id-option 
+                              key = {index}
+                              label={opt.label} 
+                              value = {opt.value}
+                              // disabled = {opt.disabled}
+                            >
+                              <div>
+                                <span style="float: left">{ opt.label }</span>
+                                <span style="float: right; color: #8492a6; font-size: 13px">{ opt.value }</span>
+                              </div>
+                            </id-option>
+                          )
+                        })
+                      }
+                    </id-option-group>
                   )
                 })
               }
@@ -152,7 +198,33 @@ class MessageForm extends Vue {
         label: '北京烤鸭'
       }
     ]
+    const group = [{
+      label: '热门城市',
+      options: [{
+        value: 'Shanghai',
+        label: '上海'
+      }, {
+        value: 'Beijing',
+        label: '北京'
+      }]
+    }, {
+      label: '城市名',
+      options: [{
+        value: 'Chengdu',
+        label: '成都'
+      }, {
+        value: 'Shenzhen',
+        label: '深圳'
+      }, {
+        value: 'Guangzhou',
+        label: '广州'
+      }, {
+        value: 'Dalian',
+        label: '大连'
+      }]
+    }]
     this.setState({ options })
+    this.setState({ group })
     // this.setState({ selected: '???' })
   }
 

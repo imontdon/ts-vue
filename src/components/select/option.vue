@@ -17,7 +17,7 @@ interface IDOption {
 @Component
 class Option extends Vue {
 
-  // @Inject('IDSelect') readonly IDSelect!: Vue
+  @Inject('IDSelect') readonly IDSelect!: any
   /* @Prop({ required: true, default: () => {} })
   private options: Array<Option> */
 
@@ -67,11 +67,20 @@ class Option extends Vue {
                   class={
                     `id-select-dropdown__item
                     ${this.state.disabled ? 'is-disabled' : '' }
+                    ${this.isActive ? 'is-active' : '' }
                     `
                   } 
                   on-click={this.changeSelected.bind(this, opt)}
                 >
-                  { opt.label }
+                  { // <slot>用户自定义
+                    this.$slots.default ?
+                    (
+                      this.$slots.default
+                    ) : 
+                    (
+                      opt.label
+                    )
+                  }
                 </li>
               /* )
             }, this)
@@ -80,13 +89,19 @@ class Option extends Vue {
       // </div>
     )
   }
+  // computed
+  get isActive() :boolean {
+    // console.log(this.IDSelect.state.value === this.state.label)
+    return this.IDSelect.state.value === this.state.label
+  }
   mounted() {
-    // console.log(this.IDSelect, 'IDSelect', this.$parent)
+    // console.log(this.IDSelect, 'IDSelect', this.$parent, this.IDSelect.state.value)
   }
   changeSelected(opt?: any) {
     if (!opt.disabled) {
-      const parent = this.$parent as any
-      parent.changeSelected(opt)
+      // const parent = this.$parent as any
+      this.IDSelect.changeSelected(opt)
+      // console.log(this.selectValue === this.state.label, this.state.label, this.selectValue)
     }
     
     // console.log(opt)

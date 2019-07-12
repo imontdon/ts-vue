@@ -260,6 +260,7 @@ export default Input
         border-color: #E4E7ED;
         color: #C0C4CC;
         cursor: not-allowed;
+        // pointer-events: none; // 取消所有事件，但会与cursor冲突
       }
     }
     /* #f56c6c */

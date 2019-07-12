@@ -7,7 +7,8 @@ interface IDSelect {
   type?: string
   value?: string,
   placeholder?: string,
-  clearable?: boolean
+  clearable?: boolean,
+  disabled?: boolean,
   // options?: Array<Option>,
   input?: Vue
 }
@@ -30,8 +31,10 @@ class Select extends Vue {
   private options: Array<Option> */
   @Prop({ required: false, default: '' })
   private placeholder: string
-  @Prop({ required: false, default: '' })
+  @Prop({ required: false, default: false })
   private clearable: boolean
+  @Prop({ required: false, default: false })
+  private disabled: boolean
 
   private state: IDSelect
   constructor() {
@@ -42,6 +45,7 @@ class Select extends Vue {
       value: '',
       placeholder: '',
       clearable: false,
+      disabled: false,
       // options: [],
       input: null
     }
@@ -62,19 +66,17 @@ class Select extends Vue {
             type='text'
             readonly
             suffix='next'
-            clearable={this.state.value.length > 0 && this.state.clearable ? this.state.clearable : false }
+            clearable = {this.state.value.length > 0 && this.state.clearable ? this.state.clearable : false }
             // clearable
-            on-clear= {this.handleClear}
-            placeholder={this.state.placeholder}
-            on-blur={this.handleBlur}
-            on-click={this.handleClick}
-            value={this.state.value}
+            disabled = {this.state.disabled}
+            on-clear = {this.handleClear}
+            placeholder = {this.state.placeholder}
+            on-blur = {this.handleBlur}
+            on-click = {this.handleClick}
+            value = {this.state.value}
           >
           </id-input>
         </div>
-        {
-          // this.$slots.default
-        }
         {
           <div class='id-select-options' on-mouseup = {e => this.focusInput(e)}>
             <span class='triangle-up'></span>
@@ -111,15 +113,14 @@ class Select extends Vue {
     this.setState({ value: '' })
   }
   handleClick(event: Event, input?: Vue) {
-    this.rotateIcon(input)
-    if (!this.state.input) {
-      this.setState({ input })
+    if (!this.state.disabled) {
+      this.rotateIcon(input)
+      if (!this.state.input) {
+        this.setState({ input })
+      }
     }
   }
   handleBlur(event: Event, input?: Vue) {
-    // console.log('22222')
-    // console.log(event)
-    // this.rotateIcon(input, 0)
   }
   // 获取下拉框的值
   getSelectedVal(val: string) {
@@ -129,10 +130,11 @@ class Select extends Vue {
   rotateIcon(input: Vue, num?: number) {
     // 后缀图标
     const suffix = input.$el.querySelector('.id-suffix-icon') as HTMLElement
+    const transform: string = suffix.style.transform
+
     // 下拉选项
     const options = input.$el.parentNode.parentNode.querySelector('.id-select-options') as HTMLElement
     const ul = options.querySelector('.id-select-options__content') as HTMLElement
-    const transform: string = suffix.style.transform
     if (transform === 'rotate(0deg) scale(0.8)' || transform === '' || transform === 'rotate(0deg)') {
       suffix.style.transform = `rotate(90deg) scale(0.8)`
       if (num !== 0) {
@@ -149,14 +151,13 @@ class Select extends Vue {
     if (num === 0) {
       suffix.style.transform = `rotate(0deg) scale(0.8)`
     }
-    // suffix.style.transform = `rotate(${num}deg)`
     suffix.style.transformOrigin = 'center center'
     suffix.style.transition = 'transform 0.5s'
   }
   focusInput(event: MouseEvent) {
     if (event.button === 2) {
       const target: any = event.target
-      const pNode = target.parentNode.parentNode.parentNode as any
+      const pNode = target.parentNode.parentNode.parentNode.parentNode.parentNode as any
       pNode.querySelector('.id-input__inner').focus()
     }
   }
@@ -166,6 +167,10 @@ class Select extends Vue {
     // this.emitChange() 还没做完emit给父组件
     this.rotateIcon(this.state.input, 0)
   }
+
+
+
+
   @Watch('value', { immediate: true })
   onValueChange(val: string, oldval: string) {
     this.setState({ value: val })
@@ -177,6 +182,10 @@ class Select extends Vue {
   @Watch('clearable', { immediate: true })
   onClearableChange(val: boolean, oldval: boolean) {
     this.setState({ clearable: val })
+  }
+  @Watch('disabled', { immediate: true })
+  onDisabledChange(val: boolean, oldval: boolean) {
+    this.setState({ disabled: val })
   }
   /* @Watch('options', { immediate: true, deep: true })
   onOptionsChange(arr: Array<Option>, oldval: Array<Option>) {
@@ -198,6 +207,7 @@ export default Select
       width: 80%;
       top: 52px;
       visibility: hidden;
+      z-index: 10;
       .triangle-up {
         width: 0;
         height: 0;
@@ -244,7 +254,15 @@ export default Select
           border-radius: 20px;
           background: #fff;
         }
-        li {
+        .id-select-group__wrap { // option-group
+          .id-select-group__title {
+            padding-left: 20px;
+            font-size: 12px;
+            color: #909399;
+            line-height: 30px;
+          }
+        }
+        .id-select-dropdown__item {
           width: 75%;
           padding: 0 25px ;
           height: 34px;
@@ -259,11 +277,15 @@ export default Select
             color: #c0c4cc;
             cursor: not-allowed;
           }
+          &.is-active {
+            color:#f56c6c;
+            background: #f5f7fa;
+          }
         }
-        li:nth-child(1) {
+        .id-select-dropdown__item:nth-child(1) {
           margin-top: 10px;
         }
-        li:last-child {
+        .id-select-dropdown__item:last-child {
           margin-bottom: 10px;
         }
       }

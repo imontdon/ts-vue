@@ -111,7 +111,6 @@ class Option extends Vue {
   }
   @Watch('disabled', { immediate: true })
   onDisabledChange(val: boolean, oldval: boolean) {
-    console.log(val)
     this.setState({ disabled: val })
   }
 }

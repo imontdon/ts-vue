@@ -2,7 +2,6 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch, Provide } from 'vue-property-decorator'
 import IDInput from '@/components/input/index.vue'
-import IDOpton from './option.vue'
 interface IDSelect {
   icon?: string,
   type?: string
@@ -20,7 +19,6 @@ interface IDSelect {
 @Component({
   components: {
     'id-input': IDInput,
-    'id-option': IDOpton
   }
 })
 class Select extends Vue {
@@ -65,6 +63,7 @@ class Select extends Vue {
             readonly
             suffix='next'
             clearable={this.state.value.length > 0 && this.state.clearable ? this.state.clearable : false }
+            // clearable
             on-clear= {this.handleClear}
             placeholder={this.state.placeholder}
             on-blur={this.handleBlur}
@@ -178,7 +177,6 @@ class Select extends Vue {
   @Watch('clearable', { immediate: true })
   onClearableChange(val: boolean, oldval: boolean) {
     this.setState({ clearable: val })
-    console.log(this.state.clearable)
   }
   /* @Watch('options', { immediate: true, deep: true })
   onOptionsChange(arr: Array<Option>, oldval: Array<Option>) {

@@ -101,7 +101,7 @@ class Input extends Vue {
             (
               <span class='id-suffix-icon' on-mouseenter={this.spanMouseEnter.bind(this)}>
                 {
-                  !this.state.showClearIcon ? 
+                  this.state.showClearIcon && this.state.value ? 
                   (
                     <i class={`id-icon icon-cancel-circle`} on-click={this.clearInput.bind(this)}></i>
                   ) : 
@@ -160,9 +160,13 @@ class Input extends Vue {
   }
   handleMouseEnter(e?: Event, input?: Vue) {
     if (this.state.clearable) {
-      const circle = this.$el.querySelector('.icon-cancel-circle') as HTMLElement
-      circle.style.transition = 'opacity .5s'
-      circle.style.opacity = '0.5'
+      this.setState({ showClearIcon: true })
+      // console.log(this.state.showClearIcon)
+      // const cancel = this.$el.querySelector('.icon-cancel-circle') as HTMLElement
+      // if (cancel) {
+      //   cancel.style.transition = 'opacity .5s'
+      //   cancel.style.opacity = '0.5'
+      // }
       this.emitMouseEnter(e, input)
     } else {
       this.emitMouseEnter(e, input)
@@ -170,17 +174,24 @@ class Input extends Vue {
   }
   handleMouseOut(e?: Event, input?: Vue) {
     if (this.state.clearable) {
-      const circle = this.$el.querySelector('.icon-cancel-circle') as HTMLElement
-      circle.style.transition = 'opacity .5s'
-      circle.style.opacity = '0'
+      this.setState({ showClearIcon: false })
+      // console.log(this.state.showClearIcon)
+      // const cancel = this.$el.querySelector('.icon-cancel-circle') as HTMLElement
+      // if (cancel) {
+      //   cancel.style.transition = 'opacity .5s'
+      //   cancel.style.opacity = '0.5'
+      // }
       this.emitMouseOut(e, input)
     } else {
       this.emitMouseOut(e, input)
     }
   }
   spanMouseEnter() {
-    const circle = this.$el.querySelector('.icon-cancel-circle') as HTMLElement
-    circle.style.opacity = '0.5'
+    // const cancel = this.$el.querySelector('.icon-cancel-circle') as HTMLElement
+    // if (cancel) {
+    //   cancel.style.opacity = '0.5'
+    // }
+    this.setState({ showClearIcon: true })
   }
   handleFocus(e: Event) {
     console.log('focus no emit')
@@ -276,10 +287,11 @@ export default Input
       margin-top: -10px;
       justify-content: center;
       align-items: center;
+      opacity: 0.5;
       .id-icon.icon-cancel-circle {
         transform: scale(0.8);
         cursor: pointer;
-        opacity: 0;
+        // opacity: 0;
       }
     }
   }

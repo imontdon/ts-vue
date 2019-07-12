@@ -23,7 +23,7 @@ import qs from 'qs'
   cancelToken?: CancelToken;
 } */
 const axiosConfig: AxiosRequestConfig = {
-  baseURL: 'http://localhost:1997/api',
+  baseURL: 'http://101.132.116.241:1337/api',
   transformResponse: [(data: AxiosResponse) => data],
   paramsSerializer: (params: any) => {
     return qs.stringify(params)

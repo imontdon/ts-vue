@@ -56,37 +56,25 @@ class Option extends Vue {
       disabled: this.state.disabled
     }
     return (
-      /*  on-mouseup = {e => this.focusInput(e)} */
-      // <div class='id-select-options'>
-        // <span class='triangle-up'></span>
-        /* <ul class='id-select-options__content'>
-          { // 注释：map不能onClick
-            this.state.options.map(opt => {
-              return ( */
-                <li 
-                  class={
-                    `id-select-dropdown__item
-                    ${this.state.disabled ? 'is-disabled' : '' }
-                    ${this.isActive ? 'is-active' : '' }
-                    `
-                  } 
-                  on-click={this.changeSelected.bind(this, opt)}
-                >
-                  { // <slot>用户自定义
-                    this.$slots.default ?
-                    (
-                      this.$slots.default
-                    ) : 
-                    (
-                      opt.label
-                    )
-                  }
-                </li>
-              /* )
-            }, this)
-          }
-        </ul> */
-      // </div>
+      <li 
+        class={
+          `id-select-dropdown__item
+          ${this.state.disabled ? 'is-disabled' : '' }
+          ${this.isActive ? 'is-active' : '' }
+          `
+        } 
+        on-click={this.changeSelected.bind(this, opt)}
+      >
+        { // <slot>用户自定义
+          this.$slots.default ?
+          (
+            this.$slots.default
+          ) : 
+          (
+            opt.label
+          )
+        }
+      </li>
     )
   }
   // computed
@@ -103,12 +91,6 @@ class Option extends Vue {
       this.IDSelect.changeSelected(opt)
       // console.log(this.selectValue === this.state.label, this.state.label, this.selectValue)
     }
-    
-    // console.log(opt)
-    // this.setState({ value: opt.label })
-    // this.emitChange() 还没做完emit给父组件
-    // this.rotateIcon(this.state.input, 0)
-    
   }
   @Watch('value', { immediate: true })
   onValueChange(val: string, oldval: string) {

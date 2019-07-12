@@ -3,8 +3,6 @@ import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 
 interface IDOptionGroup {
-  icon?: string,
-  type?: string,
   label?: string
 }
 
@@ -19,8 +17,6 @@ class OptionGroup extends Vue {
   constructor() {
     super()
     this.state = {
-      icon: '',
-      type: '',
       label: ''
     }
   }
@@ -48,7 +44,6 @@ class OptionGroup extends Vue {
   @Watch('label', { immediate: true })
   onLabelChange(val: string, oldVal: string) {
     this.setState({ label: val })
-    console.log(val)
   }
 }
 export default OptionGroup

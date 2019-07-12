@@ -102,17 +102,18 @@ class Select extends Vue {
     )
   }
   mounted() {
-    // const child = this.$children[1] as any
-    // child.test(1)
-    // console.log(this.$children)
+    
   }
 
-
+  beforeDestroy() {
+  }
 
   handleClear() {
     this.setState({ value: '' })
   }
+
   handleClick(event: Event, input?: Vue) {
+    // console.log(document.activeElement === input.$el.querySelector('input'))
     if (!this.state.disabled) {
       this.rotateIcon(input)
       if (!this.state.input) {
@@ -121,6 +122,9 @@ class Select extends Vue {
     }
   }
   handleBlur(event: Event, input?: Vue) {
+    if (document.activeElement !== input.$el.querySelector('input')) {
+      this.rotateIcon(input, 0)
+    }
   }
   // 获取下拉框的值
   getSelectedVal(val: string) {
@@ -187,6 +191,7 @@ class Select extends Vue {
   onDisabledChange(val: boolean, oldval: boolean) {
     this.setState({ disabled: val })
   }
+
   /* @Watch('options', { immediate: true, deep: true })
   onOptionsChange(arr: Array<Option>, oldval: Array<Option>) {
     if (arr.length === 0) { console.error('id-select options 没有数据') }

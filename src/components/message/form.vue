@@ -225,7 +225,6 @@ class MessageForm extends Vue {
     }]
     this.setState({ options })
     this.setState({ group })
-    // this.setState({ selected: '???' })
   }
 
   // 点击表情或者上传图片时间，后续加
@@ -246,7 +245,6 @@ class MessageForm extends Vue {
       localStorage.setItem('user', res.data.user_name)
       this.setState({ loading: false })
       this.setState({ boxVisible: false })
-      console.log(this.state.boxVisible)
     }).catch(e => {
       this.setState({ loading: false })
     })

@@ -8,14 +8,15 @@ interface IDSelect {
   type?: string
   value?: string,
   placeholder?: string,
+  clearable?: boolean
   // options?: Array<Option>,
   input?: Vue
 }
 
-interface Option {
+/* interface Option {
   value: string,
   label: string
-}
+} */
 @Component({
   components: {
     'id-input': IDInput,
@@ -26,11 +27,13 @@ class Select extends Vue {
 
   @Provide() IDSelect = this
   @Prop({ required: true, default: '' })
-  private value: object
+  private value: string
   /* @Prop({ required: true, default: () => [] })
   private options: Array<Option> */
-  @Prop({ required: true, default: '' })
+  @Prop({ required: false, default: '' })
   private placeholder: string
+  @Prop({ required: false, default: '' })
+  private clearable: boolean
 
   private state: IDSelect
   constructor() {
@@ -40,6 +43,7 @@ class Select extends Vue {
       type: '',
       value: '',
       placeholder: '',
+      clearable: false,
       // options: [],
       input: null
     }
@@ -60,6 +64,8 @@ class Select extends Vue {
             type='text'
             readonly
             suffix='next'
+            clearable={this.state.value.length > 0 && this.state.clearable ? this.state.clearable : false }
+            on-clear= {this.handleClear}
             placeholder={this.state.placeholder}
             on-blur={this.handleBlur}
             on-click={this.handleClick}
@@ -98,9 +104,13 @@ class Select extends Vue {
     // const child = this.$children[1] as any
     // child.test(1)
     // console.log(this.$children)
-    console.log(this.$slots, this.$slots.default)
   }
 
+
+
+  handleClear() {
+    this.setState({ value: '' })
+  }
   handleClick(event: Event, input?: Vue) {
     this.rotateIcon(input)
     if (!this.state.input) {
@@ -151,8 +161,8 @@ class Select extends Vue {
       pNode.querySelector('.id-input__inner').focus()
     }
   }
-  changeSelected(opt?: Option) {
-    console.log(opt)
+  changeSelected(opt?: any) {
+    // console.log(opt)
     this.setState({ value: opt.label })
     // this.emitChange() 还没做完emit给父组件
     this.rotateIcon(this.state.input, 0)
@@ -164,6 +174,11 @@ class Select extends Vue {
   @Watch('placeholder', { immediate: true })
   onPlaceholderChange(val: string, oldval: string) {
     this.setState({ placeholder: val })
+  }
+  @Watch('clearable', { immediate: true })
+  onClearableChange(val: boolean, oldval: boolean) {
+    this.setState({ clearable: val })
+    console.log(this.state.clearable)
   }
   /* @Watch('options', { immediate: true, deep: true })
   onOptionsChange(arr: Array<Option>, oldval: Array<Option>) {
@@ -241,6 +256,10 @@ export default Select
           &:hover {
             background: #f5f7fa;
             cursor: pointer;
+          }
+          &.is-disabled {
+            color: #c0c4cc;
+            cursor: not-allowed;
           }
         }
         li:nth-child(1) {

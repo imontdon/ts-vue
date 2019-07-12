@@ -18,12 +18,9 @@ interface Message {
   password?: string,
   loading?: boolean,
   selected?: string,
-  options?: Array<Option>
+  options?: Array<any>
 }
-interface Option {
-  value: string,
-  label: string
-}
+
 @Component({
   components: {
     'id-form': IDForm,
@@ -84,23 +81,17 @@ class MessageForm extends Vue {
             <id-select
               value={this.state.selected}
               placeholder="请选择"
-              // options={this.state.options}
+              clearable
             >
-              {
-                  <id-option
-                    key={1}
-                    value='2'
-                    label='3'
-                   >
-                  </id-option>
-              }
               {
                 this.state.options.map((opt, index) => {
                   return (
-                    <id-opton 
+                    <id-option 
+                      key = {index}
                       label={opt.label} 
                       value = {opt.value}
-                    ></id-opton>
+                      disabled = {opt.disabled}
+                    ></id-option>
                   )
                 })
               }
@@ -151,7 +142,8 @@ class MessageForm extends Vue {
         label: '双皮奶'
       }, {
         value: '选项3',
-        label: '蚵仔煎'
+        label: '蚵仔煎',
+        disabled: true
       }, {
         value: '选项4',
         label: '龙须面'

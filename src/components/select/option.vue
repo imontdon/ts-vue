@@ -5,11 +5,14 @@ import { Component, Emit, Prop, Watch, Inject } from 'vue-property-decorator'
 interface IDOption {
   value?: string,
   label?: string,
-  key?: number
+  key?: number,
+  disabled?: boolean
 }
 /* interface Option {
   value: string,
-  label: string
+  label: string,
+  key: number,
+  disabled?: false
 } */
 @Component
 class Option extends Vue {
@@ -24,6 +27,8 @@ class Option extends Vue {
   private value: string
   @Prop({ required: true, default: -1 })
   private key: number
+  @Prop({ required: false, default: false })
+  private disabled: boolean
   
   private state: IDOption
   constructor() {
@@ -32,6 +37,7 @@ class Option extends Vue {
       value: '',
       label: '',
       key: -1,
+      disabled: false
     }
   }
   // 仿react，setState
@@ -43,10 +49,11 @@ class Option extends Vue {
     }, 10)
   }
   render(h: CreateElement) {
-    const opt = {
+    const opt: any= {
       value: this.state.value,
       label: this.state.label,
-      key: this.state.key
+      key: this.state.key,
+      disabled: this.state.disabled
     }
     return (
       /*  on-mouseup = {e => this.focusInput(e)} */
@@ -57,7 +64,11 @@ class Option extends Vue {
             this.state.options.map(opt => {
               return ( */
                 <li 
-                  class='id-select-dropdown__item' 
+                  class={
+                    `id-select-dropdown__item
+                    ${this.state.disabled ? 'is-disabled' : '' }
+                    `
+                  } 
                   on-click={this.changeSelected.bind(this, opt)}
                 >
                   { opt.label }
@@ -72,9 +83,12 @@ class Option extends Vue {
   mounted() {
     // console.log(this.IDSelect, 'IDSelect', this.$parent)
   }
-  changeSelected(opt?: Option) {
-    const parent = this.$parent as any
-    parent.changeSelected(opt)
+  changeSelected(opt?: any) {
+    if (!opt.disabled) {
+      const parent = this.$parent as any
+      parent.changeSelected(opt)
+    }
+    
     // console.log(opt)
     // this.setState({ value: opt.label })
     // this.emitChange() 还没做完emit给父组件
@@ -83,7 +97,6 @@ class Option extends Vue {
   }
   @Watch('value', { immediate: true })
   onValueChange(val: string, oldval: string) {
-    console.log('value', val)
     if (val === '') { console.warn('id-option value 不可为空') }
     this.setState({ value: val })
   }
@@ -93,8 +106,13 @@ class Option extends Vue {
     this.setState({ label: val })
   }
   @Watch('key', { immediate: true })
-  onOptionsChange(val: number, oldval: number) {
+  onKeyChange(val: number, oldval: number) {
     this.setState({ key: val })
+  }
+  @Watch('disabled', { immediate: true })
+  onDisabledChange(val: boolean, oldval: boolean) {
+    console.log(val)
+    this.setState({ disabled: val })
   }
 }
 export default Option

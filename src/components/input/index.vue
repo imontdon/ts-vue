@@ -11,7 +11,8 @@ interface IDInput {
   value?: string,
   maxlength?: number,
   disabled?: boolean,
-  readonly?: boolean
+  readonly?: boolean,
+  showClearIcon?: boolean // 在后缀图标和清除图标都有的情况下是否要显示清除图标
 }
 
 @Component
@@ -45,7 +46,8 @@ class Input extends Vue {
       value: '',
       maxlength: 100,
       readonly: false,
-      disabled: false
+      disabled: false,
+      showClearIcon: false
     }
   }
   /**
@@ -95,9 +97,26 @@ class Input extends Vue {
           // 是否有clearable
           this.state.clearable ?  // 有clearable
           (
-            <span class='id-suffix-icon' on-mouseenter={this.spanMouseEnter.bind(this)}>
-              <i class={`id-icon icon-cancel-circle`} on-click={this.clearInput.bind(this)}></i>
-            </span>
+            this.state.suffix ? 
+            (
+              <span class='id-suffix-icon' on-mouseenter={this.spanMouseEnter.bind(this)}>
+                {
+                  !this.state.showClearIcon ? 
+                  (
+                    <i class={`id-icon icon-cancel-circle`} on-click={this.clearInput.bind(this)}></i>
+                  ) : 
+                  (
+                    <i class={`id-icon icon-${this.state.suffix}`} on-click={this.clearInput.bind(this)}></i>
+                  )
+
+                }
+              </span>
+            ) : 
+            (
+              <span class='id-suffix-icon' on-mouseenter={this.spanMouseEnter.bind(this)}>
+                <i class={`id-icon icon-cancel-circle`} on-click={this.clearInput.bind(this)}></i>
+              </span>
+            )
           ) : ( // 无clearable
             this.state.suffix ?  // 是否有后缀图标
             ( // 有suffix
@@ -132,13 +151,16 @@ class Input extends Vue {
   emitFocus(event: Event, input?: Vue) { }
   @Emit('click')
   emitClick(event: Event, input?: Vue) { }
+  @Emit('clear')
+  emitClear() { }
 
   clearInput() {
     this.setState({ value: '' })
+    this.emitClear()
   }
   handleMouseEnter(e?: Event, input?: Vue) {
     if (this.state.clearable) {
-      const circle = document.querySelector('.icon-cancel-circle') as HTMLElement
+      const circle = this.$el.querySelector('.icon-cancel-circle') as HTMLElement
       circle.style.transition = 'opacity .5s'
       circle.style.opacity = '0.5'
       this.emitMouseEnter(e, input)
@@ -148,7 +170,7 @@ class Input extends Vue {
   }
   handleMouseOut(e?: Event, input?: Vue) {
     if (this.state.clearable) {
-      const circle = document.querySelector('.icon-cancel-circle') as HTMLElement
+      const circle = this.$el.querySelector('.icon-cancel-circle') as HTMLElement
       circle.style.transition = 'opacity .5s'
       circle.style.opacity = '0'
       this.emitMouseOut(e, input)
@@ -157,7 +179,7 @@ class Input extends Vue {
     }
   }
   spanMouseEnter() {
-    const circle = document.querySelector('.icon-cancel-circle') as HTMLElement
+    const circle = this.$el.querySelector('.icon-cancel-circle') as HTMLElement
     circle.style.opacity = '0.5'
   }
   handleFocus(e: Event) {

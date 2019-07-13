@@ -131,8 +131,28 @@ class Select extends Vue {
       }
     }
   }
-  handleInput(val: string) {
+  handleInput(val: string, input?: Vue) {
     this.setState({ value: val })
+    // console.log()
+    if (input) {
+      const ul = input.$el.parentNode.parentNode.querySelector('.id-select-options__content')
+      const noMore = ul.querySelector('.no-more-data')
+      if (!noMore) {
+        const li = document.createElement('li')
+        li.innerHTML = `
+          <li class='no-more-data'>
+            没有更多啦
+          </li>
+        `
+        ul.appendChild(li)
+      }
+      if(val === '') {
+        const last = ul.lastChild as HTMLElement
+        if (last.tagName === "LI") {
+          ul.removeChild(last)
+        }
+      }
+    }
   }
   handleBlur(event: Event, input?: Vue) {
     /* if (document.activeElement !== input.$el.querySelector('input')) {
@@ -283,6 +303,15 @@ export default Select
             color: #909399;
             line-height: 30px;
           }
+        }
+        li.no-more-data {
+          text-align: center;
+          font-size: 12px;
+          color: #909399;
+          line-height: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: cneter;
         }
         .id-select-dropdown__item {
           width: 75%;

@@ -122,9 +122,9 @@ class Select extends Vue {
     }
   }
   handleBlur(event: Event, input?: Vue) {
-    if (document.activeElement !== input.$el.querySelector('input')) {
+    /* if (document.activeElement !== input.$el.querySelector('input')) {
       this.rotateIcon(input, 0)
-    }
+    } */
   }
   // 获取下拉框的值
   getSelectedVal(val: string) {
@@ -152,9 +152,9 @@ class Select extends Vue {
       ul.style.height = '0px'
       ul.style.transition = 'height .2s, visibility .2s'
     }
-    if (num === 0) {
+    /* if (num === 0) {
       suffix.style.transform = `rotate(0deg) scale(0.8)`
-    }
+    } */
     suffix.style.transformOrigin = 'center center'
     suffix.style.transition = 'transform 0.5s'
   }

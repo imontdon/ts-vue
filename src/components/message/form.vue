@@ -86,6 +86,7 @@ class MessageForm extends Vue {
               value={this.state.selected}
               placeholder="请选择"
               clearable
+              filterable
               // multiple id-tag写完做
             >
               {

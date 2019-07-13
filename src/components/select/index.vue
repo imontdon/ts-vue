@@ -9,6 +9,7 @@ interface IDSelect {
   placeholder?: string,
   clearable?: boolean,
   disabled?: boolean,
+  filterable?: boolean,
   // options?: Array<Option>,
   input?: Vue
 }
@@ -35,6 +36,8 @@ class Select extends Vue {
   private clearable: boolean
   @Prop({ required: false, default: false })
   private disabled: boolean
+  @Prop({ required: false, default: false })
+  private filterable: boolean
 
   private state: IDSelect
   constructor() {
@@ -46,17 +49,18 @@ class Select extends Vue {
       placeholder: '',
       clearable: false,
       disabled: false,
+      filterable: false,
       // options: [],
       input: null
     }
   }
   // 仿react，setState
   setState(obj: IDSelect) {
-    setTimeout(() => {
+    // setTimeout(() => {
       Object.keys(obj).forEach(key => {
         this.state[key] = obj[key]
       })
-    }, 10)
+    // }, 10)
   }
   render(h: CreateElement) {
     return (
@@ -64,16 +68,22 @@ class Select extends Vue {
         <div class='id-input'>
           <id-input
             type='text'
-            readonly
+            /* readonly = {  this.state.filterable ? 
+                          (
+                            this.state.value.length > 0 ? 
+                              true : false
+                          ) : true } */
+            readonly = {!this.state.filterable}
             suffix='next'
+            placeholder = {this.state.placeholder}
             clearable = {this.state.value.length > 0 && this.state.clearable ? this.state.clearable : false }
             // clearable
             disabled = {this.state.disabled}
             on-clear = {this.handleClear}
-            placeholder = {this.state.placeholder}
             on-blur = {this.handleBlur}
             on-click = {this.handleClick}
             value = {this.state.value}
+            on-input = {this.handleInput}
           >
           </id-input>
         </div>
@@ -120,6 +130,9 @@ class Select extends Vue {
         this.setState({ input })
       }
     }
+  }
+  handleInput(val: string) {
+    this.setState({ value: val })
   }
   handleBlur(event: Event, input?: Vue) {
     /* if (document.activeElement !== input.$el.querySelector('input')) {
@@ -190,6 +203,10 @@ class Select extends Vue {
   @Watch('disabled', { immediate: true })
   onDisabledChange(val: boolean, oldval: boolean) {
     this.setState({ disabled: val })
+  }
+  @Watch('filterable', { immediate: true })
+  onFilterableChange(val: boolean, oldval: boolean) {
+    this.setState({ filterable: val })
   }
 
   /* @Watch('options', { immediate: true, deep: true })

@@ -56,7 +56,7 @@ class Option extends Vue {
       disabled: this.state.disabled
     }
     return (
-      <li 
+      /* <li
         class={
           `id-select-dropdown__item
           ${this.state.disabled ? 'is-disabled' : '' }
@@ -74,7 +74,58 @@ class Option extends Vue {
             opt.label
           )
         }
-      </li>
+      </li> */
+      <span>
+        {
+          this.IDSelect.state.filterable ?
+          ( // 有过滤器
+            opt.label.indexOf(this.filterVal) > -1 ? 
+            (
+              <li
+                class={
+                  `id-select-dropdown__item
+                  ${this.state.disabled ? 'is-disabled' : '' }
+                  ${this.isActive ? 'is-active' : '' }
+                  `
+                } 
+                on-click={this.changeSelected.bind(this, opt)}
+              >
+                { // <slot>用户自定义
+                  this.$slots.default ?
+                  (
+                    this.$slots.default
+                  ) : 
+                  (
+                    opt.label
+                  )
+                }
+              </li>
+            ) : (
+              null
+            )
+          ) : ( // 没有过滤器的话
+            <li
+              class={
+                `id-select-dropdown__item
+                ${this.state.disabled ? 'is-disabled' : '' }
+                ${this.isActive ? 'is-active' : '' }
+                `
+              } 
+              on-click={this.changeSelected.bind(this, opt)}
+            >
+              { // <slot>用户自定义
+                this.$slots.default ?
+                (
+                  this.$slots.default
+                ) : 
+                (
+                  opt.label
+                )
+              }
+            </li>
+          )
+        }
+      </span>
     )
   }
   // computed
@@ -82,8 +133,12 @@ class Option extends Vue {
     // console.log(this.IDSelect.state.value === this.state.label)
     return this.IDSelect.state.value === this.state.label
   }
+  get filterVal() :string {
+    return this.IDSelect.state.value
+  }
   mounted() {
     // console.log(this.IDSelect, 'IDSelect', this.$parent, this.IDSelect.state.value)
+    // console.log(this.filterVal)
   }
   changeSelected(opt?: any) {
     if (!opt.disabled) {
@@ -110,6 +165,13 @@ class Option extends Vue {
   onDisabledChange(val: boolean, oldval: boolean) {
     this.setState({ disabled: val })
   }
+  /* @Watch('filterVal', { immediate: true })
+  onFilterValChange(val: string, oldval: string) {
+    // this.setState({ disabled: val })
+    if (this.IDSelect.state.value) {
+      console.log('filterVal', val)
+    }
+  } */
 }
 export default Option
 </script>

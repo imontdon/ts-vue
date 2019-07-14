@@ -1,5 +1,4 @@
 import Vue from 'vue';
-
 import VueRouter from 'vue-router'
 import { Route } from 'vue-router'
 declare module "*.vue" {
@@ -15,6 +14,7 @@ declare module 'vue/types/vue' {
 }
 declare var window: any
 declare var document: Document
+// declare var Option: Option
 declare global {
   interface StarObject {
     x?: number,
@@ -23,3 +23,7 @@ declare global {
   }
 }
 // declare let Mock:any;
+/* interface Option {
+  value: string,
+  label: string
+} */

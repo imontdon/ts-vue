@@ -4,6 +4,7 @@ import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 
 interface IDMessage {
   type?: string,
+  text?: string,
   duration?: number
 }
 
@@ -14,6 +15,7 @@ class Message extends Vue {
     super()
     this.state = {
       type: '',
+      text: '',
       duration: 3000
     }
   }
@@ -25,11 +27,22 @@ class Message extends Vue {
   }
   render(h: CreateElement) {
     return (
-      <div>
-        1111
+      <div class={`id-message id-message__${this.state.type}`}>
+        <i class='id-icon icon-image'></i>
+        {this.state.text}
       </div>
     )
   }
 }
 export default Message
 </script>
+<style lang="scss">
+  .id-message {
+    position: fixed;
+    top: 40px;
+    text-align: center;
+    left: 50%;
+    min-width: 400px;
+    z-index: 100;
+  }
+</style>

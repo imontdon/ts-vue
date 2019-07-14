@@ -87,6 +87,7 @@ class MessageForm extends Vue {
               placeholder="请选择"
               clearable
               filterable
+              remote
               // multiple id-tag写完做
             >
               {
@@ -226,6 +227,8 @@ class MessageForm extends Vue {
     }]
     this.setState({ options })
     this.setState({ group })
+    console.log(this['$message'], this['$message'].info, Vue.prototype.$message.install(Vue))
+    // this.$message('sakhdakjs')
   }
 
   // 点击表情或者上传图片时间，后续加

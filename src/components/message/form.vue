@@ -6,6 +6,7 @@ import IDForm from '../form/index.vue'
 import IDFormItem from '../form/item.vue'
 import IDInput from '../input/index.vue'
 import IDButton from '../button/index.vue'
+import IDTag from '../tag/index.vue'
 import IDSelect from '../select/index.vue'
 import IDOption from '../select/option.vue'
 import IDOptionGroup from '../select/option-group.vue'
@@ -29,6 +30,7 @@ interface Message {
     'id-form-item': IDFormItem,
     'id-input': IDInput,
     'id-button': IDButton,
+    'id-tag': IDTag,
     'id-select': IDSelect,
     'id-option': IDOption,
     'id-option-group': IDOptionGroup
@@ -63,90 +65,91 @@ class MessageForm extends Vue {
     return (
       <div class='form-squre'>
         <id-form visible={this.state.boxVisible} on-change={this.changeVisible} >
-          <id-form-item label='用户名'>
-            <id-input 
-              placeholder='请输入用户名' 
-              value={this.state.username} 
-              on-input= {this.getUserValue}
-            ></id-input>
-          </id-form-item>
-          <id-form-item label='密码'>
-            <id-input 
-              type='password' 
-              placeholder='请输入密码' 
-              value={this.state.password} 
-              on-keyup={this.keyup}
-              on-input= {this.getPwdValue}
-              clearable
-              suffix='image'
-            ></id-input>
-          </id-form-item>
-          <id-form-item label='密码'>
-            <id-select
-              value={this.state.selected}
-              placeholder="请选择"
-              clearable
-              filterable
-              remote
-              // multiple id-tag写完做
-            >
-              {
-                this.state.options.map((opt, index) => {
-                  return (
-                    <id-option 
-                      key = {index}
-                      label={opt.label} 
-                      value = {opt.value}
-                      disabled = {opt.disabled}
-                    >
-                      <div>
-                        <span style="float: left">{ opt.label }</span>
-                        <span style="float: right; color: #8492a6; font-size: 13px">{ opt.value }</span>
-                      </div>
-                    </id-option>
-                  )
-                })
-              }
-            </id-select>
-          </id-form-item>
-          <id-form-item label='测试组合'>
-            <id-select
-              value={this.state.selected}
-              placeholder="请选择"
-              clearable
-              // multiple id-tag写完做
-            >
-              {
-                this.state.group.map((gp, index) => {
-                  return (
-                    <id-option-group
-                      label = { gp.label }
-                    >
-                      {
-                        gp.options.map((opt, index) => {
-                          return (
-                            <id-option 
-                              key = {index}
-                              label={opt.label} 
-                              value = {opt.value}
-                              // disabled = {opt.disabled}
-                            >
-                              <div>
-                                <span style="float: left">{ opt.label }</span>
-                                <span style="float: right; color: #8492a6; font-size: 13px">{ opt.value }</span>
-                              </div>
-                            </id-option>
-                          )
-                        })
-                      }
-                    </id-option-group>
-                  )
-                })
-              }
-            </id-select>
-          </id-form-item>
+          {
+          // <id-form-item label='用户名'>
+          //   <id-input 
+          //     placeholder='请输入用户名' 
+          //     value={this.state.username} 
+          //     on-input= {this.getUserValue}
+          //   ></id-input>
+          // </id-form-item>
+          // <id-form-item label='密码'>
+          //   <id-input 
+          //     type='password' 
+          //     placeholder='请输入密码' 
+          //     value={this.state.password} 
+          //     on-keyup={this.keyup}
+          //     on-input= {this.getPwdValue}
+          //     clearable
+          //     suffix='image'
+          //   ></id-input>
+          // </id-form-item>
+          // <id-form-item label='密码'>
+          //   <id-select
+          //     value={this.state.selected}
+          //     placeholder="请选择"
+          //     clearable
+          //     filterable
+          //     remote
+          //   >
+          //     {
+          //       this.state.options.map((opt, index) => {
+          //         return (
+          //           <id-option 
+          //             key = {index}
+          //             label={opt.label} 
+          //             value = {opt.value}
+          //             disabled = {opt.disabled}
+          //           >
+          //             <div>
+          //               <span style="float: left">{ opt.label }</span>
+          //               <span style="float: right; color: #8492a6; font-size: 13px">{ opt.value }</span>
+          //             </div>
+          //           </id-option>
+          //         )
+          //       })
+          //     }
+          //   </id-select>
+          // </id-form-item>
+          // <id-form-item label='测试组合'>
+          //   <id-select
+          //     value={this.state.selected}
+          //     placeholder="请选择"
+          //     clearable
+          //     // multiple id-tag写完做
+          //   >
+          //     {
+          //       this.state.group.map((gp, index) => {
+          //         return (
+          //           <id-option-group
+          //             label = { gp.label }
+          //           >
+          //             {
+          //               gp.options.map((opt, index) => {
+          //                 return (
+          //                   <id-option 
+          //                     key = {index}
+          //                     label={opt.label} 
+          //                     value = {opt.value}
+          //                     // disabled = {opt.disabled}
+          //                   >
+          //                     <div>
+          //                       <span style="float: left">{ opt.label }</span>
+          //                       <span style="float: right; color: #8492a6; font-size: 13px">{ opt.value }</span>
+          //                     </div>
+          //                   </id-option>
+          //                 )
+          //               })
+          //             }
+          //           </id-option-group>
+          //         )
+          //       })
+          //     }
+          //   </id-select>
+          // </id-form-item>
+          }
           <id-form-item>
-            <id-button plain>
+    {/*         <id-button plain>
               注册
             </id-button>
             <id-button 
@@ -155,7 +158,11 @@ class MessageForm extends Vue {
               loading={this.state.loading}
             >
               登录
-            </id-button>
+            </id-button> */}
+            <id-tag type="success" clearable>今天</id-tag>
+            <id-tag type="info" hit clearable>晚饭</id-tag>
+            <id-tag type="danger" hit clearable>吃啥</id-tag>
+
           </id-form-item>
         </id-form>
         <div class='form-textarea'>
@@ -227,7 +234,7 @@ class MessageForm extends Vue {
     }]
     this.setState({ options })
     this.setState({ group })
-    console.log(this['$message'], this['$message'].info, Vue.prototype.$message.install(Vue))
+    // console.log(this['$message'], this['$message'].info, Vue.prototype.$message.install(Vue))
     // this.$message('sakhdakjs')
   }
 

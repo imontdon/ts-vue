@@ -13,6 +13,8 @@ import IDTag from '../tag/index.vue'
 import IDSelect from '../select/index.vue'
 import IDOption from '../select/option.vue'
 import IDOptionGroup from '../select/option-group.vue'
+import IDChoutbox from '../checkbox/index.vue'
+import IDChoutboxGroup from '../checkbox/checkbox-group.vue'
 // import Ajax from '../../request/request'
 import { post, get } from '../../request'
 
@@ -28,6 +30,7 @@ interface Message {
   radio?: string | number,
   radioGroupValue?: string | number,
   radioButtonGroupValue?: string | number,
+  checkList?: Array<string | number>
 }
 
 @Component({
@@ -43,6 +46,8 @@ interface Message {
     'id-select': IDSelect,
     'id-option': IDOption,
     'id-option-group': IDOptionGroup,
+    'id-checkbox': IDChoutbox,
+    'id-checkbox-group': IDChoutboxGroup
   }
 })
 class MessageForm extends Vue {
@@ -62,7 +67,8 @@ class MessageForm extends Vue {
       group: [],
       radio: '1',
       radioGroupValue: '1',
-      radioButtonGroupValue: '上海'
+      radioButtonGroupValue: '上海',
+      checkList: ['复选框 A']
     }
     /* Object.keys(this.state).forEach(key => {
       console.log(key)
@@ -77,119 +83,143 @@ class MessageForm extends Vue {
     return (
       <div class='form-squre'>
         <id-form visible={this.state.boxVisible} on-change={this.changeVisible} >
+          <id-checkbox-group value={this.state.checkList} on-change={this.changeCheckVal.bind(this)}>
+            <id-checkbox label='复选框 A'></id-checkbox>
+            <id-checkbox label='复选框 B' disabled={true}></id-checkbox>
+            <id-checkbox label='复选框 C'></id-checkbox>
+          </id-checkbox-group>
           <id-radio-group style={'width: 340px;'} value={this.state.radioButtonGroupValue} on-change={this.handleRadioButtonGroupChage.bind(this)} >
             <id-radio-button value='北京' disabled={true}></id-radio-button>
             <id-radio-button value='上海'></id-radio-button>
             <id-radio-button value='广州'></id-radio-button>
             <id-radio-button value='深圳'></id-radio-button>
           </id-radio-group>
-          <id-radio-group value={this.state.radioGroupValue} on-change={this.handleRadioGroupChage.bind(this)}>
-            <id-radio value='1'>测试1</id-radio>
-            <id-radio value='2' disabled>测试2</id-radio>
-            <id-radio value='3'>测试3</id-radio>
-          </id-radio-group>
-          <id-radio checked={this.state.radio === '1'} value='1' on-change={this.handleRadioChange.bind(this)}>备选项1</id-radio>
-          <id-radio checked={this.state.radio === '2'} value='2' on-change={this.handleRadioChange.bind(this)}>备选项2</id-radio>
-          <id-form-item label='用户名'>
-            <id-input 
-              placeholder='请输入用户名' 
-              value={this.state.username} 
-              on-input= {this.getUserValue}
-            ></id-input>
-          </id-form-item>
-          <id-form-item label='密码'>
-            <id-input 
-              type='password' 
-              placeholder='请输入密码' 
-              value={this.state.password} 
-              on-keyup={this.keyup}
-              on-input= {this.getPwdValue}
-              clearable
-              suffix='image'
-            ></id-input>
-          </id-form-item>
-          <id-form-item label='密码'>
-            <id-select
-              value={this.state.selected}
-              placeholder="请选择"
-              clearable
-              filterable
-              remote
-              // multiple id-tag写完做
-            >
-              {
-                this.state.options.map((opt, index) => {
-                  return (
-                    <id-option 
-                      key = {index}
-                      label={opt.label} 
-                      value = {opt.value}
-                      disabled = {opt.disabled}
-                    >
-                      <div>
-                        <span style="float: left">{ opt.label }</span>
-                        <span style="float: right; color: #8492a6; font-size: 13px">{ opt.value }</span>
-                      </div>
-                    </id-option>
-                  )
-                })
-              }
-            </id-select>
-          </id-form-item>
-          <id-form-item label='测试组合'>
-            <id-select
-              value={this.state.selected}
-              placeholder="请选择"
-              clearable
-              on-change={this.handleChange}
-              on-clear={() => console.log('clear')}
-              // multiple id-tag写完做
-            >
-              {
-                this.state.group.map((gp, index) => {
-                  return (
-                    <id-option-group
-                      label = { gp.label }
-                    >
-                      {
-                        gp.options.map((opt, index) => {
-                          return (
-                            <id-option 
-                              key = {index}
-                              label={opt.label} 
-                              value = {opt.value}
-                              // disabled = {opt.disabled}
-                            >
-                              <div>
-                                <span style="float: left">{ opt.label }</span>
-                                <span style="float: right; color: #8492a6; font-size: 13px">{ opt.value }</span>
-                              </div>
-                            </id-option>
-                          )
-                        })
-                      }
-                    </id-option-group>
-                  )
-                })
-              }
-            </id-select>
-          </id-form-item>
-          <id-form-item>
-    {/*         <id-button plain>
-              注册
-            </id-button>
-            <id-button 
-              type='primary' 
-              on-click={this.login}
-              loading={this.state.loading}
-            >
-              登录
-            </id-button> */}
-            <id-tag type="success" clearable>今天</id-tag>
-            <id-tag type="info" hit clearable>晚饭</id-tag>
-            <id-tag type="danger" hit clearable>吃啥</id-tag>
-
-          </id-form-item>
+          { // radio, radio-group, radio-button
+            /* 
+              <id-radio-group style={'width: 340px;'} value={this.state.radioButtonGroupValue} on-change={this.handleRadioButtonGroupChage.bind(this)} >
+                <id-radio-button value='北京' disabled={true}></id-radio-button>
+                <id-radio-button value='上海'></id-radio-button>
+                <id-radio-button value='广州'></id-radio-button>
+                <id-radio-button value='深圳'></id-radio-button>
+              </id-radio-group>
+              <id-radio-group value={this.state.radioGroupValue} on-change={this.handleRadioGroupChage.bind(this)}>
+                <id-radio value='1'>测试1</id-radio>
+                <id-radio value='2' disabled>测试2</id-radio>
+                <id-radio value='3'>测试3</id-radio>
+              </id-radio-group>
+              <id-radio checked={this.state.radio === '1'} value='1' on-change={this.handleRadioChange.bind(this)}>备选项1</id-radio>
+              <id-radio checked={this.state.radio === '2'} value='2' on-change={this.handleRadioChange.bind(this)}>备选项2</id-radio>
+            */
+          }
+          { // form-item, input, select, option, icon, button
+            /* 
+              <id-form-item label='用户名'>
+                <id-input 
+                  placeholder='请输入用户名' 
+                  value={this.state.username} 
+                  on-input= {this.getUserValue}
+                ></id-input>
+              </id-form-item>
+              <id-form-item label='密码'>
+                <id-input 
+                  type='password' 
+                  placeholder='请输入密码' 
+                  value={this.state.password} 
+                  on-keyup={this.keyup}
+                  on-input= {this.getPwdValue}
+                  clearable
+                  suffix='image'
+                ></id-input>
+              </id-form-item>
+              <id-form-item label='密码'>
+                <id-select
+                  value={this.state.selected}
+                  placeholder="请选择"
+                  clearable
+                  filterable
+                  remote
+                  // multiple id-tag写完做
+                >
+                  {
+                    this.state.options.map((opt, index) => {
+                      return (
+                        <id-option 
+                          key = {index}
+                          label={opt.label} 
+                          value = {opt.value}
+                          disabled = {opt.disabled}
+                        >
+                          <div>
+                            <span style="float: left">{ opt.label }</span>
+                            <span style="float: right; color: #8492a6; font-size: 13px">{ opt.value }</span>
+                          </div>
+                        </id-option>
+                      )
+                    })
+                  }
+                </id-select>
+              </id-form-item>
+              <id-form-item label='测试组合'>
+                <id-select
+                  value={this.state.selected}
+                  placeholder="请选择"
+                  clearable
+                  on-change={this.handleChange}
+                  on-clear={() => console.log('clear')}
+                  // multiple id-tag写完做
+                >
+                  {
+                    this.state.group.map((gp, index) => {
+                      return (
+                        <id-option-group
+                          label = { gp.label }
+                        >
+                          {
+                            gp.options.map((opt, index) => {
+                              return (
+                                <id-option 
+                                  key = {index}
+                                  label={opt.label} 
+                                  value = {opt.value}
+                                  // disabled = {opt.disabled}
+                                >
+                                  <div>
+                                    <span style="float: left">{ opt.label }</span>
+                                    <span style="float: right; color: #8492a6; font-size: 13px">{ opt.value }</span>
+                                  </div>
+                                </id-option>
+                              )
+                            })
+                          }
+                        </id-option-group>
+                      )
+                    })
+                  }
+                </id-select>
+              </id-form-item>
+              <id-form-item>
+                <id-button plain>
+                    注册
+                  </id-button>
+                  <id-button 
+                    type='primary' 
+                    on-click={this.login}
+                    loading={this.state.loading}
+                  >
+                    登录
+                  </id-button>
+              </id-form-item>
+            */
+          }
+          { // tag
+            /* 
+              <id-form-item>
+                <id-tag type="success" clearable>今天</id-tag>
+                <id-tag type="info" hit clearable>晚饭</id-tag>
+                <id-tag type="danger" hit clearable>吃啥</id-tag>
+              </id-form-item>
+            */
+          }
         </id-form>
         <div class='form-textarea'>
           <textarea class='textarea-squre' rows="4" value={this.state.text} on-change={this.textAreaChange}/>
@@ -262,11 +292,18 @@ class MessageForm extends Vue {
     this.setState({ group })
     // this.$message('sakhdakjs')
   }
+  // change后的值返回用户应该不需要用它控制，系统自动选择复选框
+  changeCheckVal(arr: Array<string>) {
+    console.log('changeCheckVal', arr)
+    // this.setState({ checkList: arr })
+  }
   handleRadioButtonGroupChage(val: string | number) {
-    this.setState({ radioButtonGroupValue: val })
+    // this.setState({ radioButtonGroupValue: val })
+    console.log(val)
   }
   handleRadioGroupChage(val: string | number) {
-    this.setState({ radioGroupValue: val })
+    console.log(val)
+    // this.setState({ radioGroupValue: val })
   }
   handleRadioChange(val: string | number) {
     this.setState({ radio: val })

@@ -68,7 +68,6 @@ class CheckBoxGroup extends Vue {
   @Watch('value', { immediate: true })
   onValueChnage(newVal: Array<string>) {
     this.setState({ value: newVal })
-    console.log(newVal)
   }
 }
 export default CheckBoxGroup

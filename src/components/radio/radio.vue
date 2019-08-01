@@ -1,7 +1,7 @@
 <script lang="tsx">
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch, Model, Provide, Inject } from 'vue-property-decorator'
-import { emit } from 'cluster';
+import IDRadioGroup from './radio-group.vue'
 
 interface IDRadio {
   value?: string | number,
@@ -12,9 +12,9 @@ interface IDRadio {
 @Component
 class Radio extends Vue {
 
-  @Inject('IDRadioGroup') readonly IDRadioGroup!: any
-  @Prop({ required: false, default: '' })
-  private checked: boolean
+  @Inject('IDRadioGroup') readonly IDRadioGroup!: IDRadioGroup
+  /* @Prop({ required: false, default: '' })
+  private checked: boolean */
   @Prop({ required: false, default: '' })
   private value: string
   @Prop({ required: false, default: '' })
@@ -25,7 +25,7 @@ class Radio extends Vue {
     super()
     this.state = {
       value: '',
-      checked: false,
+      // checked: false,
       disabled: false
     }
   }
@@ -39,27 +39,27 @@ class Radio extends Vue {
   }
   render(h: CreateElement) {
     return (
-      <value class={`id-radio
-                    ${this.state.checked ? 'is-checked' : ''}
+      <label class={`id-radio
+                    ${this.isChecked ? 'is-checked' : ''}
                     ${this.state.disabled ? 'is-disabled' : ''}
       `} 
         on-click = {this.changeModel}
       >
         <span class={`id-radio__squre`}>
           <span class={`id-radio__inner 
-                        ${this.state.checked ? 'is-checked' : ''}
+                        ${this.isChecked ? 'is-checked' : ''}
                         ${this.state.disabled ? 'is-disabled' : ''}
           `}></span>
           <input type='radio' class={`id-radio__input 
-                                        ${this.state.checked ? 'is-checked' : ''}
+                                        ${this.isChecked ? 'is-checked' : ''}
                                         ${this.state.disabled ? 'is-disabled' : ''}
                                     `}
             disabled = {`${this.state.disabled ? 'disabled' : ''}`}
-            checked = {`${this.state.checked ? 'checked' : ''}` === '' ? false : true}
+            checked = {`${this.isChecked ? 'checked' : ''}` === '' ? false : true}
           />
         </span>
         <span class={`id-radio__label 
-                      ${this.state.checked ? 'is-checked' : ''}
+                      ${this.isChecked ? 'is-checked' : ''}
                       ${this.state.disabled ? 'is-disabled' : ''}
         `}>
           {
@@ -67,8 +67,11 @@ class Radio extends Vue {
               this.$slots.default : ''
           }
         </span>
-      </value>
+      </label>
     )
+  }
+  get isChecked() : boolean {
+    return this.IDRadioGroup.state.value === this.state.value
   }
   mounted() {
   }
@@ -84,10 +87,10 @@ class Radio extends Vue {
   }
   @Emit('change')
   emitChange(val: string | number) : void {}
-  @Watch('checked', { immediate: true })
+  /* @Watch('checked', { immediate: true })
   onModelChange(val: boolean) {
     this.setState({ checked: val})
-  }
+  } */
   @Watch('value', { immediate: true })
   onvalueChange(val: string | number) {
     this.setState({ value: val})
@@ -96,10 +99,11 @@ class Radio extends Vue {
   onDisabledChange(val: boolean) {
     this.setState({ disabled: val})
   }
-  @Watch('IDRadioGroup', { deep: true })
+  /* @Watch('IDRadioGroup', { deep: true })
   onIDRadioGroupChange(IDRadioGroup: any) {
-    this.setState({ checked: this.value === IDRadioGroup.value})
-  }
+    console.log('22222222', IDRadioGroup.state.value, this.state.value)
+    this.setState({ checked: this.state.value === IDRadioGroup.value})
+  } */
   /* @Watch('isChecked')
   onIsCheckedChange(val: string | number) {
     this.setState({ checked: val === this.state.value })

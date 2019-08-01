@@ -36,10 +36,9 @@ class CheckBox extends Vue {
 
   get isChecked() : boolean {
     return this.IDCheckboxGroup.state.value.some(val => val === this.state.label)
-    
   }
   mounted() {
-    console.log(this.IDCheckboxGroup)
+    // console.log(this.IDCheckboxGroup)
   }
   handleClick() {
     if (!this.state.disabled) {

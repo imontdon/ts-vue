@@ -3,8 +3,6 @@ import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch, Provide } from 'vue-property-decorator'
 
 interface IDRadioGroup {
-  icon?: string,
-  type?: string,
   value?: string | number,
 }
 
@@ -15,7 +13,7 @@ class RadioGroup extends Vue {
   @Prop({ required: false, default: '' })
   private value: string | number
   
-  private state: IDRadioGroup
+  public state: IDRadioGroup
   constructor() {
     super()
     this.state = {
@@ -40,7 +38,9 @@ class RadioGroup extends Vue {
     )
   }
   @Emit('change')
-  emitChange(val: string | number) {}
+  emitChange(val: string | number) {
+    this.setState({ value: val })
+  }
   @Watch('value', { immediate: true })
   onValueChange(val: string | number) {
     this.setState({ value: val })

@@ -46,7 +46,6 @@ class RadioButton extends Vue {
     )
   }
   get isActive() : boolean {
-    // console.log(this.IDRadioGroup.state.value, this.value)
     return this.IDRadioGroup.state.value === this.state.value
   }
   handleChange(val) {
@@ -64,11 +63,11 @@ class RadioButton extends Vue {
   onDisabledChange(value: boolean) {
     this.setState({ disabled: value })
   }
-  @Watch('IDRadioGroup', { deep: true })
-  onIDRadioGroupChange(IDRadioGroup: any) {
-    // console.log(IDRadioGroup, IDRadioGroup.state.value, this.isActive)
-    // this.setState()
-  }
+  // @Watch('IDRadioGroup', { deep: true })
+  // onIDRadioGroupChange(IDRadioGroup: any) {
+  //   // console.log(IDRadioGroup, IDRadioGroup.state.value, this.isActive)
+  //   // this.setState()
+  // }
 }
 export default RadioButton
 </script>

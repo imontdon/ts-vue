@@ -1,6 +1,7 @@
 <script lang="tsx">
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
+import { doesNotThrow } from 'assert';
 //定义属性接口 包含可选属性
 interface IDTag {
   type?: string, //标签主题类型
@@ -57,7 +58,7 @@ class Tag extends Vue {
       //关闭标签时 开了动画 过渡关闭 
       const result = this.state.hiddenTag ? (this.state.animationable ? (
         <span 
-          type='span' 
+          type='span'
           on-close= {e => this.emitClose(e, this)}
           style={`background-color:${this.state.color}`}
           class={`id-tag id-tag--${this.state.type}
@@ -68,13 +69,12 @@ class Tag extends Vue {
       ) :'') : mytag
       return result
   }
-  
-
   handleClick() {
     this.state.hiddenTag = true
-    console.log("animationable:",this.state.animationable)
   }
+  destoryTag(){
 
+  }
   woundEmit(event) {
     if (!this.state.clearable) {
       this.emitClose(event)
@@ -107,6 +107,14 @@ class Tag extends Vue {
       this.setState({ animationable: val })
   }
 
+  @Watch('hiddenTag', { immediate: true })
+  onhiddenTagChange(val: boolean, oldVal: boolean) {
+    if(this.state.hiddenTag){
+      console.log(`hiddenTag:${val}`)
+    }else{
+      console.log(`hiddenTag:${val}`)
+    }
+  }
   setState(obj: IDTag) {
     setTimeout(() => {
       Object.keys(obj).forEach(key => {
@@ -125,6 +133,9 @@ export default Tag
   .slow-close{
     opacity: 0;
     transform: scaleX(0)
+  }
+  .hidden{
+    display: none;
   }
   // .id-tag{
   //   // animation: rotating 0.3s forwards;

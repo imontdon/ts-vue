@@ -9,6 +9,7 @@ import IDRadio from '../radio/radio.vue'
 import IDRadioGroup from '../radio/radio-group.vue'
 import IDRadioButton from '../radio/radio-button.vue'
 import IDButton from '../button/index.vue'
+import IDTag from '../tag/index.vue'
 import IDSelect from '../select/index.vue'
 import IDOption from '../select/option.vue'
 import IDOptionGroup from '../select/option-group.vue'
@@ -38,6 +39,7 @@ interface Message {
     'id-radio-group': IDRadioGroup,
     'id-radio-button': IDRadioButton,
     'id-button': IDButton,
+    'id-tag': IDTag,
     'id-select': IDSelect,
     'id-option': IDOption,
     'id-option-group': IDOptionGroup,
@@ -173,7 +175,7 @@ class MessageForm extends Vue {
             </id-select>
           </id-form-item>
           <id-form-item>
-            <id-button plain>
+    {/*         <id-button plain>
               注册
             </id-button>
             <id-button 
@@ -182,7 +184,11 @@ class MessageForm extends Vue {
               loading={this.state.loading}
             >
               登录
-            </id-button>
+            </id-button> */}
+            <id-tag type="success" clearable>今天</id-tag>
+            <id-tag type="info" hit clearable>晚饭</id-tag>
+            <id-tag type="danger" hit clearable>吃啥</id-tag>
+
           </id-form-item>
         </id-form>
         <div class='form-textarea'>

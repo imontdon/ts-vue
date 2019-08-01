@@ -5,7 +5,7 @@ import IDRadioGroup from './radio-group.vue'
 
 interface IDRadio {
   value?: string | number,
-  checked?: boolean,
+  // checked?: boolean,
   disabled?: boolean
 }
 

@@ -139,21 +139,21 @@ class Input extends Vue {
   }
 
   @Emit('change')
-  emitChange(val: string, input?: Vue) { }
+  emitChange(val: string, input?: Input) { }
   @Emit('keyup')
-  emitKeyUp(event: Event, input?: Vue) { }
+  emitKeyUp(event: Event, input?: Input) { }
   @Emit('input')
-  emitInput(val: string, input?: Vue) { }
+  emitInput(val: string, input?: Input) { }
   @Emit('mouseout')
-  emitMouseOut(event: Event, input?: Vue) { }
+  emitMouseOut(event: Event, input?: Input) { }
   @Emit('mouseenter')
-  emitMouseEnter(event: Event, input?: Vue) { }
+  emitMouseEnter(event: Event, input?: Input) { }
   @Emit('blur')
-  emitBlur(event: Event, input?: Vue) { }
+  emitBlur(event: Event, input?: Input) { }
   @Emit('focus')
-  emitFocus(event: Event, input?: Vue) { }
+  emitFocus(event: Event, input?: Input) { }
   @Emit('click')
-  emitClick(event: Event, input?: Vue) { }
+  emitClick(event: Event, input?: Input) { }
   @Emit('clear')
   emitClear() { }
 
@@ -161,7 +161,7 @@ class Input extends Vue {
     this.setState({ value: '' })
     this.emitClear()
   }
-  handleMouseEnter(e?: Event, input?: Vue) {
+  handleMouseEnter(e?: Event, input?: Input) {
     if (this.state.clearable) {
       this.setState({ showClearIcon: true })
       // console.log(this.state.showClearIcon)
@@ -175,7 +175,7 @@ class Input extends Vue {
       this.emitMouseEnter(e, input)
     }
   }
-  handleMouseOut(e?: Event, input?: Vue) {
+  handleMouseOut(e?: Event, input?: Input) {
     if (this.state.clearable) {
       this.setState({ showClearIcon: false })
       // console.log(this.state.showClearIcon)

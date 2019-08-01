@@ -3,8 +3,6 @@ import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch, Provide } from 'vue-property-decorator'
 import IDInput from '@/components/input/index.vue'
 interface IDSelect {
-  icon?: string,
-  type?: string
   value?: string,
   placeholder?: string,
   clearable?: boolean,
@@ -43,8 +41,6 @@ class Select extends Vue {
   constructor() {
     super()
     this.state = {
-      icon: '',
-      type: '',
       value: '',
       placeholder: '',
       clearable: false,

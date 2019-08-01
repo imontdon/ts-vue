@@ -3,8 +3,6 @@ import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch, Provide } from 'vue-property-decorator'
 import IDInput from '@/components/input/index.vue'
 interface IDSelect {
-  icon?: string,
-  type?: string
   value?: string,
   placeholder?: string,
   clearable?: boolean,
@@ -43,8 +41,6 @@ class Select extends Vue {
   constructor() {
     super()
     this.state = {
-      icon: '',
-      type: '',
       value: '',
       placeholder: '',
       clearable: false,
@@ -79,6 +75,7 @@ class Select extends Vue {
             clearable = {this.state.value.length > 0 && this.state.clearable ? this.state.clearable : false }
             // clearable
             disabled = {this.state.disabled}
+            on-change = {this.emitChange}
             on-clear = {this.handleClear}
             on-blur = {this.handleBlur}
             on-click = {this.handleClick}
@@ -111,15 +108,19 @@ class Select extends Vue {
       </div>
     )
   }
-  mounted() {
-    
-  }
+
+  @Emit('change')
+  emitChange(val: string) { }
+  @Emit('clear')
+  emitClear() { }
+
 
   beforeDestroy() {
   }
 
   handleClear() {
     this.setState({ value: '' })
+    this.emitClear()
   }
 
   handleClick(event: Event, input?: Vue) {

@@ -129,11 +129,11 @@ class Option extends Vue {
     )
   }
   // computed
-  get isActive() :boolean {
+  get isActive() : boolean {
     // console.log(this.IDSelect.state.value === this.state.label)
     return this.IDSelect.state.value === this.state.label
   }
-  get filterVal() :string {
+  get filterVal() : string {
     return this.IDSelect.state.value
   }
   mounted() {

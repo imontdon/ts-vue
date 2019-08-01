@@ -13,6 +13,8 @@ interface IDInput {
   disabled?: boolean,
   readonly?: boolean,
   showClearIcon?: boolean // 在后缀图标和清除图标都有的情况下是否要显示清除图标
+
+  isInit?: boolean
 }
 
 @Component
@@ -47,14 +49,15 @@ class Input extends Vue {
       maxlength: 100,
       readonly: false,
       disabled: false,
-      showClearIcon: false
+      showClearIcon: false,
+      isInit: true
     }
   }
   /**
    * 1.id-icon 要判断是否在icon列表中，在显示不在设null，暂时无判断
    */
   render(h: CreateElement) {
-    const basicInput = ['type', 'password', 'submit', 'textarea'].join('')
+    const basicInput = ['text', 'password', 'submit', 'textarea'].join('')
     return (
       <div 
         class={`id-input id-input__${this.state.type}`} 
@@ -215,6 +218,11 @@ class Input extends Vue {
   @Watch('value', { immediate: true })
   onValueChange(val: string, oldVal: string) {
     this.setState({ value: val })
+    if (!this.state.isInit) {
+      this.emitChange(val)
+    } else {
+      this.setState({ isInit: false })
+    }
   }
   @Watch('readonly', { immediate: true })
   onReadonlyChange(val: boolean, oldVal: boolean) {

@@ -5,6 +5,9 @@ import { Getter } from 'vuex-class'
 import IDForm from '../form/index.vue'
 import IDFormItem from '../form/item.vue'
 import IDInput from '../input/index.vue'
+import IDRadio from '../radio/radio.vue'
+import IDRadioGroup from '../radio/radio-group.vue'
+import IDRadioButton from '../radio/radio-button.vue'
 import IDButton from '../button/index.vue'
 import IDSelect from '../select/index.vue'
 import IDOption from '../select/option.vue'
@@ -20,7 +23,10 @@ interface Message {
   loading?: boolean,
   selected?: string,
   options?: Array<any>
-  group?: Array<any>
+  group?: Array<any>,
+  radio?: string | number,
+  radioGroupValue?: string | number,
+  radioButtonGroupValue?: string | number,
 }
 
 @Component({
@@ -28,10 +34,13 @@ interface Message {
     'id-form': IDForm,
     'id-form-item': IDFormItem,
     'id-input': IDInput,
+    'id-radio': IDRadio,
+    'id-radio-group': IDRadioGroup,
+    'id-radio-button': IDRadioButton,
     'id-button': IDButton,
     'id-select': IDSelect,
     'id-option': IDOption,
-    'id-option-group': IDOptionGroup
+    'id-option-group': IDOptionGroup,
   }
 })
 class MessageForm extends Vue {
@@ -48,7 +57,10 @@ class MessageForm extends Vue {
       loading: false,
       selected: '',
       options: [],
-      group: []
+      group: [],
+      radio: '1',
+      radioGroupValue: '1',
+      radioButtonGroupValue: '上海'
     }
     /* Object.keys(this.state).forEach(key => {
       console.log(key)
@@ -63,6 +75,19 @@ class MessageForm extends Vue {
     return (
       <div class='form-squre'>
         <id-form visible={this.state.boxVisible} on-change={this.changeVisible} >
+          <id-radio-group style={'width: 340px;'} value={this.state.radioButtonGroupValue} on-change={this.handleRadioButtonGroupChage.bind(this)} >
+            <id-radio-button value='北京' disabled={true}></id-radio-button>
+            <id-radio-button value='上海'></id-radio-button>
+            <id-radio-button value='广州'></id-radio-button>
+            <id-radio-button value='深圳'></id-radio-button>
+          </id-radio-group>
+          <id-radio-group value={this.state.radioGroupValue} on-change={this.handleRadioGroupChage.bind(this)}>
+            <id-radio value='1'>测试1</id-radio>
+            <id-radio value='2' disabled>测试2</id-radio>
+            <id-radio value='3'>测试3</id-radio>
+          </id-radio-group>
+          <id-radio checked={this.state.radio === '1'} value='1' on-change={this.handleRadioChange.bind(this)}>备选项1</id-radio>
+          <id-radio checked={this.state.radio === '2'} value='2' on-change={this.handleRadioChange.bind(this)}>备选项2</id-radio>
           <id-form-item label='用户名'>
             <id-input 
               placeholder='请输入用户名' 
@@ -114,6 +139,8 @@ class MessageForm extends Vue {
               value={this.state.selected}
               placeholder="请选择"
               clearable
+              on-change={this.handleChange}
+              on-clear={() => console.log('clear')}
               // multiple id-tag写完做
             >
               {
@@ -227,10 +254,20 @@ class MessageForm extends Vue {
     }]
     this.setState({ options })
     this.setState({ group })
-    console.log(this['$message'], this['$message'].info, Vue.prototype.$message.install(Vue))
     // this.$message('sakhdakjs')
   }
-
+  handleRadioButtonGroupChage(val: string | number) {
+    this.setState({ radioButtonGroupValue: val })
+  }
+  handleRadioGroupChage(val: string | number) {
+    this.setState({ radioGroupValue: val })
+  }
+  handleRadioChange(val: string | number) {
+    this.setState({ radio: val })
+  }
+  handleChange(val: string) {
+    console.log(val)
+  }
   // 点击表情或者上传图片时间，后续加
   show(type: string) {
     console.log(type)

@@ -160,8 +160,8 @@ class MessageForm extends Vue {
               登录
             </id-button> */}
             <id-tag type="success" clearable>今天</id-tag>
-            <id-tag type="info" hit clearable>晚饭</id-tag>
-            <id-tag type="danger" hit clearable>吃啥</id-tag>
+            <id-tag type="info" hit clearable animationable>晚饭</id-tag>
+            <id-tag type="danger" hit clearable >吃啥</id-tag>
 
           </id-form-item>
         </id-form>

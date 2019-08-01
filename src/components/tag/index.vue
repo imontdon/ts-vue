@@ -7,7 +7,8 @@ interface IDTag {
   hit?: boolean, //是否描边
   color?: string, //背景色
   clearable?: boolean, //是否可关闭
-  showContent?: boolean,
+  animationable?: boolean,
+  hiddenTag?: boolean,
 }
 @Component
 class Tag extends Vue {
@@ -19,7 +20,8 @@ class Tag extends Vue {
   private color: string
   @Prop({required: false, default: false})
   private clearable: boolean
-
+  @Prop({required: false, default: false})
+  private animationable: boolean
   
   private state: IDTag
   constructor() {
@@ -29,45 +31,50 @@ class Tag extends Vue {
       hit: false,
       color: '',
       clearable: false,
-      showContent: true,
+      animationable: false,
+      hiddenTag: false,
     }
   }
   render(h: CreateElement) {
-    return (
-      <span>{
-       this.state.showContent? 
-       (<span 
+
+    const mianContent =  (
+      <span>
+        {this.$slots.default}
+        <span on-click={this.handleClick.bind(this)}>
+          {this.state.clearable ? (<i class={`id-icon icon-cancel-circle`}></i>) : ''}
+        </span>
+      </span>
+     )
+    const mytag = (      
+      <span 
         type='span' 
         on-close= {e => this.emitClose(e, this)}
         style={`background-color:${this.state.color}`}
         class={`id-tag id-tag--${this.state.type}
                 ${this.state.hit? 'is-hit' : ''}
-              `}>
-            {
-              <span>
-                {this.$slots.default}
-                <span on-click={this.handleClick.bind(this)}>
-                  {this.state.clearable ? (<i class={`id-icon icon-cancel-circle`}></i>) : ''}
-                </span>
-              </span>
-            }
-      </span>) : ''
-      }</span>
-    )
+              `}>{mianContent}</span>
+      )
+      //关闭标签时 开了动画 过渡关闭 
+      const result = this.state.hiddenTag ? (this.state.animationable ? (
+        <span 
+          type='span' 
+          on-close= {e => this.emitClose(e, this)}
+          style={`background-color:${this.state.color}`}
+          class={`id-tag id-tag--${this.state.type}
+                  ${this.state.hit? 'is-hit' : ''}
+                  slow-close
+                `}>{mianContent}
+        </span>
+      ) :'') : mytag
+      return result
   }
   
-  // 仿react，setState
-  setState(obj: IDTag) {
-    setTimeout(() => {
-      Object.keys(obj).forEach(key => {
-        this.state[key] = obj[key]
-      })
-    }, 10)
-  }
+
   handleClick() {
-    console.log('222')
-    this.state.showContent = false
+    this.state.hiddenTag = true
+    console.log("animationable:",this.state.animationable)
   }
+
   woundEmit(event) {
     if (!this.state.clearable) {
       this.emitClose(event)
@@ -94,6 +101,19 @@ class Tag extends Vue {
   onclearableChange(val: boolean, oldVal: boolean) {
     this.setState({ clearable: val })
   }
+
+  @Watch('animationable', { immediate: true })
+  onanimationableChange(val: boolean, oldVal: boolean) {
+      this.setState({ animationable: val })
+  }
+
+  setState(obj: IDTag) {
+    setTimeout(() => {
+      Object.keys(obj).forEach(key => {
+        this.state[key] = obj[key]
+      })
+    }, 10)
+  }
 }
 export default Tag
 </script>
@@ -102,14 +122,13 @@ export default Tag
   $paddingXAuto: 10px;
   $paddingAutoX: 30px;
 
-  @keyframes rotating {
-    from {
-      transform: rotate(0deg)
-    }
-    to {
-      transform: rotate(360deg)
-    }
+  .slow-close{
+    opacity: 0;
+    transform: scaleX(0)
   }
+  // .id-tag{
+  //   // animation: rotating 0.3s forwards;
+  // }
   .id-icon{
     border-radius: 50%;
     text-align: center;
@@ -135,9 +154,7 @@ export default Tag
     box-sizing: border-box;
     border: 1px solid rgba(64,158,255,.2);
     white-space: nowrap;
-    .id-span {
-      position: relative;
-    }
+    transition: all 0.3s cubic-bezier(.55,0,.1,1);
   }
   $colors:  ('success', #67c23a, rgba(103,194,58,.1),rgba(103,194,58,.2)),
             ('info', #909399,hsla(220,4%,58%,.1),hsla(220,4%,58%,.2)),

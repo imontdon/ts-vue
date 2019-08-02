@@ -148,6 +148,7 @@ export default Switch
     cursor: pointer;
     &.is-disabled {
       cursor: not-allowed;
+      opacity: 0.6;
     }
     .id-switch__core {
       float: left;

@@ -26,8 +26,8 @@ class Slider extends Vue {
   private value: number
   @Prop({ required: false, default: false })
   private disabled: boolean
-  @Prop({ required: false, default: false })
-  private showInput: boolean
+  // @Prop({ required: false, default: false })
+  // private showInput: boolean
 
   private state: IDSlider
   constructor() {
@@ -161,10 +161,10 @@ class Slider extends Vue {
   onDisabledChange(val: boolean) {
     this.setState({ disabled: val })
   }
-  @Watch('showInput', { immediate: true })
-  onShowInputChange(val: boolean) {
-    this.setState({ disabled: val })
-  }
+  // @Watch('showInput', { immediate: true })
+  // onShowInputChange(val: boolean) {
+  //   this.setState({ disabled: val })
+  // }
 }
 export default Slider
 </script>

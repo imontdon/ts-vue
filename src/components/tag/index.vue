@@ -2,12 +2,12 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 import { doesNotThrow } from 'assert';
-//定义属性接口 包含可选属性
+// 定义属性接口 包含可选属性
 interface IDTag {
-  type?: string, //标签主题类型
-  hit?: boolean, //是否描边
-  color?: string, //背景色
-  clearable?: boolean, //是否可关闭
+  type?: string, // 标签主题类型
+  hit?: boolean, // 是否描边
+  color?: string, // 背景色
+  clearable?: boolean, // 是否可关闭
   animationable?: boolean,
   hiddenTag?: boolean,
 }
@@ -55,7 +55,7 @@ class Tag extends Vue {
                 ${this.state.hit? 'is-hit' : ''}
               `}>{mianContent}</span>
       )
-      //关闭标签时 开了动画 过渡关闭 
+      // 关闭标签时 开了动画 过渡关闭 
       const result = this.state.hiddenTag ? (this.state.animationable ? (
         <span 
           type='span'

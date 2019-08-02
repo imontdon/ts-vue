@@ -46,7 +46,11 @@ class RadioButton extends Vue {
     )
   }
   get isActive() : boolean {
-    return this.IDRadioGroup.state.value === this.state.value
+    if (this.state.value) {
+      return this.IDRadioGroup.state.value === this.state.value
+    } else {
+      return false
+    }
   }
   handleChange(val) {
     if (!this.state.disabled) { // disabled 存在无动作

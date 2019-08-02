@@ -10,6 +10,7 @@ import IDRadioGroup from '../radio/radio-group.vue'
 import IDRadioButton from '../radio/radio-button.vue'
 import IDButton from '../button/index.vue'
 import IDTag from '../tag/index.vue'
+import IDBadge from '../badge/index.vue'
 import IDSelect from '../select/index.vue'
 import IDOption from '../select/option.vue'
 import IDOptionGroup from '../select/option-group.vue'
@@ -43,6 +44,7 @@ interface Message {
     'id-radio-button': IDRadioButton,
     'id-button': IDButton,
     'id-tag': IDTag,
+    'id-badge': IDBadge,
     'id-select': IDSelect,
     'id-option': IDOption,
     'id-option-group': IDOptionGroup,
@@ -98,8 +100,11 @@ class MessageForm extends Vue {
             <id-tag type="success" clearable>今天</id-tag>
             <id-tag type="info" hit clearable animationable>晚饭</id-tag>
             <id-tag type="danger" hit clearable>吃啥</id-tag>
-
+            <id-tag type="danger" hit clearable>吃啥</id-tag>
+            <id-badge value = '111' max = '99'>
+            </id-badge>
         </id-form>
+      
         <div class='form-textarea'>
           <textarea class='textarea-squre' rows="4" value={this.state.text} on-change={this.textAreaChange}/>
           <div class='user-options'>
@@ -122,7 +127,7 @@ class MessageForm extends Vue {
     )
   }
 
-  mounted() {
+  mounted() {  
     const options = [
       {
         value: '选项1',

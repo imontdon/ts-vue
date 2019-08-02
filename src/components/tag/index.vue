@@ -37,7 +37,6 @@ class Tag extends Vue {
     }
   }
   render(h: CreateElement) {
-
     const mianContent =  (
       <span>
         {this.$slots.default}
@@ -71,9 +70,6 @@ class Tag extends Vue {
   }
   handleClick() {
     this.state.hiddenTag = true
-  }
-  destoryTag(){
-
   }
   woundEmit(event) {
     if (!this.state.clearable) {
@@ -129,17 +125,10 @@ export default Tag
 <style lang="scss">
   $paddingXAuto: 10px;
   $paddingAutoX: 30px;
-
   .slow-close{
     opacity: 0;
-    transform: scaleX(0)
+    transform: scaleX(0);
   }
-  .hidden{
-    display: none;
-  }
-  // .id-tag{
-  //   // animation: rotating 0.3s forwards;
-  // }
   .id-icon{
     border-radius: 50%;
     text-align: center;
@@ -166,6 +155,7 @@ export default Tag
     border: 1px solid rgba(64,158,255,.2);
     white-space: nowrap;
     transition: all 0.3s cubic-bezier(.55,0,.1,1);
+
   }
   $colors:  ('success', #67c23a, rgba(103,194,58,.1),rgba(103,194,58,.2)),
             ('info', #909399,hsla(220,4%,58%,.1),hsla(220,4%,58%,.2)),
@@ -180,7 +170,6 @@ export default Tag
         border-color:$color;
     }
     } 
-    // .id-tag--info .is--hit{}
   }
 </style>
 

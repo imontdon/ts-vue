@@ -56,25 +56,6 @@ class Option extends Vue {
       disabled: this.state.disabled
     }
     return (
-      /* <li
-        class={
-          `id-select-dropdown__item
-          ${this.state.disabled ? 'is-disabled' : '' }
-          ${this.isActive ? 'is-active' : '' }
-          `
-        } 
-        on-click={this.changeSelected.bind(this, opt)}
-      >
-        { // <slot>用户自定义
-          this.$slots.default ?
-          (
-            this.$slots.default
-          ) : 
-          (
-            opt.label
-          )
-        }
-      </li> */
       <span>
         {
           this.IDSelect.state.filterable ?

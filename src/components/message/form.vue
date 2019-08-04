@@ -31,7 +31,9 @@ interface Message {
   radio?: string | number,
   radioGroupValue?: string | number,
   radioButtonGroupValue?: string | number,
-  checkList?: Array<string | number>
+  checkList?: Array<string | number>,
+  num1?: number,
+  num2?: number,
 }
 
 @Component({
@@ -70,7 +72,9 @@ class MessageForm extends Vue {
       radio: '1',
       radioGroupValue: '1',
       radioButtonGroupValue: '上海',
-      checkList: ['复选框 A']
+      checkList: ['复选框 A'],
+      num1: 10,
+      num2: 13,
     }
     /* Object.keys(this.state).forEach(key => {
       console.log(key)
@@ -97,12 +101,12 @@ class MessageForm extends Vue {
             <id-radio-button value='深圳'></id-radio-button>
           </id-radio-group>
 
-            <id-tag type="success" clearable>今天</id-tag>
-            <id-tag type="info" hit clearable animationable>晚饭</id-tag>
-            <id-tag type="danger" hit clearable>吃啥</id-tag>
-            <id-tag type="danger" hit clearable>吃啥</id-tag>
-            <id-badge value = '111' max = '99'>
-            </id-badge>
+            <id-tag type="success" clearable>aloft</id-tag>
+            <id-tag type="info"  clearable animationable>peak</id-tag>
+            <id-tag type="danger"  clearable>summit</id-tag>
+            <id-tag type="danger"  clearable>climax</id-tag>
+           { // <id-badge value = {100} max = {99} >《october sky》</id-badge>
+            }
         </id-form>
       
         <div class='form-textarea'>

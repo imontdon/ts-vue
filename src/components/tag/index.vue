@@ -2,15 +2,16 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 import { doesNotThrow } from 'assert';
-// 定义属性接口 包含可选属性
+import { setTimeout } from 'timers';
 interface IDTag {
-  type?: string, // 标签主题类型
-  hit?: boolean, // 是否描边
-  color?: string, // 背景色
-  clearable?: boolean, // 是否可关闭
+  type?: string, 
+  hit?: boolean, 
+  color?: string, 
+  clearable?: boolean, 
   animationable?: boolean,
-  hiddenTag?: boolean,
+  editable?: boolean,
 }
+
 @Component
 class Tag extends Vue {
   @Prop({ required: false, default: 'default' })
@@ -33,7 +34,6 @@ class Tag extends Vue {
       color: '',
       clearable: false,
       animationable: false,
-      hiddenTag: false,
     }
   }
   render(h: CreateElement) {
@@ -48,29 +48,28 @@ class Tag extends Vue {
     const mytag = (      
       <span 
         type='span' 
-        on-close= {e => this.emitClose(e, this)}
+        // on-close= {e => this.emitClose(e, this)}
         style={`background-color:${this.state.color}`}
         class={`id-tag id-tag--${this.state.type}
                 ${this.state.hit? 'is-hit' : ''}
               `}>{mianContent}</span>
       )
-      // 关闭标签时 开了动画 过渡关闭 
-      const result = this.state.hiddenTag ? (this.state.animationable ? (
-        <span 
-          type='span'
-          on-close= {e => this.emitClose(e, this)}
-          style={`background-color:${this.state.color}`}
-          class={`id-tag id-tag--${this.state.type}
-                  ${this.state.hit? 'is-hit' : ''}
-                  slow-close
-                `}>{mianContent}
-        </span>
-      ) :'') : mytag
-      return result
+      return mytag
   }
   handleClick() {
-    this.state.hiddenTag = true
+    let content = this.$el
+    if(this.state.animationable){
+      content.className = `${content.className} slow-close`;
+      setTimeout(() => {
+        content.innerHTML ="";
+        content.className = '';
+      },400)
+    }else{
+      content.innerHTML ="";
+      content.className = '';
+    }
   }
+
   woundEmit(event) {
     if (!this.state.clearable) {
       this.emitClose(event)
@@ -78,6 +77,7 @@ class Tag extends Vue {
   }
   @Emit('close')
   emitClose(event: Event, input?: Vue) { }
+
   @Watch('type', { immediate: true })
   onIconChange(val: string, oldVal: string) {
     this.setState({ type: val })
@@ -103,14 +103,6 @@ class Tag extends Vue {
       this.setState({ animationable: val })
   }
 
-  @Watch('hiddenTag', { immediate: true })
-  onhiddenTagChange(val: boolean, oldVal: boolean) {
-    if(this.state.hiddenTag){
-      console.log(`hiddenTag:${val}`)
-    }else{
-      console.log(`hiddenTag:${val}`)
-    }
-  }
   setState(obj: IDTag) {
     setTimeout(() => {
       Object.keys(obj).forEach(key => {
@@ -155,7 +147,6 @@ export default Tag
     border: 1px solid rgba(64,158,255,.2);
     white-space: nowrap;
     transition: all 0.3s cubic-bezier(.55,0,.1,1);
-
   }
   $colors:  ('success', #67c23a, rgba(103,194,58,.1),rgba(103,194,58,.2)),
             ('info', #909399,hsla(220,4%,58%,.1),hsla(220,4%,58%,.2)),

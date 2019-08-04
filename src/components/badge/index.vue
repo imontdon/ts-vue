@@ -37,14 +37,19 @@ class Badge extends Vue {
     const value = this.state.value
     const max = this.state.max
     return (
-      <sup
-      type = 'sup'
-      class = {`id-sup is-fixed`}
-      >
-      {
-       (typeof value == 'number' && typeof max == 'number') ? ((value < max) ? value : max) : value
-      }
-      </sup>
+      <div class={`id-badge`}>
+        {this.$slots.default}
+        <sup
+        type = 'sup'
+        class = {`id-sup is-fixed 
+        ${this.state.isdot? 'is-dot' : ''}
+        `} >
+          {
+          this.state.isdot ? '' :
+          ((typeof value == 'number' && typeof max == 'number') ? ((value < max) ? value : `${max}+`) : value) 
+          }
+        </sup>
+      </div>
     )
   }
   @Watch('value', { immediate: true })
@@ -59,28 +64,39 @@ class Badge extends Vue {
   onIconChange(val: boolean, oldVal: boolean) {
     this.setState({ isdot: val })
   }
-
 }
 export default Badge
 </script>
 <style lang="scss">
-    .id-sup{
-        background-color: #f56c6c;
-        border-radius: 10px;
-        color: #fff;
-        display: inline-block;
-        font-size: 12px;
-        height: 18px;
-        line-height: 18px;
-        padding: 0 6px;
-        text-align: center;
-        white-space: nowrap;//强制不换行
-        border: 1px solid #fff;
+    .id-badge{
+      position: relative;
+      vertical-align: middle;
+      display: inline-block;
     }
-   .is-fixed{
+    .id-sup{
+      background-color: #f56c6c;
+      border-radius: 10px;
+      color: #fff;
+      display: inline-block;
+      font-size: 12px;
+      height: 18px;
+      line-height: 18px;
+      padding: 0 6px;
+      text-align: center;
+      white-space: nowrap;//强制不换行
+      border: 1px solid #fff;
+    }
+    .is-fixed{
       position: absolute;
       top: 0;
       right: 10px;
       transform: translateY(-50%) translateX(100%);
+      }
+    .is-dot{
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      right: 5px;
+      border-radius: 50%;
     }
 </style>

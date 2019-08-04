@@ -61,12 +61,10 @@ class Tag extends Vue {
     if(this.state.animationable){
       content.className = `${content.className} slow-close`;
       setTimeout(() => {
-        content.innerHTML ="";
-        content.className = '';
+        content.outerHTML ="";
       },400)
     }else{
-      content.innerHTML ="";
-      content.className = '';
+      content.outerHTML ="";
     }
   }
 

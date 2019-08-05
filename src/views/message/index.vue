@@ -7,6 +7,11 @@ import IDSwitch from '@/components/switch/index.vue'
 import IDSlider from '@/components/slider/index.vue'
 import IDUpload from '@/components/upload/index.vue'
 import IDRate from '@/components/rate/index.vue'
+
+
+interface TestMessage {
+  percentage?: number
+}
 @Component({
   components: {
     MessageForm,
@@ -18,6 +23,20 @@ import IDRate from '@/components/rate/index.vue'
   }
 })
 export default class Message extends Vue {
+  private state: TestMessage
+  constructor() {
+    super()
+    this.state = {
+      percentage: 0
+    }
+  }
+  setState(obj: TestMessage) {
+    setTimeout(() => {
+      Object.keys(obj).forEach(key => {
+        this.state[key] = obj[key]
+      })
+    }, 10)
+  }
   render(h: CreateElement) {
     return (
       <div class='message-box'>
@@ -37,6 +56,7 @@ export default class Message extends Vue {
           >
             <div slot="tip" class="id-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </id-upload>
+          <id-progress percentage={this.state.percentage}></id-progress>
           <id-slider style='margin-left: 20px;' value={64}>测试</id-slider>
           <id-slider style='margin-left: 20px;' disabled={true}>测试</id-slider>
           <id-switch style='margin-left: 20px;' value={true} showText={true} oncolor="#13ce66" offcolor='#ff4949'></id-switch>
@@ -56,6 +76,7 @@ export default class Message extends Vue {
   }
   handleProgress(progress: number) {
     console.log(progress)
+    this.setState({ percentage: progress })
   }
   beforeUpload(files: FileList) {
     console.log(files)

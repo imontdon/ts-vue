@@ -11,6 +11,7 @@ import IDRadioButton from '../radio/radio-button.vue'
 import IDButton from '../button/index.vue'
 import IDTag from '../tag/index.vue'
 import IDBadge from '../badge/index.vue'
+import IDProgress from '../progress/index.vue'
 import IDSelect from '../select/index.vue'
 import IDOption from '../select/option.vue'
 import IDOptionGroup from '../select/option-group.vue'
@@ -47,6 +48,7 @@ interface Message {
     'id-button': IDButton,
     'id-tag': IDTag,
     'id-badge': IDBadge,
+    'id-progress': IDProgress,
     'id-select': IDSelect,
     'id-option': IDOption,
     'id-option-group': IDOptionGroup,
@@ -101,13 +103,15 @@ class MessageForm extends Vue {
             <id-radio-button value='深圳'></id-radio-button>
           </id-radio-group>
 
-            <id-tag type="success" clearable>今天</id-tag>
-            <id-tag type="info" hit clearable animationable>晚饭</id-tag>
-            <id-tag type="danger" hit clearable>吃啥</id-tag>
-            <id-tag type="danger" hit clearable>吃啥</id-tag>
-            <id-tag type="danger" hit clearable animationable>？？？</id-tag>
-            <id-badge value = '111' max = '99'>
-            </id-badge>
+            <id-tag type="success" clearable>aloft</id-tag>
+            <id-tag type="info"   clearable animationable>peak</id-tag>
+            <id-tag type="danger" clearable editable>summit</id-tag>
+            <id-tag type="danger"  clearable on-click = {this.addTag}>climax</id-tag>
+            <id-badge value = {100} max = {99} >《october sky》</id-badge>
+            
+            <id-progress percentage={60} ></id-progress>
+            <id-progress percentage={80} textInside></id-progress>
+
         </id-form>
       
         <div class='form-textarea'>
@@ -205,7 +209,8 @@ class MessageForm extends Vue {
     console.log(type)
   }
   addTag(){
-    // let res = document.querySelectorAll(".id-tag")
+    let res = document.querySelectorAll(".id-tag")
+    console.log(res)
   }
   login(e: Event) {
     /* const ajax = new Ajax('http://localhost:1997/api/user/login', {

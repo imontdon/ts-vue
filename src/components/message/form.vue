@@ -18,6 +18,7 @@ import IDChoutbox from '../checkbox/index.vue'
 import IDChoutboxGroup from '../checkbox/checkbox-group.vue'
 // import Ajax from '../../request/request'
 import { post, get } from '../../request'
+import { document } from '../../vue-shim';
 
 interface Message {
   text?: string,
@@ -102,9 +103,9 @@ class MessageForm extends Vue {
           </id-radio-group>
 
             <id-tag type="success" clearable>aloft</id-tag>
-            <id-tag type="info"  clearable animationable>peak</id-tag>
-            <id-tag type="danger"  clearable>summit</id-tag>
-            <id-tag type="danger"  clearable>climax</id-tag>
+            <id-tag type="info"   clearable animationable>peak</id-tag>
+            <id-tag type="danger" clearable editable>summit</id-tag>
+            <id-tag type="danger"  clearable on-click = {this.addTag}>climax</id-tag>
            { // <id-badge value = {100} max = {99} >《october sky》</id-badge>
             }
         </id-form>
@@ -202,6 +203,9 @@ class MessageForm extends Vue {
   // 点击表情或者上传图片时间，后续加
   show(type: string) {
     console.log(type)
+  }
+  addTag(){
+    // let res = document.querySelectorAll(".id-tag")
   }
   login(e: Event) {
     /* const ajax = new Ajax('http://localhost:1997/api/user/login', {

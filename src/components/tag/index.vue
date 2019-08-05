@@ -24,7 +24,8 @@ class Tag extends Vue {
   private clearable: boolean
   @Prop({required: false, default: false})
   private animationable: boolean
-  
+
+
   private state: IDTag
   constructor() {
     super()
@@ -34,47 +35,45 @@ class Tag extends Vue {
       color: '',
       clearable: false,
       animationable: false,
+      editable: false,
     }
   }
   render(h: CreateElement) {
-    const mianContent =  (
-      <span>
-        {this.$slots.default}
-        <span on-click={this.handleClick.bind(this)}>
-          {this.state.clearable ? (<i class={`id-icon icon-cancel-circle`}></i>) : ''}
-        </span>
-      </span>
-     )
-    const mytag = (      
+    const mytag =    
       <span 
         type='span' 
-        // on-close= {e => this.emitClose(e, this)}
+        ref="tag"
+        on-click= {e => this.emitClick(e, this)}
         style={`background-color:${this.state.color}`}
         class={`id-tag id-tag--${this.state.type}
                 ${this.state.hit? 'is-hit' : ''}
-              `}>{mianContent}</span>
-      )
+              `}>
+                <span>
+                    {this.$slots.default}
+                    <span on-click={this.handleClick.bind(this)}>
+                      {this.state.clearable ? (<i class={`id-icon icon-cancel-circle`}></i>) : ''}
+                    </span>
+                </span>
+     </span>
       return mytag
   }
   handleClick() {
-    let content = this.$el
+    let content = this.$refs.tag as any
     if(this.state.animationable){
+      // console.log(content.className)
       content.className = `${content.className} slow-close`;
       setTimeout(() => {
-        content.outerHTML ="";
+        content.style.display ="none";
       },400)
     }else{
-      content.outerHTML ="";
+        content.style.display ="none";
     }
   }
 
-  woundEmit(event) {
-    if (!this.state.clearable) {
-      this.emitClose(event)
-    }
-  }
-  @Emit('close')
-  emitClose(event: Event, input?: Vue) { }
+  @Emit('click')
+  emitClick(event: Event, input?: Vue) {
+    console.log("触发父组件的自定义事件",)
+   }
 
   @Watch('type', { immediate: true })
   onIconChange(val: string, oldVal: string) {
@@ -145,6 +144,11 @@ export default Tag
     border: 1px solid rgba(64,158,255,.2);
     white-space: nowrap;
     transition: all 0.3s cubic-bezier(.55,0,.1,1);
+    &.newTag{
+      background: #fff;
+      border: 1px solid #c4c4c4;
+      color: #1f2d3d;
+    }
   }
   $colors:  ('success', #67c23a, rgba(103,194,58,.1),rgba(103,194,58,.2)),
             ('info', #909399,hsla(220,4%,58%,.1),hsla(220,4%,58%,.2)),
@@ -155,9 +159,9 @@ export default Tag
       color: $color;
       background-color: $bgColor;
       border-color: $bcColor;
-    &.is-hit {
+      &.is-hit {
         border-color:$color;
-    }
+      }
     } 
   }
 </style>

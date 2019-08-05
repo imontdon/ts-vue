@@ -18,7 +18,6 @@ import IDChoutbox from '../checkbox/index.vue'
 import IDChoutboxGroup from '../checkbox/checkbox-group.vue'
 // import Ajax from '../../request/request'
 import { post, get } from '../../request'
-import { document } from '../../vue-shim';
 
 interface Message {
   text?: string,
@@ -102,12 +101,13 @@ class MessageForm extends Vue {
             <id-radio-button value='深圳'></id-radio-button>
           </id-radio-group>
 
-            <id-tag type="success" clearable>aloft</id-tag>
-            <id-tag type="info"   clearable animationable>peak</id-tag>
-            <id-tag type="danger" clearable editable>summit</id-tag>
-            <id-tag type="danger"  clearable on-click = {this.addTag}>climax</id-tag>
-           { // <id-badge value = {100} max = {99} >《october sky》</id-badge>
-            }
+            <id-tag type="success" clearable>今天</id-tag>
+            <id-tag type="info" hit clearable animationable>晚饭</id-tag>
+            <id-tag type="danger" hit clearable>吃啥</id-tag>
+            <id-tag type="danger" hit clearable>吃啥</id-tag>
+            <id-tag type="danger" hit clearable animationable>？？？</id-tag>
+            <id-badge value = '111' max = '99'>
+            </id-badge>
         </id-form>
       
         <div class='form-textarea'>
@@ -226,11 +226,15 @@ class MessageForm extends Vue {
     })
   }
   // 仿react，setState
+  // 这些方法都一样的，能放在一起吗省的每次都写
+  // 就是这个文件不用加import就能用这个方法
   setState(obj: Message) {
-    Object.keys(obj).forEach(key => {
-      this.state[key] = obj[key]
-    })
-  }
+    setTimeout(() => {
+      Object.keys(obj).forEach(key => {
+        this.state[key] = obj[key]
+      })
+    }, 100)
+  } 
 
   getUserValue(val: string) {
     this.setState({ username: val })

@@ -46,7 +46,7 @@ class Button extends Vue {
     return (
       <button 
         type='button' 
-        on-click={(e) => this.woundEmit(e)}
+        on-click={(e) => this.handleClick(e)}
         class={`id-button id-button--${this.state.type} 
                 ${this.state.plain ? 'is-plain' : ''} 
                 ${this.state.round ? 'is-round' : '' } 
@@ -89,7 +89,7 @@ class Button extends Vue {
       this.state[key] = obj[key]
     })
   }
-  woundEmit(event) {
+  handleClick(event: Event) {
     if (!this.state.disabled) {
       this.emitClick(event)
     }

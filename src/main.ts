@@ -6,9 +6,10 @@ import router from './router/index'
 import store from './store'
 import './common/fonts/id-icon.css'
 import './common/iconfont/fonts/iconfont.css'
+import setState from './utils/setState'
 // import permission from './permission'
 Vue.config.productionTip = false
-
+Vue.prototype.$setState = setState
 /* eslint-disable no-new */
 let v = new Vue({
   el: '#app',

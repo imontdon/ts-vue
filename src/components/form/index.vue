@@ -4,7 +4,6 @@ import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 
 interface IDForm {
   visible?: boolean,
-  header?: boolean
 }
 
 
@@ -17,16 +16,15 @@ class Form extends Vue {
     super()
     this.state = {
       visible: false,
-      header: true
     }
   }
   render(h: CreateElement) {
     return (
       <div class='id-form'>
         {
-          this.visible ? 
+          this.state.visible ? 
           (
-            <div class='login-back'>
+            <div class='login-back' onClick={this.handleFormClick.bind(this)}>
               <div class='login-form'>
                 {
                   this.$slots.default ? (
@@ -42,27 +40,33 @@ class Form extends Vue {
       </div>
     )
   }
-  setState(obj: IDForm) {
-    Object.keys(obj).forEach(key => {
-      this.state[key] = obj[key]
-    })
+  
+  handleFormClick(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    // console.log(e.target.className)
+    if (e.target.className === 'login-back') {
+        this.onVisibleChange(!this.state.visible)
+
+        // this.visible = false
+    }
   }
+/*   setState(obj: IDForm) {
+    setTimeout(() => {
+      Object.keys(obj).forEach(key => {
+        this.state[key] = obj[key]
+      })
+    }, 100)
+  } */
+  // 改了啥
   mounted() {
-    document.addEventListener('click', (e: MouseEvent): void =>  {
-      e.preventDefault()
-      const target = e.target as HTMLInputElement
-      if (target.className === 'login-back') {
-        this.setState({ visible: false })
-        this.visible = false
-      }
-    })
   }
   @Emit('change')
   emitVisible(visible: boolean) {}
   @Watch('visible')
-  onVisibleChange(val, oldVal) {
-    this.setState({ visible: val })
-    this.emitVisible(this.state.visible)
+  onVisibleChange(val: boolean) {
+    this.$setState(this.state, { visible: val })
+    this.emitVisible(val)
   }
 }
 export default Form

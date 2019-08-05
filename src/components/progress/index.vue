@@ -8,8 +8,9 @@ interface IDProgress {
   type?: string,
   textInside?: boolean,
   showText?: boolean,
+  strokeWidth?: number,
 }
-
+// 类型 和 圆形进度条
 @Component
 class Progress extends Vue {
   @Prop({ required: true, default: 0})
@@ -20,7 +21,8 @@ class Progress extends Vue {
   private textInside: boolean
   @Prop({ required: false, default: true})
   private showText: boolean
-
+  @Prop({ required: false, default: 8})
+  private strokeWidth: number
 
   private state: IDProgress
   constructor() {
@@ -29,31 +31,24 @@ class Progress extends Vue {
       percentage: 0,
       type:'line',
       showText: true,
-      textInside: false//需type == line
+      textInside: false,//需type == line
+      strokeWidth: 8,
     }
   }
   render(h: CreateElement) {
-      const bar =
-              <div class="id-progress-bar">
-                <div class="id-progress-bar_outer">
-                  <div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}>
-                  </div>
-                </div>
-              </div>
+      const bar_inner = <div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}> </div>
       const progressLine = 
         <div class={`id-progress id-progress-line`}>
-          {
-            this.state.showText ? (
-              this.state.textInside?
-              //inner
-              (<div class="id-progress-bar">
-                <div class="id-progress-bar_outer">
-                  <div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}>
-                    <div class="id-progress-bar_innerText">{`${this.state.percentage}%`}</div>
-                  </div>
-                </div>
-              </div>): bar ): bar
-          }
+            <div class="id-progress-bar">
+               <div class="id-progress-bar_outer" style={`height: ${this.state.strokeWidth}px`}>{
+                 this.state.showText ? (
+                    this.state.textInside?
+                    //inner
+                    (<div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}>
+                        <div class="id-progress-bar_innerText">{`${this.state.percentage}%`}</div>
+                     </div>): bar_inner ): bar_inner}
+              </div>
+              </div>
           {this.state.showText && !this.state.textInside ? <div class="id-progress-bar_outerText">{`${this.state.percentage}%`}</div> : ''}
         </div>
       return progressLine
@@ -74,6 +69,10 @@ class Progress extends Vue {
   @Watch('showText', { immediate: true })
   onshowTextChange(val: boolean, oldVal: boolean) {
     this.setState({ showText: val })
+  }
+  @Watch('strokeWidth', { immediate: true })
+  onstrokeWidthChange(val: number, oldVal: number) {
+    this.setState({ strokeWidth: val })
   }
   setState(obj: IDProgress) {
     setTimeout(() => {
@@ -101,7 +100,7 @@ export default Progress
 }
 .id-progress-bar_outer{
     height: 8px;
-    border-radius: 20px;
+    border-radius: 50px;
     background-color: #e4e8f1;
     overflow: hidden;
     position: relative;
@@ -114,7 +113,7 @@ export default Progress
     height: 100%;
     background-color: #20a0ff;
     text-align: right;
-    border-radius: 100px;
+    border-radius: 50px;
     line-height: 1;
 }
 .id-progress-bar_outerText{
@@ -125,6 +124,7 @@ export default Progress
     margin-left: 10px;
     line-height: 1;
 }
+// 在进度条内垂直居中问题
 .id-progress-bar_innerText{
     display: inline-block;
     vertical-align: middle;
@@ -134,22 +134,7 @@ export default Progress
 }
 .id-progress-line{
     margin-bottom: 15px;
-    width: 200px;
+    width: 350px;
 }
-// $styles: ('line', inline-block, (0,0,15px,0), 350px),
-//          ('circle', inline-block, (0,15px,0,0), 126px);
-
-// @each $type, $display, $margin, $width in $styles{
-//   .id-progress--#{$type}{
-//     display: $display;
-//     margin: $margin;
-//     width: $width;
-//   }
-// }
-// $textStyle: ('text-inside'),('text-outside')
-// .id-progress--#{$textStyle}{
-
-// }
-  
 </style>
 

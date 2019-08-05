@@ -111,10 +111,11 @@ class MessageForm extends Vue {
                 <id-tag type="danger"  clearable on-click = {this.addTag}>climax</id-tag>
               */
             }
+
             <id-badge value = {100} max = {99} >《october sky》</id-badge>
             
             <id-progress percentage={60} ></id-progress>
-            <id-progress percentage={80} textInside></id-progress>
+            <id-progress percentage={80} textInside strokeWidth={22}></id-progress>
 
         </id-form>
       

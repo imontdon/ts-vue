@@ -63,5 +63,7 @@ const get = (url: string, type?: string) => {
 
 export {
   post,
-  get
+  get,
+  service,
+  config
 }

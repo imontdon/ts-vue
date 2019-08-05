@@ -2,6 +2,7 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop } from 'vue-property-decorator'
 import MessageForm from '@/components/message/form.vue'
+import IDProgress from '@/components/progress/index.vue'
 import IDSwitch from '@/components/switch/index.vue'
 import IDSlider from '@/components/slider/index.vue'
 import IDUpload from '@/components/upload/index.vue'
@@ -12,7 +13,8 @@ import IDRate from '@/components/rate/index.vue'
     'id-switch': IDSwitch,
     'id-slider': IDSlider,
     'id-upload': IDUpload,
-    'id-rate': IDRate
+    'id-rate': IDRate,
+    'id-progress': IDProgress
   }
 })
 export default class Message extends Vue {
@@ -25,7 +27,14 @@ export default class Message extends Vue {
               <id-rate></id-rate>
             */
           }
-          <id-upload>
+          <id-upload action='http://192.168.22.240:3000/upload'
+                     multiple={true}
+                     picture={true}
+                     onBeforeUpload = {this.beforeUpload.bind(this)}
+                     onProgress = {this.handleProgress.bind(this)}
+                     onSuccess = {this.uploadSuccess.bind(this)}
+                     onRemove = {this.removeFile.bind(this)}
+          >
             <div slot="tip" class="id-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </id-upload>
           <id-slider style='margin-left: 20px;' value={64}>测试</id-slider>
@@ -38,6 +47,18 @@ export default class Message extends Vue {
         </div>
       </div>
     )
+  }
+  uploadSuccess() {
+    console.log('success')
+  }
+  removeFile() {
+    console.log('removed')
+  }
+  handleProgress(progress: number) {
+    console.log(progress)
+  }
+  beforeUpload(files: FileList) {
+    console.log(files)
   }
   mounted() {
   }

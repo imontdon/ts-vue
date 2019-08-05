@@ -106,7 +106,11 @@ class MessageForm extends Vue {
             <id-tag type="success" clearable>aloft</id-tag>
             <id-tag type="info"   clearable animationable>peak</id-tag>
             <id-tag type="danger" clearable editable>summit</id-tag>
-            <id-tag type="danger"  clearable on-click = {this.addTag}>climax</id-tag>
+            {
+              /* 
+                <id-tag type="danger"  clearable on-click = {this.addTag}>climax</id-tag>
+              */
+            }
             <id-badge value = {100} max = {99} >《october sky》</id-badge>
             
             <id-progress percentage={60} ></id-progress>
@@ -208,10 +212,9 @@ class MessageForm extends Vue {
   show(type: string) {
     console.log(type)
   }
-  addTag(){
-    let res = document.querySelectorAll(".id-tag")
-    console.log(res)
-  }
+  // addTag(){
+  //   let res = document.querySelectorAll(".id-tag")
+  // }
   login(e: Event) {
     /* const ajax = new Ajax('http://localhost:1997/api/user/login', {
       username: this.state.username,

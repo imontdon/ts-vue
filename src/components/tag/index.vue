@@ -2,15 +2,16 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 import { doesNotThrow } from 'assert';
-// 定义属性接口 包含可选属性
+import { setTimeout } from 'timers';
 interface IDTag {
-  type?: string, // 标签主题类型
-  hit?: boolean, // 是否描边
-  color?: string, // 背景色
-  clearable?: boolean, // 是否可关闭
+  type?: string, 
+  hit?: boolean, 
+  color?: string, 
+  clearable?: boolean, 
   animationable?: boolean,
-  hiddenTag?: boolean,
+  editable?: boolean,
 }
+
 @Component
 class Tag extends Vue {
   @Prop({ required: false, default: 'default' })
@@ -23,7 +24,8 @@ class Tag extends Vue {
   private clearable: boolean
   @Prop({required: false, default: false})
   private animationable: boolean
-  
+
+
   private state: IDTag
   constructor() {
     super()
@@ -33,51 +35,46 @@ class Tag extends Vue {
       color: '',
       clearable: false,
       animationable: false,
-      hiddenTag: false,
+      editable: false,
     }
   }
   render(h: CreateElement) {
-    const mianContent =  (
-      <span>
-        {this.$slots.default}
-        <span on-click={this.handleClick.bind(this)}>
-          {this.state.clearable ? (<i class={`id-icon icon-cancel-circle`}></i>) : ''}
-        </span>
-      </span>
-     )
-    const mytag = (      
+    const mytag =    
       <span 
         type='span' 
-        on-close= {e => this.emitClose(e, this)}
+        ref="tag"
+        on-click= {e => this.emitClick(e, this)}
         style={`background-color:${this.state.color}`}
         class={`id-tag id-tag--${this.state.type}
                 ${this.state.hit? 'is-hit' : ''}
-              `}>{mianContent}</span>
-      )
-      // 关闭标签时 开了动画 过渡关闭 
-      const result = this.state.hiddenTag ? (this.state.animationable ? (
-        <span 
-          type='span'
-          on-close= {e => this.emitClose(e, this)}
-          style={`background-color:${this.state.color}`}
-          class={`id-tag id-tag--${this.state.type}
-                  ${this.state.hit? 'is-hit' : ''}
-                  slow-close
-                `}>{mianContent}
-        </span>
-      ) :'') : mytag
-      return result
+              `}>
+                <span>
+                    {this.$slots.default}
+                    <span on-click={this.handleClick.bind(this)}>
+                      {this.state.clearable ? (<i class={`id-icon icon-cancel-circle`}></i>) : ''}
+                    </span>
+                </span>
+     </span>
+      return mytag
   }
   handleClick() {
-    this.state.hiddenTag = true
-  }
-  woundEmit(event) {
-    if (!this.state.clearable) {
-      this.emitClose(event)
+    let content = this.$refs.tag as any
+    if(this.state.animationable){
+      // console.log(content.className)
+      content.className = `${content.className} slow-close`;
+      setTimeout(() => {
+        content.style.display ="none";
+      },400)
+    }else{
+        content.style.display ="none";
     }
   }
-  @Emit('close')
-  emitClose(event: Event, input?: Vue) { }
+
+  @Emit('click')
+  emitClick(event: Event, input?: Vue) {
+    console.log("触发父组件的自定义事件",)
+   }
+
   @Watch('type', { immediate: true })
   onIconChange(val: string, oldVal: string) {
     this.setState({ type: val })
@@ -103,14 +100,6 @@ class Tag extends Vue {
       this.setState({ animationable: val })
   }
 
-  @Watch('hiddenTag', { immediate: true })
-  onhiddenTagChange(val: boolean, oldVal: boolean) {
-    if(this.state.hiddenTag){
-      console.log(`hiddenTag:${val}`)
-    }else{
-      console.log(`hiddenTag:${val}`)
-    }
-  }
   setState(obj: IDTag) {
     setTimeout(() => {
       Object.keys(obj).forEach(key => {
@@ -155,7 +144,11 @@ export default Tag
     border: 1px solid rgba(64,158,255,.2);
     white-space: nowrap;
     transition: all 0.3s cubic-bezier(.55,0,.1,1);
-
+    &.newTag{
+      background: #fff;
+      border: 1px solid #c4c4c4;
+      color: #1f2d3d;
+    }
   }
   $colors:  ('success', #67c23a, rgba(103,194,58,.1),rgba(103,194,58,.2)),
             ('info', #909399,hsla(220,4%,58%,.1),hsla(220,4%,58%,.2)),
@@ -166,9 +159,9 @@ export default Tag
       color: $color;
       background-color: $bgColor;
       border-color: $bcColor;
-    &.is-hit {
+      &.is-hit {
         border-color:$color;
-    }
+      }
     } 
   }
 </style>

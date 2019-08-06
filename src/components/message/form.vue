@@ -114,8 +114,11 @@ class MessageForm extends Vue {
 
             <id-badge value = {100} max = {99} >《october sky》</id-badge>
             
-            <id-progress percentage={60} ></id-progress>
+            <id-progress percentage={60} status='success'></id-progress>
             <id-progress percentage={80} textInside strokeWidth={22}></id-progress>
+            <id-progress percentage={60} status='success'></id-progress>
+            <id-progress percentage={80} textInside strokeWidth={22} status="exception"></id-progress>
+
 
         </id-form>
       

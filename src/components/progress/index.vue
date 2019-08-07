@@ -10,8 +10,9 @@ interface IDProgress {
   showText?: boolean,
   strokeWidth?: number,
   status?: string,
+  width?: number,
 }
-// 类型 和 圆形进度条
+// 圆形 stroke
 @Component
 class Progress extends Vue {
   @Prop({ required: true, default: 0})
@@ -26,6 +27,8 @@ class Progress extends Vue {
   private strokeWidth: number
   @Prop({ required: false, default: ''})
   private status: string
+  @Prop({ required: false, default: ''})
+  private width: number
 
   private state: IDProgress
   constructor() {
@@ -37,6 +40,7 @@ class Progress extends Vue {
       textInside: false,//需type == line
       strokeWidth: 8,
       status: '',
+      width: 126,
     }
   }
   render(h: CreateElement) {
@@ -59,7 +63,19 @@ class Progress extends Vue {
           {this.state.showText && !this.state.textInside && !this.state.status ? <div class="id-progress-bar_outerText">{`${this.state.percentage}%`}</div> : ''}
           {this.state.status? <div class="id-progress-bar_outerText">{this.state.status == 'success' ? <i class="id-icon icon-image"></i>:<i class="id-icon icon-cancel-circle"></i>}</div>:''}
         </div>
-      return progressLine
+        const progressCycle = 
+          <div class={`id-progress id-progress-circle`}>
+            <div style={`height: ${this.state.width}px; width: ${this.state.width}px;`}>
+              <svg viewBox="0 0 100 100">
+                <path class="id-progress-circle_track" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94">
+                </path>
+                <path class="id-progress-circle_path" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94">
+                </path>
+              </svg>
+            </div>
+            <div class="id-progress_text">{`${this.state.percentage}%`}</div>
+          </div>
+      return progressCycle
   }
 
   @Watch('type', { immediate: true })
@@ -85,6 +101,10 @@ class Progress extends Vue {
   @Watch('status', { immediate: true })
   onStatusChange(val: string, oldVal: string) {
     this.setState({ status: val })
+  }
+  @Watch('width', { immediate: true })
+  onWidthChange(val: number, oldVal: number) {
+    this.setState({ width: val })
   }
 
   setState(obj: IDProgress) {
@@ -169,7 +189,40 @@ export default Progress
         margin-bottom: 15px;
         width: 350px;
     }
-
+    // 圆形 scss样式代码优化
+    &.id-progress-circle{
+        display: inline-block;
+        margin-right: 15px;
+    }
+    .id-progress_text{
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        color: #48576a;
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 1;
+        -ms-transform: translate(0,-50%);
+        transform: translate(0,-50%);
+    }
+    .id-progress-circle_track{
+        stroke: #e5e9f2;
+        stroke-width: 4.8;
+        fill: none;
+    }
+    .id-progress-circle_path{
+        stroke: #20a0ff;
+        stroke-width: 4.8;
+        fill: none;
+        stroke-linecap: round;
+        stroke-dasharray: 299.08px, 299.08px;
+        stroke-dashoffset: 224.31px;
+        transition: stroke-dashoffset 0.6s ease 0s, 
+                    stroke 0.6s ease 0s;
+    }
 }
 
 </style>

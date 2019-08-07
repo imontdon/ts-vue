@@ -69,8 +69,8 @@ class Progress extends Vue {
               </path>
               <path class="id-progress-circle_path" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94"  
                     style={`stroke-width: ${this.state.strokeWidth}px;
-                            stroke-dasharray: ${this.pathLenth}px;
-                            stroke-dashoffset: ${this.pathLenth*(1-this.state.percentage/100)}px;
+                            stroke-dasharray: ${(this.state.width-this.state.strokeWidth)*Math.PI}px;
+                            stroke-dashoffset: ${(this.state.width-this.state.strokeWidth)*Math.PI*(1-this.state.percentage/100)}px;
                           `}>
               </path>
             </svg>
@@ -95,6 +95,7 @@ class Progress extends Vue {
     }, 10)
   }
   get pathLenth(): number {
+    let length = this.state.width*Math.PI
     let path = document.querySelector('path')
     console.log("获取路径", path)
     if (path) {

@@ -102,7 +102,7 @@ class MessageForm extends Vue {
             <id-radio-button value='广州'></id-radio-button>
             <id-radio-button value='深圳'></id-radio-button>
           </id-radio-group>
-            <id-progress percentage='25'  width={50} status="success" type="circle"> </id-progress>
+            <id-progress percentage={30}  width={50}  type="circle"> </id-progress>
         </id-form>
       
         <div class='form-textarea'>

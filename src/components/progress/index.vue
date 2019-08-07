@@ -45,43 +45,46 @@ class Progress extends Vue {
     }
   }
   render(h: CreateElement) {
-    console.log(this.pathLenth)
-      const bar_inner = <div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}> </div>      
+      const barInner = <div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}> </div>      
       const progressLine = 
-            <div class={`id-progress-line ${this.state.textInside? 'id-progress--text-inside': ''}`}>
-                <div class="id-progress-bar">
-                  <div class="id-progress-bar_outer" style={`height: ${this.state.strokeWidth}px`}>{
-                    this.state.showText ? (
-                        this.state.textInside?
-                        //inner
-                        (<div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}>
-                            <div class="id-progress-bar_innerText">{`${this.state.percentage}%`}</div>
-                        </div>): bar_inner ): bar_inner}
-                  </div>
-                  </div>
-              {this.state.showText && !this.state.textInside && !this.state.status ? <div class="id-progress-bar_outerText">{`${this.state.percentage}%`}</div> : ''}
-              {this.state.status? <div class="id-progress-bar_outerText">{this.state.status == 'success' ? <i class="id-icon icon-image"></i>:<i class="id-icon icon-cancel-circle"></i>}</div>:''}
+        <div class={`id-progress-line ${this.state.textInside? 'id-progress--text-inside': ''}`}>
+          <div class="id-progress-bar">
+            <div class="id-progress-bar_outer" style={`height: ${this.state.strokeWidth}px`}>{
+              this.state.showText ? (
+                this.state.textInside?
+                //inner
+                (<div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}>
+                    <div class="id-progress-bar_innerText">{`${this.state.percentage}%`}</div>
+                </div>): barInner ): barInner}
             </div>
-      const progressCycle = 
-          <div class={`id-progress-circle`}>
-            <div style={`height: ${this.state.width}px; width: ${this.state.width}px;`}>
-              <svg viewBox="0 0 100 100" style="overflow:visible;">
-                <path class="id-progress-circle_track" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" style={`stroke-width: ${this.state.strokeWidth}px`}>
-                </path>
-                <path class="id-progress-circle_path" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94"  
-                      style={`stroke-width: ${this.state.strokeWidth}px;
-                              stroke-dasharray: ${this.pathLenth}px;
-                              stroke-dashoffset: ${this.pathLenth*(1-this.state.percentage/100)}px;
-                            `}>
-                </path>
-              </svg>
-            </div>
-            <div class="id-progress_text">{`${this.state.percentage}%`}</div>
           </div>
+          {this.state.showText && !this.state.textInside && !this.state.status ? <div class="id-progress-bar_outerText">{`${this.state.percentage}%`}</div> : ''}
+          {this.state.status? <div class="id-progress-bar_outerText">{this.state.status == 'success' ? <i class="id-icon icon-image"></i>:<i class="id-icon icon-cancel-circle"></i>}</div>:''}
+        </div>
+      const progressCycle = 
+        <div class={`id-progress-circle`}>
+          <div style={`height: ${this.state.width}px; width: ${this.state.width}px;`}>
+            <svg viewBox="0 0 100 100" style="overflow:visible;">
+              <path class="id-progress-circle_track" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" style={`stroke-width: ${this.state.strokeWidth}px`}>
+              </path>
+              <path class="id-progress-circle_path" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94"  
+                    style={`stroke-width: ${this.state.strokeWidth}px;
+                            stroke-dasharray: ${this.pathLenth}px;
+                            stroke-dashoffset: ${this.pathLenth*(1-this.state.percentage/100)}px;
+                          `}>
+              </path>
+            </svg>
+          </div>
+          <div class="id-progress_text">
+            {this.state.status?
+            (this.state.status == 'success' ? <i class="id-icon icon-image"></i> : <i class="id-icon icon-cancel-circle"></i>)
+            : `${this.state.percentage}%`}
+          </div>
+        </div>
       const progress =
-            <div class={`id-progress ${this.state.status? (this.state.status == 'success' ? 'is-success' : 'is-exception'):''}`}>
-                { this.state.type == 'line' ? progressLine : (this.state.type == 'circle' ? progressCycle :'')}
-            </div>
+        <div class={`id-progress ${this.state.status? (this.state.status == 'success' ? 'is-success' : 'is-exception'):''}`}>
+            { this.state.type == 'line' ? progressLine : (this.state.type == 'circle' ? progressCycle :'')}
+        </div>
       return progress
   }
   setState(obj: IDProgress) {
@@ -93,7 +96,7 @@ class Progress extends Vue {
   }
   get pathLenth(): number {
     let path = document.querySelector('path')
-    console.log(path,"path")
+    console.log("获取路径", path)
     if (path) {
       let length = path.getTotalLength()
       console.log(length,"长度")
@@ -102,19 +105,22 @@ class Progress extends Vue {
       return 0
     }
   }
-  @Watch('pathLength')
-  onpathLengthChange(val: number, oldVal: number){
-    this.setState({pathLength: val})
-    console.log(val, 'length')
-  }
-
   @Watch('type', { immediate: true })
   onTypeChange(val: string, oldVal: string) {
     this.setState({ type: val })
   }
   @Watch('percentage', { immediate: true })
   onPercentageChange(val: number, oldVal: number) {
-    this.setState({ percentage: val })
+    if(typeof val == 'number'){
+      if(val > 0 && val < 100){
+        this.setState({ percentage: val })
+      }else{
+        console.error("百分比值应为0-100")
+      }
+    }
+    else{
+        console.error("输入percentage类型有误")
+    }
   }
   @Watch('textInside', { immediate: true })
   ontextInsideChange(val: boolean, oldVal: boolean) {
@@ -136,8 +142,6 @@ class Progress extends Vue {
   onWidthChange(val: number, oldVal: number) {
     this.setState({ width: val })
   }
-
-
 }
 export default Progress
 </script>

@@ -46,9 +46,9 @@ export default class Message extends Vue {
               <id-rate></id-rate>
             */
           }
-          <id-upload action='http://192.168.22.240:3000/upload'
+          <id-upload action='http://localhost:1997/api/upload'
                      multiple={true}
-                     picture={true}
+                    //  picture={true}
                      onBeforeUpload = {this.beforeUpload.bind(this)}
                      onProgress = {this.handleProgress.bind(this)}
                      onSuccess = {this.uploadSuccess.bind(this)}

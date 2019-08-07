@@ -97,6 +97,8 @@ class Upload extends Vue {
   }
   async handleChange(e: Event) {
     console.log('handleChange')
+    this.emitProgress(0)
+    this.emitChange()
     const target = e.target as HTMLInputElement
     const files: FileList = target.files
     const formdata = new FormData()
@@ -169,7 +171,12 @@ class Upload extends Vue {
     )
     return IDUpload
   }
-
+  mounted() {
+    this.$message.warning('test')
+    console.log(this.$message.info)
+  }
+  @Emit('change')
+  emitChange() { }
   @Emit('remove')
   emitRemove() { }
   @Emit('success')

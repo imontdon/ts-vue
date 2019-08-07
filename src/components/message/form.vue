@@ -102,8 +102,8 @@ class MessageForm extends Vue {
             <id-radio-button value='广州'></id-radio-button>
             <id-radio-button value='深圳'></id-radio-button>
           </id-radio-group>
-            <id-progress percentage={60} status="success" ></id-progress>
-            <id-progress percentage={80} textInside strokeWidth={20}></id-progress>
+            {/* <id-progress percentage={60} status="success" ></id-progress> */}
+            {/* <id-progress percentage={80} textInside strokeWidth={20}></id-progress> */}
             <id-progress percentage={20}  width={50} status="success" type="circle"> </id-progress>
         </id-form>
       

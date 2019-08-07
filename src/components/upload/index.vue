@@ -142,7 +142,6 @@ class Upload extends Vue {
               <ul class='id-upload-list id-upload-list--picture'>
                 {
                   this.state.fileList.map((file: any, index: number) => {
-                    console.log(file)
                     return (
                       <li>
                         <img src={ file.filepath} />
@@ -173,7 +172,6 @@ class Upload extends Vue {
   }
   mounted() {
     this.$message.warning('test')
-    console.log(this.$message.info)
   }
   @Emit('change')
   emitChange() { }

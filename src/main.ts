@@ -8,7 +8,7 @@ import './common/fonts/id-icon.css'
 import './common/iconfont/fonts/iconfont.css'
 import setState from './utils/setState'
 import IDMessage from './components/message/message'
-console.log(IDMessage)
+// console.log(IDMessage)
 // import permission from './permission'
 Vue.config.productionTip = false
 Vue.prototype.$setState = setState

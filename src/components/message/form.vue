@@ -12,6 +12,7 @@ import IDButton from '../button/index.vue'
 import IDTag from '../tag/index.vue'
 import IDBadge from '../badge/index.vue'
 import IDProgress from '../progress/index.vue'
+import IDAlert from '../alert/index.vue'
 import IDSelect from '../select/index.vue'
 import IDOption from '../select/option.vue'
 import IDOptionGroup from '../select/option-group.vue'
@@ -49,6 +50,7 @@ interface Message {
     'id-tag': IDTag,
     'id-badge': IDBadge,
     'id-progress': IDProgress,
+    'id-alert': IDAlert,
     'id-select': IDSelect,
     'id-option': IDOption,
     'id-option-group': IDOptionGroup,
@@ -103,6 +105,9 @@ class MessageForm extends Vue {
             <id-radio-button value='深圳'></id-radio-button>
           </id-radio-group>
             <id-progress percentage={80}  width={50}  type="circle"> </id-progress>
+            <id-alert title="high on" type="error"></id-alert>
+            <id-alert title="boomboom" type="warning" on-click={this.test}></id-alert>
+            <id-alert title="boomboom" type="success" closeText="无尽"></id-alert>
         </id-form>
       
         <div class='form-textarea'>
@@ -199,9 +204,9 @@ class MessageForm extends Vue {
   show(type: string) {
     console.log(type)
   }
-  // addTag(){
-  //   let res = document.querySelectorAll(".id-tag")
-  // }
+  test(){
+    console.log("somehow")
+  }
   login(e: Event) {
     /* const ajax = new Ajax('http://localhost:1997/api/user/login', {
       username: this.state.username,

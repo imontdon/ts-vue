@@ -57,6 +57,7 @@ export default class Message extends Vue {
             <div slot="tip" class="id-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </id-upload>
           {/* <id-progress percentage={this.state.percentage}></id-progress> */}
+          <id-progress percentage={this.state.percentage}  width={60}  type="circle"> </id-progress>
           <id-slider style='margin-left: 20px;' value={64}>测试</id-slider>
           <id-slider style='margin-left: 20px;' disabled={true}>测试</id-slider>
           <id-switch style='margin-left: 20px;' value={true} showText={true} oncolor="#13ce66" offcolor='#ff4949'></id-switch>

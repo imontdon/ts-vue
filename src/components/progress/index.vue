@@ -11,6 +11,7 @@ interface IDProgress {
   strokeWidth?: number,
   status?: string,
   width?: number,
+  pathLength?: number,
 }
 // 圆形 stroke
 @Component
@@ -44,38 +45,67 @@ class Progress extends Vue {
     }
   }
   render(h: CreateElement) {
-      const bar_inner = <div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}> </div>
+    console.log(this.pathLenth)
+      const bar_inner = <div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}> </div>      
       const progressLine = 
-        <div class={`id-progress id-progress-line
-         ${this.state.status? (this.state.status == 'success' ? 'is-success' : 'is-exception'):''}
-         ${this.state.textInside? 'id-progress--text-inside': ''}
-         `}>
-            <div class="id-progress-bar">
-               <div class="id-progress-bar_outer" style={`height: ${this.state.strokeWidth}px`}>{
-                 this.state.showText ? (
-                    this.state.textInside?
-                    //inner
-                    (<div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}>
-                        <div class="id-progress-bar_innerText">{`${this.state.percentage}%`}</div>
-                     </div>): bar_inner ): bar_inner}
-              </div>
-              </div>
-          {this.state.showText && !this.state.textInside && !this.state.status ? <div class="id-progress-bar_outerText">{`${this.state.percentage}%`}</div> : ''}
-          {this.state.status? <div class="id-progress-bar_outerText">{this.state.status == 'success' ? <i class="id-icon icon-image"></i>:<i class="id-icon icon-cancel-circle"></i>}</div>:''}
-        </div>
-        const progressCycle = 
-          <div class={`id-progress id-progress-circle`}>
+            <div class={`id-progress-line ${this.state.textInside? 'id-progress--text-inside': ''}`}>
+                <div class="id-progress-bar">
+                  <div class="id-progress-bar_outer" style={`height: ${this.state.strokeWidth}px`}>{
+                    this.state.showText ? (
+                        this.state.textInside?
+                        //inner
+                        (<div class="id-progress-bar_inner" style={`width: ${this.state.percentage}%`}>
+                            <div class="id-progress-bar_innerText">{`${this.state.percentage}%`}</div>
+                        </div>): bar_inner ): bar_inner}
+                  </div>
+                  </div>
+              {this.state.showText && !this.state.textInside && !this.state.status ? <div class="id-progress-bar_outerText">{`${this.state.percentage}%`}</div> : ''}
+              {this.state.status? <div class="id-progress-bar_outerText">{this.state.status == 'success' ? <i class="id-icon icon-image"></i>:<i class="id-icon icon-cancel-circle"></i>}</div>:''}
+            </div>
+      const progressCycle = 
+          <div class={`id-progress-circle`}>
             <div style={`height: ${this.state.width}px; width: ${this.state.width}px;`}>
-              <svg viewBox="0 0 100 100">
-                <path class="id-progress-circle_track" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94">
+              <svg viewBox="0 0 100 100" style="overflow:visible;">
+                <path class="id-progress-circle_track" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" style={`stroke-width: ${this.state.strokeWidth}px`}>
                 </path>
-                <path class="id-progress-circle_path" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94">
+                <path class="id-progress-circle_path" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94"  
+                      style={`stroke-width: ${this.state.strokeWidth}px;
+                              stroke-dasharray: ${this.pathLenth}px;
+                              stroke-dashoffset: ${this.pathLenth*(1-this.state.percentage/100)}px;
+                            `}>
                 </path>
               </svg>
             </div>
             <div class="id-progress_text">{`${this.state.percentage}%`}</div>
           </div>
-      return progressCycle
+      const progress =
+            <div class={`id-progress ${this.state.status? (this.state.status == 'success' ? 'is-success' : 'is-exception'):''}`}>
+                { this.state.type == 'line' ? progressLine : (this.state.type == 'circle' ? progressCycle :'')}
+            </div>
+      return progress
+  }
+  setState(obj: IDProgress) {
+    setTimeout(() => {
+      Object.keys(obj).forEach(key => {
+        this.state[key] = obj[key]
+      })
+    }, 10)
+  }
+  get pathLenth(): number {
+    let path = document.querySelector('path')
+    console.log(path,"path")
+    if (path) {
+      let length = path.getTotalLength()
+      console.log(length,"长度")
+      return length
+    } else {
+      return 0
+    }
+  }
+  @Watch('pathLength')
+  onpathLengthChange(val: number, oldVal: number){
+    this.setState({pathLength: val})
+    console.log(val, 'length')
   }
 
   @Watch('type', { immediate: true })
@@ -107,13 +137,7 @@ class Progress extends Vue {
     this.setState({ width: val })
   }
 
-  setState(obj: IDProgress) {
-    setTimeout(() => {
-      Object.keys(obj).forEach(key => {
-        this.state[key] = obj[key]
-      })
-    }, 10)
-  }
+
 }
 export default Progress
 </script>
@@ -129,6 +153,9 @@ export default Progress
       .id-progress-bar_outer {
          color: #13ce66;
       }
+      .id-progress-circle_path{
+        stroke: #13ce66;
+      }
     }
     &.is-exception{
       .id-progress-bar_inner {
@@ -137,12 +164,19 @@ export default Progress
       .id-progress-bar_outer {
          color: #ff4949;
       }
+      .id-progress-circle_path{
+        stroke: #ff4949;
+      }
     }
     &.text-inside{
       .id-progress-bar{
         padding-right: 0;
         margin-right: 0;
       }
+    }
+    .id-progress-line{
+        margin-bottom: 15px;
+        width: 350px;
     }          
     .id-progress-bar{
         padding-right: 50px;
@@ -185,41 +219,32 @@ export default Progress
         font-size: 12px;
         margin: 0 5px;
     }
-    .id-progress-line{
-        margin-bottom: 15px;
-        width: 350px;
-    }
-    // 圆形 scss样式代码优化
-    &.id-progress-circle{
+
+    // 圆形
+    .id-progress-circle{
         display: inline-block;
         margin-right: 15px;
-    }
-    .id-progress_text{
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        margin: 0;
-        color: #48576a;
-        display: inline-block;
-        vertical-align: middle;
-        line-height: 1;
-        -ms-transform: translate(0,-50%);
-        transform: translate(0,-50%);
+        position: relative;
+        .id-progress_text{
+            @extend .id-progress-bar_outerText;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            margin: 0;
+            -ms-transform: translate(0,-50%);
+            transform: translate(0,-50%);
+        }
     }
     .id-progress-circle_track{
         stroke: #e5e9f2;
-        stroke-width: 4.8;
         fill: none;
     }
     .id-progress-circle_path{
         stroke: #20a0ff;
-        stroke-width: 4.8;
         fill: none;
         stroke-linecap: round;
-        stroke-dasharray: 299.08px, 299.08px;
-        stroke-dashoffset: 224.31px;
         transition: stroke-dashoffset 0.6s ease 0s, 
                     stroke 0.6s ease 0s;
     }

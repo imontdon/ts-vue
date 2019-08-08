@@ -41,21 +41,21 @@ export default class Message extends Vue {
     return (
       <div class='message-box'>
         <div class='message-form'>
+          <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate>
           {
             /* 
-              <id-rate></id-rate>
-            */
-          }
-          <id-upload action='http://localhost:1997/api/upload'
+              <id-upload action='http://localhost:1997/api/upload'
                      multiple={true}
                     //  picture={true}
                      onBeforeUpload = {this.beforeUpload.bind(this)}
                      onProgress = {this.handleProgress.bind(this)}
                      onSuccess = {this.uploadSuccess.bind(this)}
                      onRemove = {this.removeFile.bind(this)}
-          >
-            <div slot="tip" class="id-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </id-upload>
+              >
+                <div slot="tip" class="id-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              </id-upload>
+            */
+          }
           {/* <id-progress percentage={this.state.percentage}></id-progress> */}
           <id-progress percentage={this.state.percentage}  width={60}  type="circle"> </id-progress>
           <id-slider style='margin-left: 20px;' value={64}>测试</id-slider>

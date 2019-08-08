@@ -104,10 +104,7 @@ class MessageForm extends Vue {
             <id-radio-button value='广州'></id-radio-button>
             <id-radio-button value='深圳'></id-radio-button>
           </id-radio-group>
-            <id-progress percentage={80}  width={50}  type="circle"> </id-progress>
-            <id-alert title="high on" type="error"></id-alert>
-            <id-alert title="boomboom" type="warning" on-click={this.test}></id-alert>
-            <id-alert title="boomboom" type="success" closeText="无尽"></id-alert>
+            <id-progress percentage={30}  width={50}  type="circle"> </id-progress>
         </id-form>
       
         <div class='form-textarea'>

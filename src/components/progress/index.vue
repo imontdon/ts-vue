@@ -95,18 +95,17 @@ class Progress extends Vue {
       })
     }, 10)
   }
-  mounted() {
-    setTimeout(() => {
-      let path = document.querySelector('path')
-      // console.log("获取路径", path)
-      if (path) {
-        let length = path.getTotalLength()
-        this.setState({ pathLength: length })
-        // console.log(length,'长度')
-      } else {
-        this.setState({ pathLength: 0 })
-      }
-    }, 10)
+  get pathLenth(): number {
+    let length = this.state.width*Math.PI
+    let path = document.querySelector('path')
+    console.log("获取路径", path)
+    if (path) {
+      let length = path.getTotalLength()
+      console.log(length,"长度")
+      return length
+    } else {
+      return 0
+    }
   }
   @Watch('type', { immediate: true })
   onTypeChange(val: string, oldVal: string) {

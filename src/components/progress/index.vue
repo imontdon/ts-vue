@@ -2,7 +2,6 @@
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 import { doesNotThrow } from 'assert';
-import { setTimeout } from 'timers';
 interface IDProgress {
   percentage?: number,
   type?: string,
@@ -42,6 +41,7 @@ class Progress extends Vue {
       strokeWidth: 8,
       status: '',
       width: 126,
+      pathLength: 0,
     }
   }
   render(h: CreateElement) {
@@ -69,8 +69,8 @@ class Progress extends Vue {
               </path>
               <path class="id-progress-circle_path" d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94"  
                     style={`stroke-width: ${this.state.strokeWidth}px;
-                            stroke-dasharray: ${(this.state.width-this.state.strokeWidth)*Math.PI}px;
-                            stroke-dashoffset: ${(this.state.width-this.state.strokeWidth)*Math.PI*(1-this.state.percentage/100)}px;
+                            stroke-dasharray: ${this.state.pathLength}px;
+                            stroke-dashoffset: ${this.state.pathLength * ( 1 - this.state.percentage / 100)}px;
                           `}>
               </path>
             </svg>
@@ -83,10 +83,11 @@ class Progress extends Vue {
         </div>
       const progress =
         <div class={`id-progress ${this.state.status? (this.state.status == 'success' ? 'is-success' : 'is-exception'):''}`}>
-            { this.state.type == 'line' ? progressLine : (this.state.type == 'circle' ? progressCycle :'')}
+            { this.state.type == 'line' ? progressLine : (this.state.type == 'circle' ? progressCycle :'') }
         </div>
       return progress
   }
+
   setState(obj: IDProgress) {
     setTimeout(() => {
       Object.keys(obj).forEach(key => {
@@ -113,7 +114,7 @@ class Progress extends Vue {
   @Watch('percentage', { immediate: true })
   onPercentageChange(val: number, oldVal: number) {
     if(typeof val == 'number'){
-      if(val > 0 && val < 100){
+      if(val >= 0 && val <= 100){
         this.setState({ percentage: val })
       }else{
         console.error("百分比值应为0-100")

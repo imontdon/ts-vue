@@ -96,7 +96,7 @@ class MessageForm extends Vue {
             <id-checkbox label='复选框 B' disabled={true}></id-checkbox>
             <id-checkbox label='复选框 C'></id-checkbox>
           </id-checkbox-group>
-          <id-radio-group style={'width: 340px;'} value={this.state.radioButtonGroupValue} on-change={this.handleRadioButtonGroupChage.bind(this)} >
+          <id-radio-group style={'width: 340px; height: 60px;'} value={this.state.radioButtonGroupValue} on-change={this.handleRadioButtonGroupChage.bind(this)} >
             <id-radio-button value='北京' disabled={true}></id-radio-button>
             <id-radio-button value='上海'></id-radio-button>
             <id-radio-button value='广州'></id-radio-button>

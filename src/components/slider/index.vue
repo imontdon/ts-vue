@@ -76,7 +76,7 @@ class Slider extends Vue {
     if (!this.state.isDragging) {
       this.setState({ isDragging: true })
     } else {
-      console.log('onDragging: ',event.clientX)
+      // console.log('onDragging: ',event.clientX)
       let moveX: number = event.clientX - this.state.startPosition
       moveX = moveX > this.state.barWidth ? this.state.barWidth : moveX
       moveX = moveX < 0 ? 0 : moveX
@@ -86,7 +86,7 @@ class Slider extends Vue {
     }
   }
   onDragEnd(event: MouseEvent) {
-    console.log('onDragEnd: ', event)
+    // console.log('onDragEnd: ', event)
     const el = this.$el as HTMLElement
     // this.setState({ startPosition: this.state.currentPosition })
     document.removeEventListener('mousemove', this.onDragging)
@@ -143,7 +143,7 @@ class Slider extends Vue {
   mounted() {
     const el = this.$el as HTMLElement
     const defaultBar = el.querySelector('.id-slider__runway') as HTMLElement
-    console.log(defaultBar.offsetWidth)
+    // console.log(defaultBar.offsetWidth)
     this.setState({ barWidth: defaultBar.offsetWidth})
     // defaultBar.onclick = function(e) {
     //   const offsetX = e.offsetX

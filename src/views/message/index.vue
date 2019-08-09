@@ -7,6 +7,12 @@ import IDSwitch from '@/components/switch/index.vue'
 import IDSlider from '@/components/slider/index.vue'
 import IDUpload from '@/components/upload/index.vue'
 import IDRate from '@/components/rate/index.vue'
+import IDCollapse from '@/components/collapse/index.vue'
+
+
+
+
+
 
 
 interface TestMessage {
@@ -19,7 +25,8 @@ interface TestMessage {
     'id-slider': IDSlider,
     'id-upload': IDUpload,
     'id-rate': IDRate,
-    'id-progress': IDProgress
+    'id-progress': IDProgress,
+    'id-collapse': IDCollapse,
   }
 })
 export default class Message extends Vue {
@@ -41,7 +48,14 @@ export default class Message extends Vue {
     return (
       <div class='message-box'>
         <div class='message-form'>
-          <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate>
+        {
+          <id-collapse title="hhhhhhhhh">
+            <div>今天是2019年8月9日，天气不太好</div>
+            <p>谁怕？一蓑烟雨任平生</p>
+          </id-collapse>
+        }
+        {  // <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate>
+        }
           {
             /* 
               <id-upload action='http://localhost:1997/api/upload'
@@ -57,12 +71,14 @@ export default class Message extends Vue {
             */
           }
           {/* <id-progress percentage={this.state.percentage}></id-progress> */}
-          <id-progress percentage={this.state.percentage}  width={60}  type="circle"> </id-progress>
-          <id-slider style='margin-left: 20px;' value={64}>测试</id-slider>
-          <id-slider style='margin-left: 20px;' disabled={true}>测试</id-slider>
-          <id-switch style='margin-left: 20px;' value={true} showText={true} oncolor="#13ce66" offcolor='#ff4949'></id-switch>
-          <id-switch style='margin-left: 20px;' disabled={true} value={true} showText></id-switch>
-          <MessageForm on-submit={this.getTextContent}></MessageForm>
+          {
+          // <id-progress percentage={this.state.percentage}  width={60}  type="circle"> </id-progress>
+          // <id-slider style='margin-left: 20px;' value={64}>测试</id-slider>
+          // <id-slider style='margin-left: 20px;' disabled={true}>测试</id-slider>
+          // <id-switch style='margin-left: 20px;' value={true} showText={true} oncolor="#13ce66" offcolor='#ff4949'></id-switch>
+          // <id-switch style='margin-left: 20px;' disabled={true} value={true} showText></id-switch>
+          // <MessageForm on-submit={this.getTextContent}></MessageForm>
+          }
         </div>
         <div class='comment-area'>
         </div>

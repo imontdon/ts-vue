@@ -97,10 +97,10 @@ class Slider extends Vue {
     // 圆环
     const circleBtn = (
       <div class={`
-                    el-slider__btn-warpper
+                    id-slider__btn-warpper
                     ${this.state.disabled ? 'is-disabled' : ''}
                   `} on-mousedown={e => this.onButtonDown(e)}>
-        <div class='el-slider__btn'></div>
+        <div class='id-slider__btn'></div>
       </div>
     )
     // 进度条
@@ -192,7 +192,7 @@ export default Slider
         background: #409eff;
         border-radius: 12px;
       }
-      .el-slider__btn-warpper {
+      .id-slider__btn-warpper {
         width: 36px;
         height: 36px;
         position: absolute;
@@ -201,7 +201,7 @@ export default Slider
         &.is-disabled {
           opacity: 0.6;
         }
-        .el-slider__btn {
+        .id-slider__btn {
           width: 12px;
           height: 12px;
           position: absolute;

@@ -242,8 +242,9 @@ class Pagination extends Vue {
   }
   // 跳转
   turnToPage(index: number): void {
-    console.log(index)
+    // console.log(index)
     this.setState({ currentPage: index })
+    this.emitCurrentChange(index)
     // this.setState({ hasPrevPage: index === 1 })
     // this.setState({ hasNextPage: index === this.state.})
   }
@@ -254,10 +255,13 @@ class Pagination extends Vue {
       currentPage++
       if (this.state.pageTotal < this.state.pagerCount) {
         this.setState({ currentPage })
+        this.emitCurrentChange(currentPage)
       } else {
         this.turnToFlowPage(currentPage)
       }
     }
+    
+    this.emitNextClick(currentPage)
   }
   // 上一页
   prevPage(): void {
@@ -266,11 +270,23 @@ class Pagination extends Vue {
       currentPage--
       if (this.state.pageTotal < this.state.pagerCount) {
         this.setState({ currentPage })
+        this.emitCurrentChange(currentPage)
       } else {
         this.turnToFlowPage(currentPage)
       }
     }
+    this.emitPrevClick(currentPage)
   }
+
+  @Emit('currentChange')
+  emitCurrentChange(currentPage: number) { }
+  @Emit('nextClick')
+  emitNextClick(currentPage: number) { }
+  @Emit('prevClick')
+  emitPrevClick(currentPage: number) { }
+  @Emit('sizeChange')
+  emitSizeChange(pageSize: number) {}
+
   @Watch('layout', { immediate: true })
   onLayoutChange(val: string) {
     const newLayout = val.replace(/\s+/g, '')

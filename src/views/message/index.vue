@@ -8,6 +8,8 @@ import IDSlider from '@/components/slider/index.vue'
 import IDUpload from '@/components/upload/index.vue'
 import IDRate from '@/components/rate/index.vue'
 
+import IDPagination from '@/components/pagination/index.vue'
+
 
 interface TestMessage {
   percentage?: number
@@ -19,7 +21,9 @@ interface TestMessage {
     'id-slider': IDSlider,
     'id-upload': IDUpload,
     'id-rate': IDRate,
-    'id-progress': IDProgress
+    'id-progress': IDProgress,
+
+    'id-pagination': IDPagination
   }
 })
 export default class Message extends Vue {
@@ -41,6 +45,11 @@ export default class Message extends Vue {
     return (
       <div class='message-box'>
         <div class='message-form'>
+          <id-pagination
+            layout="prev, pager, next"
+            total={151}
+            background={true}
+          ></id-pagination>
           <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate>
           {
             /* 

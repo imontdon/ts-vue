@@ -15,7 +15,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-star:before {
+.icon-star-on:before {
   content: "\e611";
 }
 
@@ -35,7 +35,7 @@
   content: "\e68d";
 }
 
-.icon-star-copy:before {
+.icon-star-off:before {
   content: "\e612";
 }
 

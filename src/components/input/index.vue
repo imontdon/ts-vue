@@ -36,7 +36,7 @@ class Input extends Vue {
   @Prop({ required: false, default: false })
   private clearable: boolean
 
-  private state: IDInput
+  public state: IDInput
   constructor() {
     super()
     this.state = {
@@ -254,12 +254,13 @@ export default Input
   .id-input {
     position: relative;
     width: 100%;
+    height: inherit;
     .id-input__inner {
       width: 90%;
       border-radius: 4px;
       border: 1px solid #dcdfe6;
-      height: 40px;
-      line-height: 40px;
+      height: inherit;
+      line-height: inherit;
       // padding-left: $iconSize + $iconLeft;
       padding-left: 10px;
       color: #606266;

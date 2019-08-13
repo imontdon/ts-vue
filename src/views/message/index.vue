@@ -46,8 +46,12 @@ export default class Message extends Vue {
       <div class='message-box'>
         <div class='message-form'>
           <id-pagination
-            layout="prev, pager, next"
-            total={151}
+            class='test-pagination'
+            style={`margin: 10px 0;`}
+            layout=" sizes, prev, pager, next, jumper"
+            pageSize={10}
+            pageSizes = {[10, 20, 30, 40]}
+            total={115}
             background={true}
           ></id-pagination>
           <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate>

@@ -43,7 +43,7 @@ class Collapse extends Vue {
               </div>
             </div>
           </div>
-          </div> 
+          </div> `        `
         </div>
       </div>
     )

@@ -18,7 +18,7 @@ import IDOption from '../select/option.vue'
 import IDOptionGroup from '../select/option-group.vue'
 import IDChoutbox from '../checkbox/index.vue'
 import IDChoutboxGroup from '../checkbox/checkbox-group.vue'
-// import Ajax from '../../request/request'
+                                            // import Ajax from '../../request/request'
 import { post, get } from '../../request'
 
 interface Message {

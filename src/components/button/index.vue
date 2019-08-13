@@ -53,6 +53,7 @@ class Button extends Vue {
                 ${this.state.loading ? 'is-loading' : '' } 
                 ${this.state.disabled ? 'is-disabled' : '' } 
                 ${this.state.circle ? 'is-circle' : ''} 
+                ${this.$slots.default ? '' : 'icon-btn'}
               `}>
               {
                 this.state.circle ? ( // 是否为圆
@@ -67,12 +68,12 @@ class Button extends Vue {
                       </span>
                     ) : this.$slots.default // 没有loading，输出children
                     : ( // 有icon，输出icon + children内容
-                      <span class='id-span'>
+                      <span class={`id-span ${this.$slots.default ? '' : 'icon-btn__span'}`}>
                         { // 优先加载loading图
                           this.state.loading ? 
                           (
-                            <i class={`id-icon icon-loading prefix-icon`}></i>
-                          ) : <i class={`id-icon icon-${this.state.icon} prefix-icon`}></i>
+                            <i class={`id-icon icon-loading prefix-icon ${this.$slots.default ? '' : 'icon-btn__icon'}`}></i>
+                          ) : <i class={`id-icon icon-${this.state.icon} prefix-icon ${this.$slots.default ? '' : 'icon-btn__icon'}`}></i>
                         }
                         {this.$slots.default}
                       </span>
@@ -164,15 +165,30 @@ export default Button
     &.is-disabled, &[disabled] {
       // pointer-events: none;
       cursor: not-allowed;
+      .id-icon.icon-btn__icon {
+        cursor: not-allowed;
+      }
     }
     &.is-loading, &[loading] {
       .icon-loading {
         animation: rotating 2s linear infinite;
       }
     }
+    &.icon-btn {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+    }
     .id-span {
       position: relative;
-      .id-icon {
+      &.icon-btn__span {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .id-icon:not(.icon-btn__icon) {
         position: absolute;
         top: 50%;
         margin-top: -6.5px;

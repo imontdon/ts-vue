@@ -49,8 +49,8 @@ export default class Message extends Vue {
             class='test-pagination'
             style={`margin: 10px 0;`}
             layout=" sizes, prev, pager, next, jumper"
-            pageSize={10}
-            pageSizes = {[10, 20, 30, 40]}
+            pageSize={5}
+            pageSizes = {[5, 8, 10, 15]}
             total={115}
             background={true}
           ></id-pagination>

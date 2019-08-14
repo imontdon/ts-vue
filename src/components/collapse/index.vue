@@ -6,7 +6,8 @@ import { emit } from 'cluster';
 
 interface IDCollapse {
   title?: string,
-  name?: string | number
+  name?: string | number,
+  isActive?: boolean,
 }
 
 @Component
@@ -22,6 +23,7 @@ class Collapse extends Vue {
     this.state = {
       title:'',
       name:'',
+      isActive: false,
     }
   }
 
@@ -29,21 +31,25 @@ class Collapse extends Vue {
     return (
      <div class="id-collapse">
         <div class="id-collapse-item">
-          <div class="id-collapse-item__header"
+          <div 
             on-click={this.handleClick.bind(this)}
+            class={`id-collapse-item__header ${this.state.isActive? 'is-Active':'' }`}
           >
             <i class="id-icon icon-cancel-circle id-collapse-item__header__arrow"></i>
             {this.state.title}
           </div> 
           <div>
-          <div style="overflow: hidden; display: none" ref="content" >
+          <div 
+              //  style={`overflow: hidden; display: ${this.state.isActive? 'block':'none'}`}
+               style={`overflow: hidden;  ${this.state.isActive ? 'height: 500px;' : 'height: 0px;' } transition: 1s height ease-in-out;`}
+               >
             <div class="id-collapse-item__wrap">
               <div class="id-collapse-item__content">
                 {this.$slots.default}
               </div>
             </div>
           </div>
-          </div> `        `
+          </div>
         </div>
       </div>
     )
@@ -56,14 +62,7 @@ class Collapse extends Vue {
     }, 10)
   }
   handleClick(){
-    let content = this.$refs.content as any
-    if(content.style.display === "none"){
-      // content.style.height = 0
-      content.style.display = "block"
-    } else {
-      content.style.display ="none"
-    }
-    console.log(content,"好困")
+    this.state.isActive = !this.state.isActive;
   }
   @Watch('title', { immediate: true })
   ontitleChange(val: string, oldVal: string) {
@@ -74,7 +73,7 @@ export default Collapse
 </script>
 <style lang="scss">
   .id-collapse{
-    border: 1px solid #dfe6ec;
+    // border: 1px solid #dfe6ec; 
     border-radius: 0;
     .id-collapse-item{
       &__header{
@@ -109,6 +108,8 @@ export default Collapse
       height:0;
       padding:0;
     }
-
   }
+  .collapse-transition{
+    transition: .3s height ease-in-out,.3s padding-top ease-in-out,.3s padding-bottom ease-in-out;
+  }  
 </style>

@@ -8,6 +8,12 @@ import IDSlider from '@/components/slider/index.vue'
 import IDUpload from '@/components/upload/index.vue'
 import IDRate from '@/components/rate/index.vue'
 import IDCollapse from '@/components/collapse/index.vue'
+
+
+
+
+
+
 import IDPagination from '@/components/pagination/index.vue'
 
 
@@ -45,12 +51,18 @@ export default class Message extends Vue {
     return (
       <div class='message-box'>
         <div class='message-form'>
-          <id-pagination
-            layout="prev, pager, next"
-            total={151}
-            background={true}
-          ></id-pagination>
-          <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate>
+        {         
+        //            <id-pagination
+        //             layout="prev, pager, next"
+        //             total={151}
+        //             background={true}
+        //           ></id-pagination>
+        //           <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate>
+        }
+        <id-collapse title="难以言喻">
+          <div>加几就内呵呵哈哈哈</div>
+          <div>加几就内呵呵哈哈哈</div>
+        </id-collapse>
           {
             /* 
               <id-upload action='http://localhost:1997/api/upload'

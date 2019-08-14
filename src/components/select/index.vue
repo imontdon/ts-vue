@@ -248,7 +248,7 @@ export default Select
     }
     .id-select-options {
       position: absolute;
-      width: 80%;
+      width: 100%;
       top: 42px;
       visibility: hidden;
       z-index: 10;

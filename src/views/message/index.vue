@@ -63,11 +63,9 @@ export default class Message extends Vue {
             */
           }
           {/* <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate> */}
-          { // 这里有BUG
-            /* 
               <id-upload action='http://localhost:1997/api/upload'
                   multiple={true}
-                //  picture={true}
+                  picture={true}
                   onBeforeUpload = {this.beforeUpload.bind(this)}
                   onProgress = {this.handleProgress.bind(this)}
                   onSuccess = {this.uploadSuccess.bind(this)}
@@ -76,8 +74,6 @@ export default class Message extends Vue {
                 <div slot="tip" class="id-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
               </id-upload>
               <id-progress percentage={this.state.percentage}  width={60}  type="circle"> </id-progress>
-            */
-          }
           {
             /* 
               <id-progress percentage={this.state.percentage}></id-progress>

@@ -63,6 +63,8 @@ export default class Message extends Vue {
             */
           }
           {/* <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate> */}
+          {
+            /* 
               <id-upload action='http://localhost:1997/api/upload'
                   multiple={true}
                   picture={true}
@@ -74,6 +76,8 @@ export default class Message extends Vue {
                 <div slot="tip" class="id-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
               </id-upload>
               <id-progress percentage={this.state.percentage}  width={60}  type="circle"> </id-progress>
+            */
+          }
           {
             /* 
               <id-progress percentage={this.state.percentage}></id-progress>
@@ -83,7 +87,7 @@ export default class Message extends Vue {
               <id-switch style='margin-left: 20px;' disabled={true} value={true} showText></id-switch>
             */
           }
-          <MessageForm on-submit={this.getTextContent}></MessageForm>
+          {/* <MessageForm on-submit={this.getTextContent}></MessageForm> */}
         </div>
         <div class='comment-area'>
         </div>
@@ -95,12 +99,27 @@ export default class Message extends Vue {
     const data = [
       {
         label: '一级 1',
-        children: [{
-          label: '二级 1-1',
-          children: [{
-            label: '三级 1-1-1'
-          }]
-        }]
+        children: [
+          {
+            label: '二级 1-1',
+            children: [
+              {
+                label: '三级 1-1-1'
+              },
+            ]
+          },
+          {
+            label: '二级 1-2',
+            children: [
+              {
+                label: '三级 1-1-1'
+              }
+            ]
+          },
+          {
+            label: '二级 1-3'
+          }
+        ]
       }, 
       {
         label: '一级 2',

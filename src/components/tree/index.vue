@@ -1,12 +1,21 @@
 <script lang="tsx">
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
+import IDChildNodes from './child-nodes.vue'
 
 interface IDTree {
-  data?: Array<any>
+  data?: Array<Node>
 }
-
-@Component
+interface Node {
+  label: string,
+  children?: Array<Node>,
+  active?: boolean
+}
+@Component({
+  components: {
+    'id-child-nodes': IDChildNodes
+  }
+})
 class Tree extends Vue {
 
   @Prop({ required: true })
@@ -28,31 +37,45 @@ class Tree extends Vue {
     }, 10)
   }
   render(h: CreateElement) {
-    return (
+    const childrenNode = (
+      <div>111</div>
+    )
+    const parentNode = (
       <div class={`id-tree`}>
-        {this.state.data.map((item: any, index: number): HTMLElement => {
+        {this.state.data.map((node: Node, index: number): HTMLElement => {
           return (
-            <div class={`id-tree-node ${item.active ? 'is-focus': ''}`} 
-                 onClick={this.handldClick.bind(this, item, index)}
-            >
-              <span class={`id-tree-node__icon`}>
-                <i class='id-icon icon-next'></i>
-              </span>
-              <span class={`id-tree-node__label`}>{item.label}</span>
+            <div class={`id-tree-node`}>
+              <div class={`id-tree-node__parent ${node.active ? 'is-focus': ''}`}
+                   onClick={this.handldClick.bind(this, node, index)}>
+                <span class={`id-tree-node__icon`}>
+                  <i class='id-icon icon-caretright'></i>
+                </span>
+                <span class={`id-tree-node__label`}>{node.label}</span>
+              </div>
+              {
+               /*  node.active && node.children && node.children.length > 0 ? 
+                (
+                  <id-child-nodes data={node.children} level={1} parentLevel={index + 1}></id-child-nodes>
+                ) 
+                : null */
+              }
+              <id-child-nodes data={node.children} level={1} parentLevel={index + 1}></id-child-nodes>
             </div>
           )
         })}
       </div>
     )
+    return parentNode
   }
-  handldClick(item: any, index: number, e: Event) {
-    if (!item.active) {
-      item.active = true
+  handldClick(node: Node, index: number, e: Event) {
+    e.preventDefault()
+    if (!node.active) {
+      node.active = true
     } else {
-      item.active = false
+      node.active = false
     }
     const data = this.state.data
-    data.splice(index, 1, item)
+    data.splice(index, 1, node)
     this.setState({ data })
   }
   @Watch('data', { immediate: true, deep: true })
@@ -66,21 +89,29 @@ export default Tree
 </script>
 <style lang="scss">
   .id-tree {
-    &-node {
-      display: flex;
-      cursor: pointer;
-      width: 100%;
-      height: 24px;
-      font-size: 14px;
-      align-items: center;
-      &.is-focus {
-        .id-tree-node__icon {
-          transform: rotate(90deg);
-          transition: transforem 3s;
+    .icon-caretright {}
+    .id-tree-node {
+      // 双击选中文本框问题
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      &__parent, &__children .tree-node {
+        display: flex;
+        cursor: pointer;
+        // width: 100%;
+        font-size: 14px;
+        align-items: center;
+        // transition: transform .5s;
+        // transform: rotate(0deg);
+        &.is-focus {
+          .id-tree-node__icon {
+            transition: transform .5s;
+            transform: rotate(90deg);
+          }
         }
-      }
-      &:hover {
-        background: #ebebeb;
+        &:hover {
+          background: #ebebeb;
+        }
       }
     }
   }

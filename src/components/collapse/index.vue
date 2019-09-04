@@ -8,6 +8,8 @@ interface IDCollapse {
   title?: string,
   name?: string | number,
   isActive?: boolean,
+  accordion?: boolean,
+  // activeName?: string | number,
 }
 
 @Component
@@ -15,7 +17,9 @@ class Collapse extends Vue {
   @Prop({ required: false, default: '' })
   private title: string
   @Prop({ required: false, default: '' })
-  private name: string | number
+  private name: string | number  
+  @Prop({ required: false, default: false })
+  private accordion: number
 
   private state: IDCollapse
   constructor() {
@@ -24,6 +28,8 @@ class Collapse extends Vue {
       title:'',
       name:'',
       isActive: false,
+      accordion: false,
+      // activeName: '1',
     }
   }
 
@@ -31,49 +37,53 @@ class Collapse extends Vue {
     return (
      <div class="id-collapse">
         <div class="id-collapse-item">
+          {/* 标题 */}
           <div 
-            on-click={this.handleClick.bind(this)}
-            class={`id-collapse-item__header ${this.state.isActive? 'is-Active':'' }`}
-          >
+            on-click={this.handleClick.bind(this,this.state.name)}
+            class="id-collapse-item__header">
             <i class="id-icon icon-cancel-circle id-collapse-item__header__arrow"></i>
             {this.state.title}
           </div> 
-          <div>
-          <div 
-              //  style={`overflow: hidden; display: ${this.state.isActive? 'block':'none'}`}
-               style={`overflow: hidden;  ${this.state.isActive ? 'height: 500px;' : 'height: 0px;' } transition: 1s height ease-in-out;`}
-               >
-            <div class="id-collapse-item__wrap">
-              <div class="id-collapse-item__content">
-                {this.$slots.default}
-              </div>
+          {/* 内容 */}
+          <div class= {`id-collapse-item__wrap  collapse-transition ${this.state.isActive ? 'is-active' : '' }`}>
+            <div class="id-collapse-item__content">
+              {this.$slots.default}
             </div>
-          </div>
-          </div>
+        </div>
         </div>
       </div>
     )
   }
   setState(obj: IDCollapse) {
+    console.log(obj)
     setTimeout(() => {
       Object.keys(obj).forEach(key => {
         this.state[key] = obj[key]
+        console.log(this.state[key],'key:',key)
       })
     }, 10)
   }
-  handleClick(){
+  handleClick(val){
+    // this.setState({ activeName: val })
     this.state.isActive = !this.state.isActive;
   }
   @Watch('title', { immediate: true })
-  ontitleChange(val: string, oldVal: string) {
+  onTitleChange(val: string, oldVal: string) {
     this.setState({ title: val })
+  }
+  @Watch('accordion', { immediate: true })
+  onAccordionChange(val: boolean, oldVal: boolean) {
+    this.setState({ accordion: val })
+  }
+  @Watch('name', { immediate: true })
+  onNameChange(val: string | number, oldVal:string | number) {
+    this.setState({ name: val })
   }
 }
 export default Collapse
 </script>
 <style lang="scss">
   .id-collapse{
-    // border: 1px solid #dfe6ec; 
     border-radius: 0;
     .id-collapse-item{
       &__header{
@@ -93,9 +103,9 @@ export default Collapse
       &__wrap{
         will-change: height;
         background-color: #fbfdff;
-        overflow: hidden;
         box-sizing: border-box;
         border-bottom: 1px solid #dfe6ec;
+        max-height: 0;
       }
       &__content{
         padding: 10px 15px;
@@ -103,13 +113,14 @@ export default Collapse
         color: #1f2d3d;
         line-height: 1.769230769230769;
       }
-    }
-    .heightChange{
-      height:0;
-      padding:0;
+      .is-active{
+        max-height: 100px;
+      }
+      .collapse-transition{
+        overflow: hidden;
+        transition: max-height 0.4s;
+      }  
     }
   }
-  .collapse-transition{
-    transition: .3s height ease-in-out,.3s padding-top ease-in-out,.3s padding-bottom ease-in-out;
-  }  
+
 </style>

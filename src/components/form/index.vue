@@ -26,7 +26,7 @@ class Form extends Vue {
           (
             <div class='login-back' onClick={this.handleFormClick.bind(this)}>
               <div class='login-form'>
-                {
+                {                                                                           
                   this.$slots.default ? (
                     <div>
                       { this.$slots.default }

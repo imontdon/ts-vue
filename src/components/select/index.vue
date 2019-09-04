@@ -75,7 +75,8 @@ class Select extends Vue {
             clearable = {this.state.value.length > 0 && this.state.clearable ? this.state.clearable : false }
             // clearable
             disabled = {this.state.disabled}
-            on-change = {this.emitChange}
+            // 要关闭这个onchange方法
+            // on-change = {this.emitChange}
             on-clear = {this.handleClear}
             on-blur = {this.handleBlur}
             on-click = {this.handleClick}
@@ -110,7 +111,7 @@ class Select extends Vue {
   }
 
   @Emit('change')
-  emitChange(val: string) { }
+  emitChange(val: any) { }
   @Emit('clear')
   emitClear() { }
 
@@ -202,7 +203,7 @@ class Select extends Vue {
   changeSelected(opt?: any) {
     // console.log(opt)
     this.setState({ value: opt.label })
-    // this.emitChange() 还没做完emit给父组件
+    this.emitChange(opt.value) // 还没做完emit给父组件
     this.rotateIcon(this.state.input, 0)
   }
 
@@ -247,8 +248,8 @@ export default Select
     }
     .id-select-options {
       position: absolute;
-      width: 80%;
-      top: 52px;
+      width: 100%;
+      top: 42px;
       visibility: hidden;
       z-index: 10;
       .triangle-up {

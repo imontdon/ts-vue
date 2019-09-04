@@ -8,17 +8,12 @@ import IDSlider from '@/components/slider/index.vue'
 import IDUpload from '@/components/upload/index.vue'
 import IDRate from '@/components/rate/index.vue'
 import IDCollapse from '@/components/collapse/index.vue'
-
-
-
-
-
-
+import IDTree from '@/components/tree/index.vue'
 import IDPagination from '@/components/pagination/index.vue'
 
-
 interface TestMessage {
-  percentage?: number
+  percentage?: number,
+  treeData?: Array<any>
 }
 @Component({
   components: {
@@ -30,6 +25,8 @@ interface TestMessage {
     'id-progress': IDProgress,
     'id-collapse': IDCollapse,
     'id-pagination': IDPagination
+    'id-pagination': IDPagination,
+    'id-tree': IDTree
   }
 })
 export default class Message extends Vue {
@@ -37,7 +34,8 @@ export default class Message extends Vue {
   constructor() {
     super()
     this.state = {
-      percentage: 0
+      percentage: 0,
+      treeData: []
     }
   }
   setState(obj: TestMessage) {
@@ -51,46 +49,109 @@ export default class Message extends Vue {
     return (
       <div class='message-box'>
         <div class='message-form'>
-        {         
-        //            <id-pagination
-        //             layout="prev, pager, next"
-        //             total={151}
-        //             background={true}
-        //           ></id-pagination>
-        //           <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate>
-        }
-        <id-collapse title="难以言喻">
-          <div>加几就内呵呵哈哈哈</div>
-          <div>加几就内呵呵哈哈哈</div>
-        </id-collapse>
+          <id-tree data={this.state.treeData}></id-tree>
+          {
+            /* 
+              <id-pagination
+                class='test-pagination'
+                style={`margin: 10px 0;`}
+                layout=" sizes, prev, pager, next, jumper"
+                pageSize={5}
+                pageSizes = {[5, 8, 10, 15]}
+                total={115}
+                background={true}
+              ></id-pagination>
+            */
+          }
+          {/* <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate> */}
           {
             /* 
               <id-upload action='http://localhost:1997/api/upload'
-                     multiple={true}
-                    //  picture={true}
-                     onBeforeUpload = {this.beforeUpload.bind(this)}
-                     onProgress = {this.handleProgress.bind(this)}
-                     onSuccess = {this.uploadSuccess.bind(this)}
-                     onRemove = {this.removeFile.bind(this)}
+                  multiple={true}
+                  picture={true}
+                  onBeforeUpload = {this.beforeUpload.bind(this)}
+                  onProgress = {this.handleProgress.bind(this)}
+                  onSuccess = {this.uploadSuccess.bind(this)}
+                  onRemove = {this.removeFile.bind(this)}
               >
                 <div slot="tip" class="id-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
               </id-upload>
+              <id-progress percentage={this.state.percentage}  width={60}  type="circle"> </id-progress>
             */
           }
-          {/* <id-progress percentage={this.state.percentage}></id-progress> */}
           {
-          // <id-progress percentage={this.state.percentage}  width={60}  type="circle"> </id-progress>
-          // <id-slider style='margin-left: 20px;' value={64}>测试</id-slider>
-          // <id-slider style='margin-left: 20px;' disabled={true}>测试</id-slider>
-          // <id-switch style='margin-left: 20px;' value={true} showText={true} oncolor="#13ce66" offcolor='#ff4949'></id-switch>
-          // <id-switch style='margin-left: 20px;' disabled={true} value={true} showText></id-switch>
-          // <MessageForm on-submit={this.getTextContent}></MessageForm>
+            /* 
+              <id-progress percentage={this.state.percentage}></id-progress>
+              <id-slider style='margin-left: 20px;' value={64}>测试</id-slider>
+              <id-slider style='margin-left: 20px;' disabled={true}>测试</id-slider>
+              <id-switch style='margin-left: 20px;' value={true} showText={true} oncolor="#13ce66" offcolor='#ff4949'></id-switch>
+              <id-switch style='margin-left: 20px;' disabled={true} value={true} showText></id-switch>
+            */
           }
+          {/* <MessageForm on-submit={this.getTextContent}></MessageForm> */}
         </div>
         <div class='comment-area'>
         </div>
       </div>
     )
+  }
+
+  mounted() {
+    const data = [
+      {
+        label: '一级 1',
+        children: [
+          {
+            label: '二级 1-1',
+            children: [
+              {
+                label: '三级 1-1-1'
+              },
+            ]
+          },
+          {
+            label: '二级 1-2',
+            children: [
+              {
+                label: '三级 1-1-1'
+              }
+            ]
+          },
+          {
+            label: '二级 1-3'
+          }
+        ]
+      }, 
+      {
+        label: '一级 2',
+        children: [{
+          label: '二级 2-1',
+          children: [{
+            label: '三级 2-1-1'
+          }]
+        }, {
+          label: '二级 2-2',
+          children: [{
+            label: '三级 2-2-1'
+          }]
+        }]
+      }, 
+      {
+        label: '一级 3',
+        children: [{
+          label: '二级 3-1',
+          children: [{
+            label: '三级 3-1-1'
+          }]
+        }, {
+          label: '二级 3-2',
+          children: [{
+            label: '三级 3-2-1'
+          }]
+        }]
+      }
+    ]
+    this.setState({ treeData: data })
   }
   uploadSuccess() {
     console.log('success')
@@ -104,8 +165,6 @@ export default class Message extends Vue {
   }
   beforeUpload(files: FileList) {
     console.log(files)
-  }
-  mounted() {
   }
   getTextContent(val: string|boolean) {
   }

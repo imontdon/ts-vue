@@ -147,7 +147,7 @@ class Upload extends Vue {
                         <img src={ file.filepath} />
                         <a>{file.filename}</a>
                         <label class='id-upload-list__item-status-label'>
-                          <i class='id-icon icon-Check'></i>
+                          <i class='id-icon icon-check'></i>
                         </label>
                         <i class='id-icon icon-remove' onClick={ this.handeRemoved.bind(this, index)}></i>
                       </li>

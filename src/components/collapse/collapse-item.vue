@@ -1,35 +1,29 @@
 <script lang="tsx">
 import Vue, { CreateElement } from 'vue'
-import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
+import { Component, Emit, Prop, Watch, Inject } from 'vue-property-decorator'
 import { document } from '../../vue-shim';
 import { emit } from 'cluster';
 
 interface IDCollapse {
   title?: string,
   name?: string | number,
-  isActive?: boolean,
-  accordion?: boolean,
-  // activeName?: string | number,
 }
 
 @Component
 class Collapse extends Vue {
+
+  @Inject('IDCollapse') readonly IDCollapse!: any
   @Prop({ required: false, default: '' })
   private title: string
   @Prop({ required: false, default: '' })
-  private name: string | number  
-  @Prop({ required: false, default: false })
-  private accordion: number
-
+  private name: string | number
+  
   private state: IDCollapse
   constructor() {
     super()
     this.state = {
       title:'',
       name:'',
-      isActive: false,
-      accordion: false,
-      // activeName: '1',
     }
   }
 
@@ -39,13 +33,13 @@ class Collapse extends Vue {
         <div class="id-collapse-item">
           {/* 标题 */}
           <div 
-            on-click={this.handleClick.bind(this,this.state.name)}
+            on-click={this.handleClick.bind(this)}
             class="id-collapse-item__header">
             <i class="id-icon icon-cancel-circle id-collapse-item__header__arrow"></i>
             {this.state.title}
           </div> 
           {/* 内容 */}
-          <div class= {`id-collapse-item__wrap  collapse-transition ${this.state.isActive ? 'is-active' : '' }`}>
+          <div class= {`id-collapse-item__wrap  collapse-transition`}>
             <div class="id-collapse-item__content">
               {this.$slots.default}
             </div>
@@ -59,21 +53,15 @@ class Collapse extends Vue {
     setTimeout(() => {
       Object.keys(obj).forEach(key => {
         this.state[key] = obj[key]
-        console.log(this.state[key],'key:',key)
       })
     }, 10)
   }
   handleClick(val){
-    // this.setState({ activeName: val })
-    this.state.isActive = !this.state.isActive;
+    console.log(val)
   }
   @Watch('title', { immediate: true })
   onTitleChange(val: string, oldVal: string) {
     this.setState({ title: val })
-  }
-  @Watch('accordion', { immediate: true })
-  onAccordionChange(val: boolean, oldVal: boolean) {
-    this.setState({ accordion: val })
   }
   @Watch('name', { immediate: true })
   onNameChange(val: string | number, oldVal:string | number) {

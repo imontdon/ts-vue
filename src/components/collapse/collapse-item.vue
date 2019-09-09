@@ -12,7 +12,9 @@ interface IDCollapse {
 @Component
 class Collapse extends Vue {
 
+  // 注入依赖
   @Inject('IDCollapse') readonly IDCollapse!: any
+  
   @Prop({ required: false, default: '' })
   private title: string
   @Prop({ required: false, default: '' })
@@ -26,12 +28,12 @@ class Collapse extends Vue {
       name:'',
     }
   }
-
+// 如果不是手风琴模式  将name的所有值传入到value中
+// 点击item组件将那条数据的name传入到 value中  
+// isActive 
   render(h: CreateElement) {
     return (
-     <div class="id-collapse">
         <div class="id-collapse-item">
-          {/* 标题 */}
           <div 
             on-click={this.handleClick.bind(this)}
             class="id-collapse-item__header">
@@ -39,14 +41,16 @@ class Collapse extends Vue {
             {this.state.title}
           </div> 
           {/* 内容 */}
-          <div class= {`id-collapse-item__wrap  collapse-transition`}>
+          <div class= {`id-collapse-item__wrap ${this.isActive ? 'collapse-transition': ''}`}>
             <div class="id-collapse-item__content">
               {this.$slots.default}
             </div>
+          </div>
         </div>
-        </div>
-      </div>
     )
+  }
+  get isActive() : boolean{
+    return  this.IDCollapse.activeName == this.state.name
   }
   setState(obj: IDCollapse) {
     console.log(obj)
@@ -59,6 +63,7 @@ class Collapse extends Vue {
   handleClick(val){
     console.log(val)
   }
+
   @Watch('title', { immediate: true })
   onTitleChange(val: string, oldVal: string) {
     this.setState({ title: val })
@@ -71,8 +76,6 @@ class Collapse extends Vue {
 export default Collapse
 </script>
 <style lang="scss">
-  .id-collapse{
-    border-radius: 0;
     .id-collapse-item{
       &__header{
         height: 43px;
@@ -109,6 +112,4 @@ export default Collapse
         transition: max-height 0.4s;
       }  
     }
-  }
-
 </style>

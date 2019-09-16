@@ -8,28 +8,37 @@ import IDSlider from '@/components/slider/index.vue'
 import IDUpload from '@/components/upload/index.vue'
 import IDRate from '@/components/rate/index.vue'
 import IDCollapseItem from '@/components/collapse/collapse-item.vue'
+import IDCollapse from '@/components/collapse/collapse.vue'
 import IDTree from '@/components/tree/index.vue'
 import IDPagination from '@/components/pagination/index.vue'
 import IDDialog from '@/components/dialog/index.vue'
+import IDButton from '@/components/button/index.vue'
+import IDTable from '@/components/table/index.vue'
+import IDTableColumn from '@/components/table/table-column.vue'
 
 interface TestMessage {
   percentage?: number,
   treeData?: Array<any>,
-  dialogVisible?: boolean
+  dialogVisible?: boolean,
+  tableData?: Array<any>
 }
 @Component({
   components: {
     MessageForm,
+    'id-button': IDButton,
     'id-switch': IDSwitch,
     'id-slider': IDSlider,
     'id-upload': IDUpload,
     'id-rate': IDRate,
     'id-progress': IDProgress,
     'id-collapse-item': IDCollapseItem,
+    'id-collapse': IDCollapse,
     'id-pagination': IDPagination,
     // 'id-pagination': IDPagination,
     'id-tree': IDTree,
-    'id-dialog': IDDialog
+    'id-dialog': IDDialog,
+    'id-table': IDTable,
+    'id-table-column': IDTableColumn,
   }
 })
 export default class Message extends Vue {
@@ -39,7 +48,24 @@ export default class Message extends Vue {
     this.state = {
       percentage: 0,
       treeData: [],
-      dialogVisible: false,
+      dialogVisible: true,
+      tableData: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1517 弄'
+      }, {
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1519 弄'
+      }, {
+        date: '2016-05-03',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1516 弄'
+      }]
     }
   }
   setState(obj: TestMessage) {
@@ -53,58 +79,31 @@ export default class Message extends Vue {
     return (
       <div class='message-box'>
         <div class='message-form'>
-        <span onClick={this.showDialog}>asdsa</span>
-          <id-dialog
+        <a onClick={() => this.showDialog()}>showDialog</a>
+        <id-dialog
             visible={this.state.dialogVisible}
             title={'提示'}
             onClose={this.closeDialog}
           >
-          <span>askdjhakjsdhkj</span>
-          <span slot='footer'>a111</span>
+          <id-table
+            data={this.state.tableData}
+            stripe
+          >
+            <id-table-column></id-table-column>
+          </id-table>
+          <span slot='footer'>
+            <id-button>`1111</id-button>
+          </span>
         </id-dialog>
-        <id-collapse-item title="哥达鸭" name="1" >你好年最佳设计计算机会社书撒火收到就好护甲护士计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
-        <id-collapse-item title="宝石海星" name="2">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
-        <id-collapse-item title="海星星" name="3">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
-          {/*<id-tree data={this.state.treeData}></id-tree>*/}
           {
             /* 
-              <id-pagination
-                class='test-pagination'
-                style={`margin: 10px 0;`}
-                layout=" sizes, prev, pager, next, jumper"
-                pageSize={5}
-                pageSizes = {[5, 8, 10, 15]}
-                total={115}
-                background={true}
-              ></id-pagination>
+              <id-collapse accordion>
+                <id-collapse-item title="哥达鸭" name="1" >你好年最佳设计计算机会社书撒火收到就好护甲护士计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+                <id-collapse-item title="宝石海星" name="2">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+                <id-collapse-item title="海星星" name="3">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+              </id-collapse>
             */
           }
-          {/* <id-rate style={'width: 100%; height: 100px;'} showText={true} colors={['#99A9BF', '#F7BA2A', '#FF9900']}></id-rate> */}
-          {
-            /* 
-              <id-upload action='http://localhost:1997/api/upload'
-                  multiple={true}
-                  picture={true}
-                  onBeforeUpload = {this.beforeUpload.bind(this)}
-                  onProgress = {this.handleProgress.bind(this)}
-                  onSuccess = {this.uploadSuccess.bind(this)}
-                  onRemove = {this.removeFile.bind(this)}
-              >
-                <div slot="tip" class="id-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-              </id-upload>
-              <id-progress percentage={this.state.percentage}  width={60}  type="circle"> </id-progress>
-            */
-          }
-          {
-            /* 
-              <id-progress percentage={this.state.percentage}></id-progress>
-              <id-slider style='margin-left: 20px;' value={64}>测试</id-slider>
-              <id-slider style='margin-left: 20px;' disabled={true}>测试</id-slider>
-              <id-switch style='margin-left: 20px;' value={true} showText={true} oncolor="#13ce66" offcolor='#ff4949'></id-switch>
-              <id-switch style='margin-left: 20px;' disabled={true} value={true} showText></id-switch>
-            */
-          }
-          {/* <MessageForm on-submit={this.getTextContent}></MessageForm> */}
         </div>
         <div class='comment-area'>
         </div>

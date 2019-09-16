@@ -7,6 +7,8 @@ interface IDCollapse {
     value?: string | number | string[] | number[] 
 }
 
+
+
 @Component
 class Collapse extends Vue {
 
@@ -35,11 +37,23 @@ class Collapse extends Vue {
   }
   render(h: CreateElement) {
     return (
-      <div>
+      <div class="id-collapse">
         {this.$slots.default}
       </div>
     )
   }
+  setActiveName(activeName){
+    activeName = [].concat(activeName)
+  }
+  @Watch('accordion', { immediate: true })
+  onAccordionChange(val: boolean, oldVal: boolean) {
+    this.setState({ accordion: val })
+  }
+  @Watch('value', { immediate: true })
+  onValueChange(val: string | number | string[] | number[], oldVal: string | number | string[] | number[]) {
+    this.setState({ value: val })
+  }
 }
+
 export default Collapse
 </script>

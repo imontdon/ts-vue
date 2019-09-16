@@ -10,10 +10,12 @@ import IDRate from '@/components/rate/index.vue'
 import IDCollapseItem from '@/components/collapse/collapse-item.vue'
 import IDTree from '@/components/tree/index.vue'
 import IDPagination from '@/components/pagination/index.vue'
+import IDDialog from '@/components/dialog/index.vue'
 
 interface TestMessage {
   percentage?: number,
-  treeData?: Array<any>
+  treeData?: Array<any>,
+  dialogVisible?: boolean
 }
 @Component({
   components: {
@@ -26,7 +28,8 @@ interface TestMessage {
     'id-collapse-item': IDCollapseItem,
     'id-pagination': IDPagination,
     // 'id-pagination': IDPagination,
-    'id-tree': IDTree
+    'id-tree': IDTree,
+    'id-dialog': IDDialog
   }
 })
 export default class Message extends Vue {
@@ -35,7 +38,8 @@ export default class Message extends Vue {
     super()
     this.state = {
       percentage: 0,
-      treeData: []
+      treeData: [],
+      dialogVisible: false,
     }
   }
   setState(obj: TestMessage) {
@@ -49,9 +53,18 @@ export default class Message extends Vue {
     return (
       <div class='message-box'>
         <div class='message-form'>
-          <id-collapse-item title="哥达鸭" name="1" >你好年最佳设计计算机会社书撒火收到就好护甲护士计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
-          <id-collapse-item title="宝石海星" name="2">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
-          <id-collapse-item title="海星星" name="3">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+        <span onClick={this.showDialog}>asdsa</span>
+          <id-dialog
+            visible={this.state.dialogVisible}
+            title={'提示'}
+            onClose={this.closeDialog}
+          >
+          <span>askdjhakjsdhkj</span>
+          <span slot='footer'>a111</span>
+        </id-dialog>
+        <id-collapse-item title="哥达鸭" name="1" >你好年最佳设计计算机会社书撒火收到就好护甲护士计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+        <id-collapse-item title="宝石海星" name="2">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+        <id-collapse-item title="海星星" name="3">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
           {/*<id-tree data={this.state.treeData}></id-tree>*/}
           {
             /* 
@@ -155,6 +168,13 @@ export default class Message extends Vue {
       }
     ]
     this.setState({ treeData: data })
+  }
+  closeDialog() {
+    this.setState({ dialogVisible: false })
+  }
+  showDialog() {
+    this.setState({ dialogVisible: true })
+    console.log(this.state.dialogVisible)
   }
   uploadSuccess() {
     console.log('success')

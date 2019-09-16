@@ -37,10 +37,14 @@ class Tree extends Vue {
     }, 10)
   }
   render(h: CreateElement) {
-    const childrenNode = (
-      <div>111</div>
-    )
-    const parentNode = (
+    /* const childrenNode = (node: Node, index: number) => {
+      node.active && node.children && node.children.length > 0 ? 
+      (
+        <id-child-nodes data={node.children} level={1} parentLevel={index + 1}></id-child-nodes>
+      ) 
+      : null
+    } */
+    const Tree = (
       <div class={`id-tree`}>
         {this.state.data.map((node: Node, index: number): HTMLElement => {
           return (
@@ -53,19 +57,18 @@ class Tree extends Vue {
                 <span class={`id-tree-node__label`}>{node.label}</span>
               </div>
               {
-               /*  node.active && node.children && node.children.length > 0 ? 
+                node.active && node.children && node.children.length > 0 ? 
                 (
                   <id-child-nodes data={node.children} level={1} parentLevel={index + 1}></id-child-nodes>
                 ) 
-                : null */
+                : null
               }
-              <id-child-nodes data={node.children} level={1} parentLevel={index + 1}></id-child-nodes>
             </div>
           )
         })}
       </div>
     )
-    return parentNode
+    return Tree
   }
   handldClick(node: Node, index: number, e: Event) {
     e.preventDefault()
@@ -74,6 +77,7 @@ class Tree extends Vue {
     } else {
       node.active = false
     }
+    console.log(node, 1)
     const data = this.state.data
     data.splice(index, 1, node)
     this.setState({ data })

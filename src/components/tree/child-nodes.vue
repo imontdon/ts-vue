@@ -46,6 +46,10 @@ class ChildNodes extends Vue {
     } else {
       node.active = false
     }
+    const ele = e.target as HTMLElement
+    const parent = ele.parentNode.parentNode.parentNode as HTMLElement
+    console.log(parent, ele, parent.style.height)
+    console.log(node, this.state.level + 1)
     const data = this.state.data
     data.splice(index, 1, node)
     this.setState({ data })

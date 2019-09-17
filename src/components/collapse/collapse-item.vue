@@ -10,11 +10,11 @@ interface IDCollapse {
 }
 
 @Component
-class Collapse extends Vue {
+class collapseItem extends Vue {
 
   // 注入依赖
   @Inject('IDCollapse') readonly IDCollapse!: any
-  
+  // 接受父组件的值
   @Prop({ required: false, default: '' })
   private title: string
   @Prop({ required: false, default: '' })
@@ -28,20 +28,21 @@ class Collapse extends Vue {
       name:'',
     }
   }
-// 如果不是手风琴模式  将name的所有值传入到value中
-// 点击item组件将那条数据的name传入到 value中  
+// 如果不是手风琴模式  将各个子项collapse-item 中的name的都传入到value中 此时value为一数组
+// 手风琴模式下点击后将name传入到父组件collapse的value中  此时value为一string
 // isActive 
   render(h: CreateElement) {
     return (
         <div class="id-collapse-item">
           <div 
-            on-click={this.handleClick.bind(this)}
-            class="id-collapse-item__header">
+            on-click = {this.handleClick}
+            class = "id-collapse-item__header"
+            name = {this.state.name}>
             <i class="id-icon icon-cancel-circle id-collapse-item__header__arrow"></i>
             {this.state.title}
           </div> 
           {/* 内容 */}
-          <div class= {`id-collapse-item__wrap ${this.isActive ? 'collapse-transition': ''}`}>
+          <div class= {`id-collapse-item__wrap collapse-transition ${this.isActive ? 'is-active': ''}`}>
             <div class="id-collapse-item__content">
               {this.$slots.default}
             </div>
@@ -60,10 +61,11 @@ class Collapse extends Vue {
       })
     }, 10)
   }
-  handleClick(val){
-    console.log(val)
+  handleClick(){
+    let name = this.state.name
+    // 各个组件向父组件collapse传递当前name值
   }
-
+  
   @Watch('title', { immediate: true })
   onTitleChange(val: string, oldVal: string) {
     this.setState({ title: val })
@@ -73,7 +75,7 @@ class Collapse extends Vue {
     this.setState({ name: val })
   }
 }
-export default Collapse
+export default collapseItem
 </script>
 <style lang="scss">
     .id-collapse-item{

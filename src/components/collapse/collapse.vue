@@ -7,8 +7,6 @@ interface IDCollapse {
     value?: string | number | string[] | number[] 
 }
 
-
-
 @Component
 class Collapse extends Vue {
 
@@ -38,6 +36,7 @@ class Collapse extends Vue {
   render(h: CreateElement) {
     return (
       <div class="id-collapse">
+        <p style="color: red">{}</p>
         {this.$slots.default}
       </div>
     )

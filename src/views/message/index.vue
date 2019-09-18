@@ -13,14 +13,16 @@ import IDTree from '@/components/tree/index.vue'
 import IDPagination from '@/components/pagination/index.vue'
 import IDDialog from '@/components/dialog/index.vue'
 import IDButton from '@/components/button/index.vue'
-// import IDTable from '@/components/table/index.vue'
-// import IDTableColumn from '@/components/table/table-column.vue'
+import IDTable from '@/components/table/index.vue'
+import IDTableColumn from '@/components/table/table-column.vue'
 
+// import { loading } from '@/directives/index'
 interface TestMessage {
   percentage?: number,
   treeData?: Array<any>,
   dialogVisible?: boolean,
-  tableData?: Array<any>
+  tableData?: Array<any>,
+  loading?: boolean
 }
 @Component({
   components: {
@@ -34,12 +36,11 @@ interface TestMessage {
     'id-collapse-item': IDCollapseItem,
     'id-collapse': IDCollapse,
     'id-pagination': IDPagination,
-    // 'id-pagination': IDPagination,
     'id-tree': IDTree,
     'id-dialog': IDDialog,
-    // 'id-table': IDTable,
-    // 'id-table-column': IDTableColumn,
-  }
+    'id-table': IDTable,
+    'id-table-column': IDTableColumn,
+  },
 })
 export default class Message extends Vue {
   private state: TestMessage
@@ -65,7 +66,8 @@ export default class Message extends Vue {
         date: '2016-05-03',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      }],
+      loading: true
     }
   }
   setState(obj: TestMessage) {
@@ -79,27 +81,48 @@ export default class Message extends Vue {
     return (
       <div class='message-box'>
         <div class='message-form'>
-         { /*<a onClick={() => this.showDialog()}>showDialog</a>
-          <id-dialog
-              visible={this.state.dialogVisible}
-              title={'提示'}
-              onClose={this.closeDialog}
-            >
-            <id-table
-              data={this.state.tableData}
-              stripe
-            >
-              <id-table-column></id-table-column>
-            </id-table>
-            <span slot='footer'>
-              <id-button>`1111</id-button>
-            </span>
-          </id-dialog>*/}
-          <id-collapse accordion>
-            <id-collapse-item title="哥达鸭" name="hello" >你好年最佳设计计算机会社书撒火收到就好护甲护士计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
-            <id-collapse-item title="宝石海星" name="2">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
-            <id-collapse-item title="海星星" name="3">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
-          </id-collapse>
+        <a onClick={() => this.showDialog()}>showDialog</a>
+        <id-dialog
+            visible={this.state.dialogVisible}
+            title={'提示'}
+            onClose={this.closeDialog}
+          >
+          <id-table
+            v-loading={this.state.loading}
+            id-loading-text='测试'
+            id-loading-background='rgba(0, 0, 0, 0.8)'
+            id-loading-color='#fff'
+            data={this.state.tableData}
+            stripe
+          >
+            <id-table-column
+              prop={'date'}
+              label="日期"
+              width="180">
+            </id-table-column>
+            <id-table-column
+              prop={'name'}
+              label={'姓名'}
+              width={'180'}
+            ></id-table-column>
+            <id-table-column
+              prop={'address'}
+              label="地址">
+            </id-table-column>
+          </id-table>
+          <span slot='footer'>
+            <id-button>`1111</id-button>
+          </span>
+        </id-dialog>
+          {
+            /* 
+              <id-collapse accordion>
+                <id-collapse-item title="哥达鸭" name="1" >你好年最佳设计计算机会社书撒火收到就好护甲护士计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+                <id-collapse-item title="宝石海星" name="2">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+                <id-collapse-item title="海星星" name="3">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+              </id-collapse>
+            */
+          }
         </div>
         <div class='comment-area'>
         </div>

@@ -8,12 +8,14 @@ import './common/fonts/id-icon.css'
 import './common/iconfont/fonts/iconfont.css'
 import setState from './utils/setState'
 import IDMessage from './components/message/message'
-// console.log(IDMessage)
+import directives from './directives/index'
+console.log(directives)
 // import permission from './permission'
 Vue.config.productionTip = false
 Vue.prototype.$setState = setState
 Vue.config.devtools = true
 Vue.use(IDMessage)
+Vue.use(directives.loadingDirective)
 // Vue.use(vMessage)
 /* eslint-disable no-new */
 let v = new Vue({

@@ -153,7 +153,9 @@ export default Dialog
       }
       .id-dialog__footer {
         padding: 15px;
-        text-align: right;
+        // text-align: right;
+        display: flex;
+        justify-content: flex-end;
       }
     }
   }

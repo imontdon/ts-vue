@@ -12,6 +12,7 @@ import IDMessage from './components/message/message'
 // import permission from './permission'
 Vue.config.productionTip = false
 Vue.prototype.$setState = setState
+Vue.config.devtools = true
 Vue.use(IDMessage)
 // Vue.use(vMessage)
 /* eslint-disable no-new */

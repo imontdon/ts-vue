@@ -62,7 +62,7 @@ class collapseItem extends Vue {
     }, 10)
   }
   handleClick(){
-    let name = this.state.name
+    this.$store.dispatch('activeNameHandle', this.state.name );
     // 各个组件向父组件collapse传递当前name值
   }
   

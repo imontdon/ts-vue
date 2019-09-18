@@ -11,7 +11,11 @@ class User {
   public userIsLogin: boolean
   public info: Info
 }
+class Name {
+  public activeName : string | number | string[] | number[]
+}
 export {
   Page,
-  User
+  User,
+  Name
 }

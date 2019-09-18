@@ -4,13 +4,15 @@ import createLogger from 'vuex/dist/logger'
 import getters from './getters'
 import page from './modules/page'
 import user from './modules/user'
+import collapse from './modules/collapse/collapse'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
   getters,
   modules: {
     page,
-    user
+    user,
+    collapse
   },
   plugins: process.env.NODE_ENV !== 'production' ? [ createLogger() ] : []
 })

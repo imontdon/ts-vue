@@ -28,9 +28,7 @@ class collapseItem extends Vue {
       name:'',
     }
   }
-// 如果不是手风琴模式  将各个子项collapse-item 中的name的都传入到value中 此时value为一数组
-// 手风琴模式下点击后将name传入到父组件collapse的value中  此时value为一string
-// isActive 
+
   render(h: CreateElement) {
     return (
         <div class="id-collapse-item">
@@ -50,8 +48,12 @@ class collapseItem extends Vue {
         </div>
     )
   }
-  get isActive() : boolean{
-    return  this.IDCollapse.activeName == this.state.name
+  // 如果不是手风琴模式  将各个子项collapse-item 中的name的都传入到value中 此时value为一数组
+  // 手风琴模式下点击后将name传入到父组件collapse的value中  此时value为一string
+  // isActive 
+  get isActive() : boolean {
+    // 子项根据父项value中的值
+    return  this.IDCollapse.value == this.state.name
   }
   setState(obj: IDCollapse) {
     console.log(obj)
@@ -62,8 +64,8 @@ class collapseItem extends Vue {
     }, 10)
   }
   handleClick(){
+    // 触发mutation中的ACTIVE_NAME 改变共享属性 activeName的值
     this.$store.dispatch('activeNameHandle', this.state.name );
-    // 各个组件向父组件collapse传递当前name值
   }
   
   @Watch('title', { immediate: true })

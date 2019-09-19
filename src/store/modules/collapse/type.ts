@@ -1,1 +1,1 @@
-export const ACTIVE_NAME = 'ACTIVE_NAME';
+export const ACTIVE_NAME = 'ACTIVE_NAME'

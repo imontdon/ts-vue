@@ -111,7 +111,7 @@ export default class Message extends Vue {
             </id-table-column>
           </id-table>
           <span slot='footer'>
-            <id-button>`1111</id-button>
+            <id-button onClick={this.hiddenLoading}>`1111</id-button>
           </span>
         </id-dialog>
           {
@@ -186,6 +186,10 @@ export default class Message extends Vue {
       }
     ]
     this.setState({ treeData: data })
+  }
+  hiddenLoading() {
+    console.log('hiddenLoading')
+    this.setState({ loading: !this.state.loading })
   }
   closeDialog() {
     this.setState({ dialogVisible: false })

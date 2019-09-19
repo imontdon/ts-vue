@@ -17,6 +17,8 @@ class Loading extends Vue {
   private background: string
   @Prop({ required: false, default: ''})
   private color: string
+ /*  @Prop({ required: false, default: false })
+  private color: string */
 
   private state: IDLoading
   constructor() {
@@ -25,7 +27,8 @@ class Loading extends Vue {
       text: '正在加载中...',
       background: '',
       color: '',
-      defaultColor: '#f77825'
+      defaultColor: '#f77825',
+      // show: false,
     }
   }
   // 仿react，setState

@@ -82,14 +82,47 @@ export default class Message extends Vue {
       <div class='message-box'>
         <div class='message-form'>
         <a onClick={() => this.showDialog()}>showDialog</a>
-        <id-collapse 
-          accordion
-          value="2"
-        >
-          <id-collapse-item title="哥达鸭" name="1" >你好年最佳设计计算机会社书撒火收到就好护甲护士计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
-          <id-collapse-item title="宝石海星" name="2">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
-          <id-collapse-item title="海星星" name="3">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
-        </id-collapse>
+        <id-dialog
+            visible={this.state.dialogVisible}
+            title={'提示'}
+            onClose={this.closeDialog}
+          >
+          <id-table
+            v-loading={this.state.loading}
+            id-loading-text='测试'
+            id-loading-background='rgba(0, 0, 0, 0.8)'
+            id-loading-color='#fff'
+            data={this.state.tableData}
+            stripe
+          >
+            <id-table-column
+              prop={'date'}
+              label="日期"
+              width="180">
+            </id-table-column>
+            <id-table-column
+              prop={'name'}
+              label={'姓名'}
+              width={'180'}
+            ></id-table-column>
+            <id-table-column
+              prop={'address'}
+              label="地址">
+            </id-table-column>
+          </id-table>
+          <span slot='footer'>
+            <id-button onClick={this.hiddenLoading}>`1111</id-button>
+          </span>
+        </id-dialog>
+          {
+            /* 
+              <id-collapse accordion>
+                <id-collapse-item title="哥达鸭" name="1" >你好年最佳设计计算机会社书撒火收到就好护甲护士计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+                <id-collapse-item title="宝石海星" name="2">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+                <id-collapse-item title="海星星" name="3">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
+              </id-collapse>
+            */
+          }
         </div>
         <div class='comment-area'>
         </div>
@@ -153,6 +186,10 @@ export default class Message extends Vue {
       }
     ]
     this.setState({ treeData: data })
+  }
+  hiddenLoading() {
+    console.log('hiddenLoading')
+    this.setState({ loading: !this.state.loading })
   }
   closeDialog() {
     this.setState({ dialogVisible: false })

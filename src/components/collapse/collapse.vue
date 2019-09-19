@@ -9,13 +9,14 @@ interface IDCollapse {
 
 @Component
 class Collapse extends Vue {
-  @Provide() IDCollapse = this
+  @Provide() MainCollapse = this
   @Prop({ required: false, default: false })
   private accordion: boolean
   @Prop({ required: false, default: '' })
   private value: string | number | string[] | number[]  
 
   private state: IDCollapse
+  private activeNames: string | number | string[] | number[]
 
   constructor() {
     super()
@@ -40,14 +41,15 @@ class Collapse extends Vue {
     )
   }
   // 通过计算属性获取state中的activeName
-  get getActiveName(): string | number | string[] | number[]{
-      console.log(this.$store.state.collapse.activeName)
+  get  (): string | number | string[] | number[]{
+      console.log(this.$store.state.collapse.activeName,'activeName值')
       return this.$store.state.collapse.activeName
   }
   // 监听activeName属性的变化 并将其赋值给value
   @Watch('getActiveName', { immediate: true })
   onGetActiveNameChange(val: string | number | string[] | number[], oldVal: string | number | string[] | number[]) {
-    this.setState({ value: val })
+    this.activeNames = val
+    console.log(this.activeNames)
   }
   // value属性是当前默认要激活的面板
   // activeName属性是用户点击的面板
@@ -62,7 +64,6 @@ class Collapse extends Vue {
   @Watch('value', { immediate: true })
   onValueChange(val: string | number | string[] | number[], oldVal: string | number | string[] | number[]) {
     this.setState({ value: val })
-    // this.$store.state.activeName = [].concat(val)
   }
 }
 

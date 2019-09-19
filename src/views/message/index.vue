@@ -7,7 +7,7 @@ import IDSwitch from '@/components/switch/index.vue'
 import IDSlider from '@/components/slider/index.vue'
 import IDUpload from '@/components/upload/index.vue'
 import IDRate from '@/components/rate/index.vue'
-import IDCollapseItem from '@/components/collapse/collapse-item.vue'
+import CollapseItem from '@/components/collapse/collapse-item.vue'
 import IDCollapse from '@/components/collapse/collapse.vue'
 import IDTree from '@/components/tree/index.vue'
 import IDPagination from '@/components/pagination/index.vue'
@@ -33,7 +33,7 @@ interface TestMessage {
     'id-upload': IDUpload,
     'id-rate': IDRate,
     'id-progress': IDProgress,
-    'id-collapse-item': IDCollapseItem,
+    'id-collapse-item': CollapseItem,
     'id-collapse': IDCollapse,
     'id-pagination': IDPagination,
     'id-tree': IDTree,

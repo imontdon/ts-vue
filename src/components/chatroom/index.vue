@@ -1,14 +1,22 @@
 <script lang="tsx">
+// 第三方库
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 import { Getter, Action } from "vuex-class";
 
+// 自定义组件
 import IDRoomMessage from './message.vue'
 import IDInput from '../input/index.vue'
 
+// interface
 import { Message, User, SelectItem } from './chatroom'
-import logo from '../../assets/img/png/h5-logo.png'
 
+// images
+import logo from '../../assets/img/png/h5-logo.png'
+/* 
+ * 机器人发送的消息统一用pushMessage()
+ * 自己发送的消息，统一用newMessage()
+ */
 interface IDChatRoom {
   list?: Array<Message>,
   text?: string,
@@ -49,19 +57,15 @@ class ChatRoom extends Vue {
     }, 10)
   }
   mounted() {
-    setTimeout(() => {
-      const robotMessage: Message = {
-        from: {
-          username: 'robot'
-        },
-        to: '',
-        message: '您好!我是就诊助手小卓,可为您提供分诊、导诊、药物咨询、健康科普等服务哦~',
-        isTip: false
-      }
-      const list = this.state.list
-      list.push(robotMessage)
-      this.setState({ list })
-    }, 500)
+    const initMessage: Message = {
+      from: {
+        username: 'robot'
+      },
+      to: '',
+      message: '您好!我是就诊助手小卓,可为您提供分诊、导诊、药物咨询、健康科普等服务哦~',
+      isTip: false
+    }
+    this.pushMessage(initMessage)
   }
   render(h: CreateElement) {
     const Header = (
@@ -133,6 +137,7 @@ class ChatRoom extends Vue {
     this.pushMessage(tip, () => { // 要把提示语先推送出去在执行cb函数
       this.setState({ status: item.type })
       let message: Message = null
+      // 英语知识有限就one, two, three了
       if (item.type === 'one') { // 这里不能用this.state.status, setState有延迟
         message = {
           from: { username: 'robot' },
@@ -149,6 +154,21 @@ class ChatRoom extends Vue {
           message: `请输入药品名称`,
         }
         this.setState({ inputPlaceholder: '请输入药品名称' })
+      } else if (item.type === 'three') {
+        message = {
+          from: { username: 'robot' },
+          to: this.currentUser,
+          infoContent: `感冒咳嗽是一种气道变应性炎症，是非常常见的症状，几乎每个人都经历过咳嗽的烦恼，尤其是寒冬季节，很多老人、孩子和患者连门也不敢出，大大影响了生活质量。`,
+          infoTitle: '感冒咳嗽是什么疾病',
+          isInfo: true,
+        }
+      } else {
+        message = {
+          from: { username: 'robot' },
+          to: this.currentUser,
+          message: `系统脑子瓦特了`,
+          isTip: true
+        }
       }
       this.pushMessage(message)
     })
@@ -165,7 +185,8 @@ class ChatRoom extends Vue {
       isTip: false
     }
     this.newMessage(message)
-    if (this.state.restQuestionList.length === 0) { // 俩种状态, 1、刚开始答题；2、回答完所有问题
+    // length === 0俩种状态, 1、刚开始答题；2、回答完所有问题
+    if (this.state.restQuestionList.length === 0) {
       // 刚开始答题
       if (this.state.questionStatus === 'un') {
         console.log('question请求数据')
@@ -273,8 +294,8 @@ class ChatRoom extends Vue {
             username: 'robot'
           },
           to: this.currentUser, 
-          isTip: false,
-          isSelect: true
+          isDrug: true,
+          drugList: ['布洛芬缓释胶囊', '氨加黄敏胶囊', '氯芬黄敏片']
         }
         this.pushMessage(message)
       }

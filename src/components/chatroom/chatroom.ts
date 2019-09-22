@@ -14,6 +14,13 @@ class Message {
   // result
   public isResult?: boolean
   public resultSug?: Result[]
+  // drugRecommend
+  public isDrug?: boolean
+  public drugList?: string[]
+  // info
+  public isInfo?: boolean
+  public infoTitle?: string
+  public infoContent?: string
 }
 class User {
   public username?: string

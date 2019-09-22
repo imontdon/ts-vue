@@ -102,7 +102,7 @@ class RoomMessage extends Vue {
           }
           `}
         >
-        { /*
+        { /* 复杂化了。。。
            * 消息类型是不是选择卡
            * 渲染不同的虚拟dom和类select-message/text-message
            */
@@ -177,6 +177,48 @@ class RoomMessage extends Vue {
                       </span>
                     ) : null
                 }
+                {
+                  this.state.message.isDrug ? 
+                  (
+                    <div>
+                      <dt style={`margin-bottom: .2rem;`}>导诊助手推荐药品如下:</dt>
+                      {
+                        this.state.message.drugList.map((item: string, index: number) => {
+                          return (
+                            <dl>
+                              <span>{ item }</span>
+                            </dl>
+                          )
+                        })
+                        /* 
+                          { // 点击查看更多放在末尾的（按原型图）
+                            index === this.state.message.drugList.length - 1 ? 
+                              (
+                                <span style={`margin-left: .8rem;`}>点击查看更多</span>
+                              ) : null
+                          }
+                        */
+                      }
+                      <dl style={`color: skyblue;`} onClick={() => this.routerPush('')}>
+                        点击查看更多
+                      </dl>
+                    </div>
+                  ) : null
+                }
+                {
+                  this.state.message.isInfo ? 
+                    (
+                      <div>
+                        <dt style={`font-size: .40rem; font-weight: bold;`}>
+                          {this.state.message.infoTitle}
+                        </dt>
+                        <dl>
+                          { this.state.message.infoContent }
+                        </dl>
+                        <dl style={`color: skyblue;`}>点击查看更多</dl>
+                      </div>
+                    ) : null
+                }
               </span>
             </div>
           )
@@ -216,11 +258,12 @@ export default RoomMessage
   .id-chat-room__message {
     font-size: 0.32rem;
     border-radius: .4rem;
-    padding: .2rem;
+    // padding: .2rem;
     margin: .2rem;
-    min-width: 10%;
+    min-width: 0%;
     max-width: 60%;
     word-break: break-all;
+    padding: .2rem .4rem;
     &.other-message {
       background: #fff;
       float: left;
@@ -260,7 +303,7 @@ export default RoomMessage
       }
     }
     .slide-selected {
-      width: 152%;
+      width: 160%;
       display: flex;
       height: 100%;
       span {

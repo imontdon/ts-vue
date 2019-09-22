@@ -75,7 +75,7 @@
   content: "\e607";
 }
 
-.icon-star:before {
+.icon-star-off:before {
   content: "\e610";
 }
 
@@ -99,7 +99,7 @@
   content: "\e64d";
 }
 
-.icon-star1:before {
+.icon-star-on:before {
   content: "\e767";
 }
 

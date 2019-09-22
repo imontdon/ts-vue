@@ -68,7 +68,17 @@ input, button, select, textarea{ outline:none }
   border: 1px solid #F8B3D0;
   background-color: #FFF5FA;
 }
-
+.limit-word {
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+.limit-word2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
 
 /* keyframes */
 @keyframes rotating {

@@ -169,7 +169,7 @@ class RoomMessage extends Vue {
                           this.state.message.resultSug.map((item: Result, index: number) => {
                             return (
                               <div>
-                                <span class={`active-span`} onClick={() => this.routerPush(item.route)}>{ item.content }</span>
+                                <span class={`active-span`} onClick={() => this.routerPush(item.route, { id: item.resultId })}>{ item.content }</span>
                               </div>
                             )
                           })
@@ -199,7 +199,7 @@ class RoomMessage extends Vue {
                           }
                         */
                       }
-                      <dl style={`color: skyblue;`} onClick={() => this.routerPush('')}>
+                      <dl style={`color: skyblue;`} onClick={() => this.routerPush('drug')}>
                         点击查看更多
                       </dl>
                     </div>
@@ -215,7 +215,7 @@ class RoomMessage extends Vue {
                         <dl>
                           { this.state.message.infoContent }
                         </dl>
-                        <dl style={`color: skyblue;`}>点击查看更多</dl>
+                        <dl style={`color: skyblue;`} onClick={() => this.routerPush('info', { title: this.state.message.infoTitle, content: this.state.message.infoContent })}>点击查看更多</dl>
                       </div>
                     ) : null
                 }
@@ -226,7 +226,9 @@ class RoomMessage extends Vue {
       </div>
     )
   }
-  routerPush(routeName: string) {}
+  routerPush(routeName: string, query?: any) {
+    this.$router.push({ path: routeName, query })
+  }
   @Emit('click')
   emitClick(item: SelectItem | string) { }
   @Emit('question')

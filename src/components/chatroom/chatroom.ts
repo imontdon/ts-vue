@@ -36,8 +36,9 @@ class SelectItem {
   public type: string
 }
 class Result {
-  content: string
-  route: string
+  public content: string
+  public route: string
+  public resultId?: number | string
 }
 export {
   Message,

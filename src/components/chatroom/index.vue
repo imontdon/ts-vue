@@ -57,6 +57,7 @@ class ChatRoom extends Vue {
     }, 10)
   }
   mounted() {
+    this.selectCard(true)
     const initMessage: Message = {
       from: {
         username: 'robot'
@@ -74,7 +75,14 @@ class ChatRoom extends Vue {
         <id-input
           readonly={true}
           suffix={'next'}
-        ></id-input>
+        >
+          <span style={`
+                  font-size: .32rem;
+                  position: absolute;
+                  left: .3rem;
+                  top: .04rem;
+                  color: #fff;`}>男 | 25岁</span>
+        </id-input>
       </div>
     )
     const MessageList = (
@@ -230,9 +238,9 @@ class ChatRoom extends Vue {
           message: `根据以上症状，导诊助手初步判断为上呼吸道感染，建议您前往呼吸内科就诊`,
           isResult: true,
           resultSug: [ 
-            { content: '点击去挂号', route: ''},
-            { content: '感冒有哪些症状', route: ''},
-            { content: '感冒该吃什么药', route: ''},
+            { content: '点击去挂号', route: 'depart'},
+            { content: '感冒有哪些症状', route: 'drug'},
+            { content: '感冒该吃什么药', route: 'info', resultId: 1},
             { content: '如何预防感冒', route: ''},
           ]
         }

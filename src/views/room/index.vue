@@ -38,27 +38,6 @@ export default class Message extends Vue {
     )
   }
   mounted() {
-    (function (doc: Document, win: Window) {
-      const docEl: HTMLElement = doc.documentElement
-      const resizeEvt: string = 'orientationchange' in window ? 'orientationchange' : 'resize'
-      const recalc = function (): void {
-        const clientWidth: number = docEl.clientWidth;
-        if (!clientWidth) return;
-        if(clientWidth >= 720){
-            // docEl.style.fontSize = '100px';
-            docEl.setAttribute('style', 'font-size: 100px !important')
-        }else{
-          // docEl.style.setAttribute('font')
-          docEl.setAttribute('style', `font-size: ${(100 * (clientWidth / 720))}px !important`)
-            // docEl.style.fontSize =  target + 'px !important';
-        }
-        console.log(docEl.style.fontSize)
-      };
-
-      if (!doc.addEventListener) return;
-      win.addEventListener(resizeEvt, recalc, false);
-      doc.addEventListener('DOMContentLoaded', recalc, false);
-    })(document, window);
     this.setUser({ username: 'imontdon' })
   }
  

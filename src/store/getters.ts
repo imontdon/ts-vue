@@ -1,4 +1,5 @@
 export default {
   pageIsHidden: state => state.page.isHidden,
-  userIsLogin: state => state.user.userIsLogin
+  userInfo: state => state.user,
+  needSelected: state => state.card.needSelected
 }

@@ -8,8 +8,15 @@ class Page {
   public isHidden: boolean
 }
 class User {
-  public userIsLogin: boolean
-  public info: Info
+  username?: string
+  idCard?: number | string
+  address?: string
+  phone?: number | string
+  gender?: string
+  patientList?: Array<any>
+}
+class Choose {
+  needSelected?: boolean
 }
 class Name {
   public activeName : string | number | string[] | number[]
@@ -17,5 +24,6 @@ class Name {
 export {
   Page,
   User,
-  Name
+  Name,
+  Choose
 }

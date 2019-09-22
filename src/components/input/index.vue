@@ -81,13 +81,16 @@ class Input extends Vue {
           value={this.state.value}
           on-input = {e => this.emitInput(e.target.value, this)}
           on-change = {e => this.emitChange(this.state.value, this)}
-          on-keyup = {e => this.emitKeyUp(e, this)}
+          on-keyup = {e => this.handleKeyup(e, this)}
           on-focus = {e => this.emitFocus(e, this)}
           on-mouseenter = {e => this.handleMouseEnter(e, this)}
           on-mouseout = {e => this.handleMouseOut(e, this)}
           on-blur = {e => this.emitBlur(e, this)}
           on-click= {e => this.emitClick(e, this)}
         />
+        {
+          this.$slots.default
+        }
         { // 前缀图标
           this.state.prefix ?  
           (
@@ -157,6 +160,11 @@ class Input extends Vue {
   @Emit('clear')
   emitClear() { }
 
+  handleKeyup(e?: KeyboardEvent, input?: Input) {
+    if (e.which === 13 || e.keyCode === 13) {
+      this.emitKeyUp(e, input)
+    }
+  }
   clearInput() {
     this.setState({ value: '' })
     this.emitClear()
@@ -256,6 +264,7 @@ export default Input
     width: 100%;
     height: inherit;
     .id-input__inner {
+      position: absolute;
       width: 90%;
       border-radius: 4px;
       border: 1px solid #dcdfe6;

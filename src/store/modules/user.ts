@@ -3,25 +3,20 @@ import types from '../mutation-types'
 import { User } from '../interface'
 
 const state: User = {
-  userIsLogin: false,
-  info: {
-    id: -1,
-    username: '',
-    real_name: ''
-  }
+  username: ''
 }
 
 const mutations: any = {
-  [types.USER_IS_LOGIN] (state: User, userIsLogin: boolean) {
-    state.userIsLogin = userIsLogin
+  [types.SET_USER] (state: User, user: User) {
+    state.username = user.username
   }
 }
 
 const actions: any = {
-  isLogin (context: {
+  setUser (context: {
     commit: Commit
-  }, userIsLogin: boolean) {
-    context.commit(types.USER_IS_LOGIN, userIsLogin)
+  }, user) {
+    context.commit(types.SET_USER, user)
   }
 }
 

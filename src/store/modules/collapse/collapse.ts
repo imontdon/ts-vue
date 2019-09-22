@@ -19,7 +19,7 @@ const mutations: any = {
 }
 // 04-设置异步函数Actio来异步触发mutations中的方法
 const actions: any = {
-    // context: context与store对象具有相同的实例和方法
+    // context: context与store对象具有相同的实例和方法w
   activeNameHandle (context: {commit: Commit}, activeName: string | number | string[] | number[]): any {
     context.commit(ACTIVE_NAME, activeName)
   }

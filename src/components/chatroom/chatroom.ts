@@ -3,8 +3,17 @@ class Message {
   public from?: User
   public to?: User | string
   public message?: string
+  // tips
   public isTip?: boolean
+  // select card
   public isSelect?: boolean
+  // question
+  public isQuestion?: boolean
+  public hasAnswer?: boolean
+  public needSelected?: boolean
+  // result
+  public isResult?: boolean
+  public resultSug?: Result[]
 }
 class User {
   public username?: string
@@ -17,9 +26,15 @@ class User {
 class SelectItem {
   public title: string
   public content: string
+  public type: string
+}
+class Result {
+  content: string
+  route: string
 }
 export {
   Message,
   User,
-  SelectItem
+  SelectItem,
+  Result
 }

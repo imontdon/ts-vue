@@ -13,7 +13,7 @@ const mutations: any = {
 }
 
 const actions: any = {
-  setlectCard (context: {
+  selectCard (context: {
     commit: Commit
   }, flag) {
     context.commit(types.SELECT_CARD, flag)

@@ -5,15 +5,20 @@ import { Component, Emit, Prop, Watch } from 'vue-property-decorator'
 import { Getter, Action } from "vuex-class";
 
 // interface
-import { Message, User, SelectItem } from './chatroom' 
+import { Message, User, SelectItem, Result } from './chatroom' 
 
+import IDButton from '../button/index.vue'
 // images
 import logo from '../../assets/img/png/h5-logo.png'
 interface IDRoomMessage {
   message?: Message,
   selectList?: SelectItem []
 }
-@Component
+@Component({
+  components: {
+    'id-button': IDButton
+  }
+})
 class RoomMessage extends Vue {
   @Getter("userInfo") currentUser!: User;
   @Prop({ required: true, default: () => {} })
@@ -46,15 +51,18 @@ class RoomMessage extends Vue {
     const list: SelectItem[] = [
       {
         title: '症状自检',
-        content: '获取更准确的就诊指导'
+        content: '获取更准确的就诊指导',
+        type: 'one'
       },
       {
         title: '智能问药',
-        content: '寻找适合您的用药方案'
+        content: '寻找适合您的用药方案',
+        type: 'two'
       },
       {
         title: '健康科普',
-        content: '学习患者教育健康知识'
+        content: '学习患者教育健康知识',
+        type: 'three'
       },
     ]
     this.setState({ selectList: list })
@@ -117,9 +125,57 @@ class RoomMessage extends Vue {
             `}>
               <span>
                 {
-                  this.state.message.isTip ? 
+                  this.state.message.isTip ? // 是不是提示
                   (`导巡助手提示: 已进入${this.state.message.message}功能`) : 
-                  this.state.message.message
+                    this.state.message.isQuestion ? // 是不是问题
+                      (
+                        <span class={`question-answer`}>
+                          {
+                            this.state.message.message
+                          }
+                          {
+                            this.state.message.hasAnswer ?
+                              null : (
+                                <span>
+                                  <span 
+                                    class={`question-answer__select`}
+                                    onClick={() => this.emitQuestionClick(false)}
+                                  >没有</span>
+                                  {
+                                    this.state.message.needSelected ? 
+                                      (
+                                        <span
+                                          class={`question-answer__select`}
+                                          onClick={() => this.emitQuestionClick(true)}
+                                        >
+                                          有
+                                        </span>
+                                      ) : null
+                                  }
+                                </span>
+                              )
+                          }
+                        </span>
+                      ) : this.state.message.message
+                }
+                {
+                  this.state.message.isResult ? 
+                    (
+                      <span class={`id-chat-room__message-result`}>
+                        {
+                          this.state.message.message
+                        }
+                        {
+                          this.state.message.resultSug.map((item: Result, index: number) => {
+                            return (
+                              <div>
+                                <span class={`active-span`} onClick={() => this.routerPush(item.route)}>{ item.content }</span>
+                              </div>
+                            )
+                          })
+                        }
+                      </span>
+                    ) : null
                 }
               </span>
             </div>
@@ -128,11 +184,18 @@ class RoomMessage extends Vue {
       </div>
     )
   }
+  routerPush(routeName: string) {}
   @Emit('click')
-  emitClick(item: SelectItem) { }
+  emitClick(item: SelectItem | string) { }
+  @Emit('question')
+  emitQuestionClick(answer: boolean) {
+    // 回答问题后消除选择的对话框
+    const singleMsg: Message = this.state.message
+    singleMsg.hasAnswer = true
+    this.setState({ message: singleMsg })
+  }
   @Watch('message', { immediate: true })
   onMessageChange(newVal: Message) {
-    console.log(newVal)
     this.setState({ message: newVal })
   }
 }
@@ -151,8 +214,6 @@ export default RoomMessage
     }
   }
   .id-chat-room__message {
-    ::-webkit-scrollbar{width:0;height:1px}
-    ::-webkit-scrollbar-thumb{border-radius:5px;-webkit-box-shadow:inset 0 0 5px rgba(0,0,0,.2);background:rgba(0,0,0,.2)}
     font-size: 0.32rem;
     border-radius: .4rem;
     padding: .2rem;
@@ -181,6 +242,22 @@ export default RoomMessage
       max-width: 100%;
       margin: 0;
       font-size: .28rem;
+    }
+    .question-answer {
+      &__select {
+        border: 1px solid #aaa;
+        margin-top: .2rem;
+        padding: .06rem .4rem;
+        border-radius: .5rem;
+        font-size: .28rem;
+        margin-left: .2rem;
+        line-height: 3;
+      }
+    }
+    &-result {
+      .active-span {
+        color: skyblue;
+      }
     }
     .slide-selected {
       width: 152%;

@@ -143,6 +143,7 @@ class ChatRoom extends Vue {
       message: item.title,
       isTip: true
     }
+    // 机器人发送卡片消息
     this.pushMessage(tip, () => { // 要把提示语先推送出去在执行cb函数
       this.setState({ status: item.type })
       let message: Message = null
@@ -198,54 +199,10 @@ class ChatRoom extends Vue {
     if (this.state.restQuestionList.length === 0) {
       // 刚开始答题
       if (this.state.questionStatus === 'un') {
-        console.log('question请求数据')
         // 请求数据
-        const questionList: Message[] = [
-          {
-            from: {
-              username: 'robot'
-            },
-            to: this.currentUser,
-            message: '请问是否有以下症状: 四肢无力',
-            isQuestion: true,
-            hasAnswer: false,
-            needSelected: true
-          },
-          {
-            from: {
-              username: 'robot'
-            },
-            to: this.currentUser,
-            message: '请问是否有以下症状: 鼻塞流鼻涕',
-            isQuestion: true,
-            hasAnswer: false,
-            needSelected: true
-          },
-        ]
-        const question: Message = questionList.reverse().pop()
-        if (question !== undefined) { // 有数据
-          this.pushMessage(question)
-          this.setState({ questionStatus: 'ing' }) // 机器人发送消息成功进入答题状态
-          this.setState({ restQuestionList: questionList.reverse() })
-        }
+        this.getQuestionList()
       } else { // 结束答题
-        this.setState({ questionStatus: 'ed' })
-        console.log('question结束了吗?')
-        const result: Message = {
-          from: {
-            username: 'robot',
-          },
-          to: this.currentUser,
-          message: `根据以上症状，导诊助手初步判断为上呼吸道感染，建议您前往呼吸内科就诊`,
-          isResult: true,
-          resultSug: [ 
-            { content: '点击去挂号', route: 'depart'},
-            { content: '感冒有哪些症状', route: 'drug'},
-            { content: '感冒该吃什么药', route: 'info', resultId: 1},
-            { content: '如何预防感冒', route: ''},
-          ]
-        }
-        this.pushMessage(result)
+        this.getQuestionResult()
       }
     } else { // 防止用户第一步选择在输入框输入而不是选择‘没有’: 还没做第一步直接发消息的！
       console.log('question直接从现有数据取')
@@ -259,18 +216,68 @@ class ChatRoom extends Vue {
       }
     }
   }
+  getQuestionList() {
+    console.log('question请求数据')
+    const questionList: Message[] = [
+      {
+        from: {
+          username: 'robot'
+        },
+        to: this.currentUser,
+        message: '请问是否有以下症状: 四肢无力',
+        isQuestion: true,
+        hasAnswer: false,
+        needSelected: true
+      },
+      {
+        from: {
+          username: 'robot'
+        },
+        to: this.currentUser,
+        message: '请问是否有以下症状: 鼻塞流鼻涕',
+        isQuestion: true,
+        hasAnswer: false,
+        needSelected: true
+      },
+    ]
+    const question: Message = questionList.reverse().pop()
+    if (question !== undefined) { // 有数据
+      this.pushMessage(question)
+      this.setState({ questionStatus: 'ing' }) // 机器人发送消息成功进入答题状态
+      this.setState({ restQuestionList: questionList.reverse() })
+    }
+  }
+  getQuestionResult() {
+    this.setState({ questionStatus: 'ed' })
+    console.log('question结束了吗?')
+    const result: Message = {
+      from: {
+        username: 'robot',
+      },
+      to: this.currentUser,
+      message: `根据以上症状，导诊助手初步判断为上呼吸道感染，建议您前往呼吸内科就诊`,
+      isResult: true,
+      resultSug: [ 
+        { content: '点击去挂号', route: 'depart'},
+        { content: '感冒有哪些症状', route: 'drug'},
+        { content: '感冒该吃什么药', route: 'info', resultId: 1},
+        { content: '如何预防感冒', route: ''},
+      ]
+    }
+    this.pushMessage(result)
+  }
   // 手动发消息
   sendMessage() {
+    const data: Message = {
+      from: this.currentUser,
+      to: { username: 'robot' },
+      message: this.state.text,
+      isTip: false
+    }
+    this.newMessage(data)
+    this.setState({ text: '' }) // 清空输入框
     if (this.state.status === 'normal') { // 未选择卡的状态
       if (this.state.text !== '') { // 发送消息时输入框不为空
-        const data: Message = {
-          from: this.currentUser,
-          to: { username: 'robot' },
-          message: this.state.text,
-          isTip: false
-        }
-        this.newMessage(data)
-        this.setState({ text: '' }) // 清空输入框
         if (this.needSelected) { // 第一次出现卡片选择的时候,命名重复了不想改了很烦
           // 请求数据，获取选择卡的所有类型??
           const message: Message = {
@@ -288,16 +295,9 @@ class ChatRoom extends Vue {
       }
     } else if (this.state.status === 'one') { // 症状自检
       // 晚点写
+      this.getQuestionList()
     } else if (this.state.status === 'two') { // 智能问药
       if (this.state.text !== '') { // 发送消息时输入框不为空
-        const data: Message = {
-          from: this.currentUser,
-          to: { username: 'robot' },
-          message: this.state.text,
-          isTip: false
-        }
-        this.newMessage(data)
-        this.setState({ text: '' }) // 清空输入框
         const message: Message = {
           from: {
             username: 'robot'

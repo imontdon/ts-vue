@@ -4,23 +4,23 @@ import { Component, Emit, Prop, Watch, Inject } from 'vue-property-decorator'
 import { document } from '../../vue-shim';
 import { emit } from 'cluster';
 
-interface IDCollapse {
+interface IDCollapseItem {
   title?: string,
   name?: string | number,
 }
 
 @Component
-class collapseItem extends Vue {
+class CollapseItem extends Vue {
 
   // 注入依赖
-  @Inject('IDCollapse') readonly IDCollapse!: any
+  @Inject('MainCollapse') readonly MainCollapse!: any
   // 接受父组件的值
   @Prop({ required: false, default: '' })
   private title: string
   @Prop({ required: false, default: '' })
   private name: string | number
   
-  private state: IDCollapse
+  private state: IDCollapseItem
   constructor() {
     super()
     this.state = {
@@ -53,10 +53,9 @@ class collapseItem extends Vue {
   // isActive 
   get isActive() : boolean {
     // 子项根据父项value中的值
-    return  this.IDCollapse.value == this.state.name
+    return  this.MainCollapse.getActiveName == this.state.name
   }
-  setState(obj: IDCollapse) {
-    console.log(obj)
+  setState(obj: IDCollapseItem) {
     setTimeout(() => {
       Object.keys(obj).forEach(key => {
         this.state[key] = obj[key]
@@ -77,7 +76,7 @@ class collapseItem extends Vue {
     this.setState({ name: val })
   }
 }
-export default collapseItem
+export default CollapseItem
 </script>
 <style lang="scss">
     .id-collapse-item{

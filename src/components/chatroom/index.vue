@@ -13,6 +13,7 @@ import { Message, User, SelectItem } from './chatroom'
 
 // images
 import logo from '../../assets/img/png/h5-logo.png'
+import doctor from '../../assets/img/png/doctor.png'
 
 /* 
  * 机器人发送的消息统一用pushMessage()
@@ -58,7 +59,7 @@ class ChatRoom extends Vue {
     }, 10)
   }
   mounted() {
-    this.selectCard(true)
+    this.selectCard(true) // 每次重新进入都打开
     const initMessage: Message = {
       from: {
         username: 'robot'
@@ -72,7 +73,18 @@ class ChatRoom extends Vue {
   render(h: CreateElement) {
     const Header = (
       <div class={`id-chat-room__header`}>
-        <img src={logo} />
+        <span style={`
+            display: flex;
+            width: 3rem;
+            justify-content: flex-start;
+            align-items: center;
+            `}>
+          <img src={doctor} style={`height: 0.6rem;`} />
+          <span style={`font-size: .32rem; color: #fff; margin-left: .2rem;`}>
+            <dl>导诊助手</dl>
+            <dl>卓健医院</dl>
+          </span>
+        </span>
         <id-input
           readonly={true}
           suffix={'next'}

@@ -10,6 +10,9 @@ import { Message, User, SelectItem, Result } from './chatroom'
 import IDButton from '../button/index.vue'
 // images
 import logo from '../../assets/img/png/h5-logo.png'
+import one from '../../assets/img/png/one.png'
+import two from '../../assets/img/png/two.png'
+import three from '../../assets/img/png/three.png'
 interface IDRoomMessage {
   message?: Message,
   selectList?: SelectItem []
@@ -52,17 +55,20 @@ class RoomMessage extends Vue {
       {
         title: '症状自检',
         content: '获取更准确的就诊指导',
-        type: 'one'
+        type: 'one',
+        src: one
       },
       {
         title: '智能问药',
         content: '寻找适合您的用药方案',
-        type: 'two'
+        type: 'two',
+        src: two
       },
       {
         title: '健康科普',
         content: '学习患者教育健康知识',
-        type: 'three'
+        type: 'three',
+        src: three
       },
     ]
     this.setState({ selectList: list })
@@ -80,7 +86,7 @@ class RoomMessage extends Vue {
                   onClick={() => this.emitClick(item)}
                 >
                   <dt>
-                    <img src={logo} />
+                    <img src={item.src} />
                     <span>{ item.title }</span>
                   </dt>
                   <dl>

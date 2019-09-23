@@ -13,6 +13,7 @@ import { Message, User, SelectItem } from './chatroom'
 
 // images
 import logo from '../../assets/img/png/h5-logo.png'
+
 /* 
  * 机器人发送的消息统一用pushMessage()
  * 自己发送的消息，统一用newMessage()

@@ -34,6 +34,7 @@ class SelectItem {
   public title: string
   public content: string
   public type: string
+  public src: string
 }
 class Result {
   public content: string

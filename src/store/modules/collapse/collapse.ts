@@ -12,7 +12,7 @@ const getters: any = {
 }
 // 03-设置同步函数mutation来更改state的属相值
 const mutations: any = {
-  [ACTIVE_NAME] (state: Name, activeName: string | number | string[] | number[]) {
+  [ACTIVE_NAME] (state: Name, activeName: string | number) {
     state.activeName = activeName
     console.log(activeName,'hhhk')
   }
@@ -20,7 +20,7 @@ const mutations: any = {
 // 04-设置异步函数Actio来异步触发mutations中的方法
 const actions: any = {
     // context: context与store对象具有相同的实例和方法
-  activeNameHandle (context: {commit: Commit}, activeName: string | number | string[] | number[]): any {
+  activeNameHandle (context: {commit: Commit}, activeName: string | number): any {
     context.commit(ACTIVE_NAME, activeName)
   }
 }

@@ -6,9 +6,17 @@ import { Component, Emit, Prop, Watch, Provide } from 'vue-property-decorator'
 
 interface IDTable {
   data?: Array<any>,
-  stripe?: boolean
+  stripe?: boolean,
+  table?: table
 }
-
+interface table {
+  title?: Array<Title>,
+}
+interface Title {
+  label?: string,
+  prop?: string,
+  width?: string | number
+}
 @Component
 class Table extends Vue {
   @Provide() IDTable: Table = this
@@ -24,6 +32,9 @@ class Table extends Vue {
     this.state = {
       data: [],
       stripe: false,
+      table: {
+        title: []
+      }
     }
   }
   // 仿react，setState
@@ -35,17 +46,44 @@ class Table extends Vue {
     }, 10)
   }
   render(h: CreateElement) {
+    const TableHeader = (
+      <thead>
+        {
+          this.state.table.title.map(title => {
+            console.log(title)
+            return (
+              <th>
+                {title.label}
+              </th>
+            )
+          })
+        }
+      </thead>
+    )
     return (
       <div 
         class={`id-table ${this.state.stripe ? 'id-table__stripe' : ''}`}>
-        {
-          this.$slots.default
-        }
+        <table>
+          { TableHeader }
+          <tbody>
+            
+          </tbody>
+        </table>
       </div>
     )
   }
   mounted() {
-    // console.log(this.$slots) 
+    // console.log(this.$slots.default)
+    const table: table = {
+      title: []
+    }
+    this.$slots.default.forEach(lo => {
+      table.title.push(lo.data.attrs)
+    })
+    this.setState({ table })
+    setTimeout(() => {
+      console.log(this.state.table)
+    }, 1000)
   }
   @Watch('data', { immediate: true, deep: true })
   onDataChange(newVal: Array<any>) {
@@ -58,3 +96,10 @@ class Table extends Vue {
 }
 export default Table
 </script>
+<style lang="scss">
+  .id-table {
+    table {
+      width: 100%;
+    }
+  }
+</style>

@@ -67,7 +67,7 @@ export default class Message extends Vue {
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
       }],
-      loading: true
+      loading: false
     }
   }
   setState(obj: TestMessage) {
@@ -188,7 +188,6 @@ export default class Message extends Vue {
     this.setState({ treeData: data })
   }
   hiddenLoading() {
-    console.log('hiddenLoading')
     this.setState({ loading: !this.state.loading })
   }
   closeDialog() {

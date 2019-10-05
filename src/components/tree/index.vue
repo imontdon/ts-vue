@@ -46,26 +46,28 @@ class Tree extends Vue {
     } */
     const Tree = (
       <div class={`id-tree`}>
-        {this.state.data.map((node: Node, index: number): HTMLElement => {
-          return (
-            <div class={`id-tree-node`}>
-              <div class={`id-tree-node__parent ${node.active ? 'is-focus': ''}`}
-                   onClick={this.handldClick.bind(this, node, index)}>
-                <span class={`id-tree-node__icon`}>
-                  <i class='id-icon icon-caretright'></i>
-                </span>
-                <span class={`id-tree-node__label`}>{node.label}</span>
+        {
+          this.state.data.map((node: Node, index: number): HTMLElement => {
+            return (
+              <div class={`id-tree-node`}>
+                <div class={`id-tree-node__parent ${node.active ? 'is-focus': ''}`}
+                    onClick={this.handldClick.bind(this, node, index)}>
+                  <span class={`id-tree-node__icon`}>
+                    <i class='id-icon icon-caretright'></i>
+                  </span>
+                  <span class={`id-tree-node__label`}>{node.label}</span>
+                </div>
+                {
+                  node.active && node.children && node.children.length > 0 ? 
+                  (
+                    <id-child-nodes data={node.children} level={1} parentLevel={index + 1}></id-child-nodes>
+                  ) 
+                  : null
+                }
               </div>
-              {
-                node.active && node.children && node.children.length > 0 ? 
-                (
-                  <id-child-nodes data={node.children} level={1} parentLevel={index + 1}></id-child-nodes>
-                ) 
-                : null
-              }
-            </div>
-          )
-        })}
+            )
+          })
+        }
       </div>
     )
     return Tree

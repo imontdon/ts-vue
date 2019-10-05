@@ -4,4 +4,4 @@ export declare class IDUIComponent extends Vue {
   static install (vue: typeof Vue): void
 }
 
-export type IDUIConponentSize = 'large' | 'medium' | 'small' | 'mini'
+export type IDUIComponentSize = 'large' | 'medium' | 'small' | 'mini'

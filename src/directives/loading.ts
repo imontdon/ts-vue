@@ -46,11 +46,11 @@ const loadingDirective: any = {
   install (Vue: VueConstructor): void {
     Vue.directive('loading', {
       bind: function (el: HTMLElement, binding: DirectiveBinding, vnode: VNode, oldVnode: VNode) {
-        console.log(el, binding, vnode, oldVnode)
+        // console.log(el, binding, vnode, oldVnode)
         loading(Vue, el, binding)
       },
-      update: function (el, binding) {
-        console.log(`upload:`, binding)
+      update: function (el: HTMLElement, binding: DirectiveBinding) {
+        // console.log(`upload:`, binding)
         loading(Vue, el, binding)
       }
     })

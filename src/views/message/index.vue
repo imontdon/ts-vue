@@ -15,6 +15,7 @@ import IDDialog from '@/components/dialog/index.vue'
 import IDButton from '@/components/button/index.vue'
 import IDTable from '@/components/table/index.vue'
 import IDTableColumn from '@/components/table/table-column.vue'
+import IDToolTip from '@/components/tooltip/index.vue'
 
 // import { loading } from '@/directives/index'
 interface TestMessage {
@@ -40,6 +41,7 @@ interface TestMessage {
     'id-dialog': IDDialog,
     'id-table': IDTable,
     'id-table-column': IDTableColumn,
+    'id-tooltip': IDToolTip,
   },
 })
 export default class Message extends Vue {
@@ -81,8 +83,14 @@ export default class Message extends Vue {
     return (
       <div class='message-box'>
         <div class='message-form'>
-        <a onClick={() => this.showDialog()}>showDialog</a>
-        <id-dialog
+        <id-tooltip content="这是个小提示" effect="light">
+          <id-button type="warning">BONJOUR</id-button>
+        </id-tooltip>
+
+          {
+          /* 
+          <a onClick={() => this.showDialog()}>showDialog</a>
+          <id-dialog
             visible={this.state.dialogVisible}
             title={'提示'}
             onClose={this.closeDialog}
@@ -114,8 +122,7 @@ export default class Message extends Vue {
             <id-button onClick={this.hiddenLoading}>`1111</id-button>
           </span>
         </id-dialog>
-          {
-            /* 
+           
               <id-collapse accordion>
                 <id-collapse-item title="哥达鸭" name="1" >你好年最佳设计计算机会社书撒火收到就好护甲护士计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>
                 <id-collapse-item title="宝石海星" name="2">计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好计计算机会社书撒火收到就好</id-collapse-item>

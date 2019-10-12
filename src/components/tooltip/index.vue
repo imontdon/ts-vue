@@ -24,20 +24,18 @@ import { Watch, Prop, Emit, Component } from 'vue-property-decorator'
             content: '',
             effect: 'dark',
             placement: 'bottom',
-            // isHover: false
         }
     }
 
     render(h: CreateElement) {
         return (
-            // main
             <div 
             on-mouseenter={() => this.toogleToolTip(1)}
             on-mouseleave={() => this.toogleToolTip(2)}
             class="id-tooltip">
                 <div 
                 ref="toolTip" 
-                class={`id-tooltip-popup id-tooltip--${this.state.effect} id-tootip--${this.state.placement}` }>
+                class={`id-tooltip-popup id-tooltip--${this.state.effect} id-tootip--${this.state.placement} tip-arrow--${this.state.effect}`}>
                     <span>{this.state.content}</span>
                     <div class= "border-up-empty">
                     <span></span>
@@ -94,40 +92,20 @@ export default Tooltip
             background: #fff;
             border: 1px solid #303133;
         }
-        // .tip-arrow{
-        //         content: '';
-        //         width: 0;
-        //         height: 0;
-        //         top: -10px;
-        //         left: 50%;
-        //         transform: translateX(-50%);
-        //         border-left: 30px solid transparent;
-        //         border-right: 30px solid transparent;
-        //         border-bottom: 30px solid #333;
-        //         position: relative;
-        //         margin: 50px auto;
-        // }
-        // .border-up-empty {
-        //     width: 0;
-        //     height: 0;
-        //     border-left: 30px solid transparent;
-        //     border-right: 30px solid transparent;
-        //     border-bottom: 30px solid #333;
-        //     position: relative;
-        //     margin: 50px auto;
-        // }
-
-        // .border-up-empty span {
-        //     display: block;
-        //     width: 0;
-        //     height: 0;
-        //     border-left: 28px solid transparent;
-        //     border-right: 28px solid transparent;
-        //     border-bottom: 28px solid white;
-        //     position: absolute;
-        //     left: -28px;
-        //     top: 2px;
-        // }
-
+        .tip-arrow{
+            &--light{
+                &::before{
+                    content: '';
+                    width: 0;
+                    height: 0;
+                    top: -10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    border-left: 8px solid transparent;
+                    border-right: 8px solid transparent;
+                    border-bottom: 10px solid #333;
+                }
+            }
+        }
     }
 </style>

@@ -7,6 +7,7 @@ import { emit } from 'cluster';
 interface IDCollapseItem {
   title?: string,
   name?: string | number,
+  isActive?: boolean
 }
 
 @Component
@@ -26,6 +27,7 @@ class CollapseItem extends Vue {
     this.state = {
       title:'',
       name:'',
+      isActive: false
     }
   }
 
@@ -40,7 +42,7 @@ class CollapseItem extends Vue {
             {this.state.title}
           </div> 
           {/* 内容 */}
-          <div class= {`id-collapse-item__wrap collapse-transition ${this.isActive ? 'is-active': ''}`}>
+          <div class= {`id-collapse-item__wrap collapse-transition ${this.state.isActive ? 'is-active': ''}`}>
             <div class="id-collapse-item__content">
               {this.$slots.default}
             </div>
@@ -48,13 +50,10 @@ class CollapseItem extends Vue {
         </div>
     )
   }
-  // 如果不是手风琴模式  将各个子项collapse-item 中的name的都传入到value中 此时value为一数组
-  // 手风琴模式下点击后将name传入到父组件collapse的value中  此时value为一string
-  // isActive 
-  get isActive() : boolean {
-    // 子项根据父项value中的值
-    return  this.MainCollapse.getActiveName == this.state.name
-  }
+
+  // get isActive() : boolean {
+    // return  this.MainCollapse.state.activeNames.indexOf(this.state.name) > -1
+  // }
   setState(obj: IDCollapseItem) {
     setTimeout(() => {
       Object.keys(obj).forEach(key => {
@@ -63,8 +62,21 @@ class CollapseItem extends Vue {
     }, 10)
   }
   handleClick(){
-    // 触发mutation中的ACTIVE_NAME 改变共享属性 activeName的值
-    this.$store.dispatch('activeNameHandle', this.state.name );
+    // 若上次点击的为此item
+    if(this.$store.state.collapse.activeName == this.state.name){
+      this.state.isActive = !this.state.isActive
+      let index = this.MainCollapse.state.activeNames.indexOf(this.state.name)
+      if(index > -1) this.MainCollapse.state.activeNames.splice(index, 1)
+      this.$store.dispatch('activeNameHandle', this.state.name)
+      console.log(this.MainCollapse.state.activeNames)
+    }else{
+      // 否则控制此item展开 将当前激活的names存入collapse的activenames数组中 
+      this.$store.dispatch('activeNameHandle', this.state.name)
+      setTimeout(() =>{
+        this.setState({ isActive: this.MainCollapse.state.activeNames.includes(this.state.name) })
+        console.log(this.MainCollapse.state.activeNames)
+      },100)
+    }
   }
   
   @Watch('title', { immediate: true })
@@ -74,6 +86,10 @@ class CollapseItem extends Vue {
   @Watch('name', { immediate: true })
   onNameChange(val: string | number, oldVal:string | number) {
     this.setState({ name: val })
+  }
+  @Watch('isActive', { immediate: true })
+  onIsActiveChange(val: boolean, oldVal: boolean) {
+    this.setState({ isActive: val })
   }
 }
 export default CollapseItem

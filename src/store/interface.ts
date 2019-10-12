@@ -12,7 +12,7 @@ class User {
   public info: Info
 }
 class Name {
-  public activeName : string | number | string[] | number[]
+  public activeName : string | number
 }
 export {
   Page,

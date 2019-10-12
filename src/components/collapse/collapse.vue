@@ -1,10 +1,12 @@
 <script lang="tsx">
 import Vue, { CreateElement } from 'vue'
 import { Component, Emit, Prop, Watch, Provide} from 'vue-property-decorator'
+import { type } from 'os'
 
 interface IDCollapse {
     accordion?: boolean,
     value?: string | number | string[] | number[] 
+    activeNames?: any[]
 }
 
 @Component
@@ -16,13 +18,13 @@ class Collapse extends Vue {
   private value: string | number | string[] | number[]  
 
   private state: IDCollapse
-  private activeNames: string | number | string[] | number[]
 
   constructor() {
     super()
     this.state = {
         accordion: false,
         value: '',
+        activeNames: []
     }
   }
   setState(obj: IDCollapse) {
@@ -40,23 +42,27 @@ class Collapse extends Vue {
       </div>
     )
   }
+  // activeNames中存放是否开始手风琴模式两种模式下的活跃name值 
   // 通过计算属性获取state中的activeName
-  get  (): string | number | string[] | number[]{
+  get getActiveName(): string | number{
       console.log(this.$store.state.collapse.activeName,'activeName值')
       return this.$store.state.collapse.activeName
   }
-  // 监听activeName属性的变化 并将其赋值给value
   @Watch('getActiveName', { immediate: true })
-  onGetActiveNameChange(val: string | number | string[] | number[], oldVal: string | number | string[] | number[]) {
-    this.activeNames = val
-    console.log(this.activeNames)
+  onGetActiveNameChange(val: string | number, oldVal: string | number) {
+    let index = this.state.activeNames.indexOf(val)
+    if(index > -1){
+        this.state.activeNames.splice(index, 1)
+    }else{
+      if(this.state.accordion){
+        this.state.activeNames = [].concat(val)
+      }else{    
+        this.state.activeNames.push(val)
+      }
+    }
   }
   // value属性是当前默认要激活的面板
   // activeName属性是用户点击的面板
-
-  // setActiveName(activeName){
-  //   activeName = [].concat(this.$store.state.activeName)
-  // }
   @Watch('accordion', { immediate: true })
   onAccordionChange(val: boolean, oldVal: boolean) {
     this.setState({ accordion: val })

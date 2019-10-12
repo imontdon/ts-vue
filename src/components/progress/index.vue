@@ -121,7 +121,7 @@ class Progress extends Vue {
       }
     }
     else{
-        console.error("输入percentage类型有误")
+      console.error("输入percentage类型有误")
     }
   }
   @Watch('textInside', { immediate: true })

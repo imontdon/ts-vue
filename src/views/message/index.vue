@@ -83,8 +83,8 @@ export default class Message extends Vue {
     return (
       <div class='message-box'>
         <div class='message-form'>
-        <id-tooltip content="这是个小提示" effect="light">
-          <id-button type="warning">BONJOUR</id-button>
+        <id-tooltip content="这是个小提示" effect="dark" placement="right">
+          <id-button type="warning" style="margin: 10px;">BONJOUR</id-button>
         </id-tooltip>
 
           {

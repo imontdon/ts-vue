@@ -9,7 +9,6 @@ import { Message, User, SelectItem, Result } from './chatroom'
 
 import IDButton from '../button/index.vue'
 // images
-import logo from '../../assets/img/png/h5-logo.png'
 import one from '../../assets/img/png/one.png'
 import two from '../../assets/img/png/two.png'
 import three from '../../assets/img/png/three.png'
@@ -232,6 +231,9 @@ class RoomMessage extends Vue {
       </div>
     )
   }
+  touchstart(e: TouchEvent) {
+    console.log(`e`)
+  }
   routerPush(routeName: string, query?: any) {
     this.$router.push({ path: routeName, query })
   }
@@ -316,7 +318,7 @@ export default RoomMessage
       height: 100%;
       span {
         width: 60%;
-        margin-left: .2rem;
+        // margin-left: .2rem;
         dt {
           display: flex;
           align-items: center;

@@ -346,6 +346,8 @@ class ChatRoom extends Vue {
       const list = document.querySelector('.id-chat-room__message-list') as HTMLElement
       list.scrollTop = list.scrollHeight + (list.scrollHeight - list.offsetHeight)
       // console.log(list.scrollTop, list.scrollHeight, list.offsetHeight)
+      const card = document.querySelector('.select-message')
+      console.log(card)
     }, 100)
   }
 }

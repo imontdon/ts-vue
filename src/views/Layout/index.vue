@@ -49,6 +49,7 @@ export default class Layout extends Vue {
   width: number = 0
   height: number = 0
   board: Board
+  timer: any
   mounted(){
     if (localStorage.getItem('user')) {
       const user = localStorage.getItem('user')
@@ -66,8 +67,11 @@ export default class Layout extends Vue {
     this.meteorGenerator()
     this.frame()
     window.onresize = () => {
-      this.initCanvas()
-      this.draw()
+      if (this.timer) { clearTimeout(this.timer) } // 防抖
+      this.timer = setTimeout(() => { 
+        this.initCanvas()
+        this.draw()
+      }, 500)
     }
   }
   initCanvas() {
